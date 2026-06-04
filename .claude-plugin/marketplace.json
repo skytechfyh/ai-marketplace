@@ -1,6 +1,8 @@
 {
   "name": "fengyuhao-ai-marketplace",
-  "owner": "fengyuhao",
+  "owner": {
+    "name": "fengyuhao"
+  },
   "description": "个人 AI 工具市场 — 存放可跨项目、跨电脑复用的插件（Skills、Agents、Commands、Hooks、MCP）",
   "plugins": [
     {
