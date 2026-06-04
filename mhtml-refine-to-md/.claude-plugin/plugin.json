@@ -2,6 +2,6 @@
   "name": "mhtml-refine-to-md",
   "version": "1.0.0",
   "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian Markdown 学习笔记，含 Mermaid 图解与 HTML 信息卡片",
-  "author": "fengyuhao",
+  "author": { "name": "fengyuhao" },
   "keywords": ["obsidian", "geektime", "mhtml", "learning", "second-brain"]
 }
