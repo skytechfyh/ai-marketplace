@@ -1,0 +1,7 @@
+{
+  "name": "organize-course-package",
+  "version": "1.0.0",
+  "description": "将极客时间课程资料包（md版本目录 + PDF 课件）整合为单一 Obsidian 笔记，图片自动上传阿里云 OSS",
+  "author": "fengyuhao",
+  "keywords": ["obsidian", "geektime", "course", "learning", "second-brain", "oss"]
+}

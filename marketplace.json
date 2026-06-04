@@ -1,0 +1,24 @@
+{
+  "name": "fengyuhao's AI Marketplace",
+  "description": "个人 AI 工具市场 — 存放可跨项目、跨电脑复用的插件（Skills、Agents、Commands、Hooks、MCP）",
+  "plugins": [
+    {
+      "name": "doc-to-notes",
+      "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记",
+      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "version": "1.0.0"
+    },
+    {
+      "name": "mhtml-refine-to-md",
+      "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian 学习笔记",
+      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "version": "1.0.0"
+    },
+    {
+      "name": "organize-course-package",
+      "description": "将极客时间课程资料包整合为单一 Obsidian 笔记",
+      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "version": "1.0.0"
+    }
+  ]
+}
