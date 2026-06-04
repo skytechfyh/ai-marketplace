@@ -106,3 +106,4 @@ ai-marketplace/
 3. 按需添加 `commands/`、`agents/`、`skills/`、`hooks/`、`.mcp.json`
 4. 在 `marketplace.json` 中追加一条记录
 5. `git commit + git tag vX.Y.Z`
+# ai-marketplace
