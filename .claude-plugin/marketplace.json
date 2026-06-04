@@ -8,19 +8,19 @@
     {
       "name": "doc-to-notes",
       "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记",
-      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "source": "./doc-to-notes",
       "version": "1.0.0"
     },
     {
       "name": "mhtml-refine-to-md",
       "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian 学习笔记",
-      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "source": "./mhtml-refine-to-md",
       "version": "1.0.0"
     },
     {
       "name": "organize-course-package",
       "description": "将极客时间课程资料包整合为单一 Obsidian 笔记",
-      "repository": "https://github.com/fengyuhao/ai-marketplace",
+      "source": "./organize-course-package",
       "version": "1.0.0"
     }
   ]
