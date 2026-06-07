@@ -9,7 +9,7 @@
       "name": "doc-to-notes",
       "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记",
       "source": "./doc-to-notes",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "mhtml-refine-to-md",
