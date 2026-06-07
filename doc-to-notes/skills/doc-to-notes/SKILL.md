@@ -20,6 +20,19 @@ state. Therefore:
 
 Never batch multiple chapters, never write a full chapter body in one call.
 
+## 🚨 全局换行规则：统一用 `<br/>`，禁止用 `\n`
+
+写入任何 Markdown 文件时（正文段落、callout 块、表格单元格、Mermaid 节点标签等所有位置），
+**禁止使用 `\n` 作为换行**，统一改用 `<br/>`。
+
+| 位置 | 正确写法 | 错误写法 |
+|---|---|---|
+| Mermaid 节点标签 | `A["第一行<br/>第二行"]` | `A["第一行\n第二行"]` |
+| 表格单元格 | `内容A<br/>内容B` | `内容A\n内容B` |
+| callout / 正文段落内联换行 | `说明第一句。<br/>说明第二句。` | `说明第一句。\n说明第二句。` |
+
+> `\n` 在 Markdown 中不会渲染为换行，只会产生乱码或意外空行；`<br/>` 是唯一可靠的内联换行方式。
+
 ## Prerequisites
 
 `pip install python-docx oss2 pymupdf pillow ocrmac`
@@ -187,8 +200,7 @@ version is never the main subject — the current stable release is.
   changed. Keep it secondary to the main narrative.
 - Merge paragraphs by theme, insert Mermaid/code/tables/callouts, embed image URLs from
   `url_mapping.json`. **One section per Edit**, in order.
-- **Mermaid node labels**: never use `\n` — always `<br/>` for line breaks inside labels
-  (`A["Line1<br/>Line2"]`, not `A["Line1\nLine2"]`).
+- **换行**：全文任何位置（Mermaid 节点、表格单元格、callout、正文）一律用 `<br/>` 换行，绝不使用 `\n`（见顶部全局换行规则）。
 
 > Verify every re-baselined API/behavior against Step 4's fetched official docs before
 > writing it. When unsure whether the new version changed something, fetch and confirm —
