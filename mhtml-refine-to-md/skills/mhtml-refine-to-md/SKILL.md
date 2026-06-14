@@ -443,7 +443,7 @@ source: "[原始mhtml文件名]"
   cat /tmp/geektime_section.md >> /path/to/target.md && rm /tmp/geektime_section.md
   ```
   具体做法：
-  1. 用 Write 工具将当前章节内容写到 `/tmp/geektime_section.md`（临时文件，内容以 `\n---\n\n` 开头，以便追加后与上节自动间隔）
+  1. 用 Write 工具将当前章节内容写到 `/tmp/geektime_section.md`（临时文件，内容**直接从 `\n\n## 章节名` 开始**，**不要在开头加 `---`**——上一节已以 `---` 结尾，重复追加会产生双横线）
   2. 执行 Bash：`cat /tmp/geektime_section.md >> <TARGET_FILE> && rm /tmp/geektime_section.md`
   3. 对下一章节重复此步骤
 
