@@ -15,7 +15,7 @@
       "name": "mhtml-refine-to-md",
       "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian 学习笔记",
       "source": "./mhtml-refine-to-md",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "organize-course-package",

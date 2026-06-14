@@ -333,7 +333,37 @@ S1["第一步<br/>项目骨架<br/>Vue3+Vite"] --> S2["第二步<br/>axios层"]
 **各图表类型细化规范**：
 - `graph TD`：流程首选，链路/对比选 `graph LR`
 - `sequenceDiagram`：参与者名称使用中文；消息描述简短（≤ 15 字）；用 `Note over` 标注关键说明
-- `mindmap`：根节点为文章核心主题；第二层为各 `##` 章节；第三层为关键要点；层级不超过 4 层。总结章节的 mindmap 应覆盖全文所有 `##` 章节
+- `mindmap`：根节点为文章核心主题；第二层为各 `##` 章节；第三层为关键要点；层级不超过 4 层。总结章节的 mindmap 应覆盖全文所有 `##` 章节。
+
+  **🚨 mindmap 是 Mermaid 中对缩进最敏感的图类型——它没有 `-->` 连接符，父子层级完全靠缩进深度推断。必须严格遵守以下铁律，否则在 Obsidian 中直接报错不渲染：**
+
+  1. **栅栏必须是 ` ```mermaid `，绝不能写 ` ```mindmap `**。Obsidian 只渲染 `mermaid` 栅栏；`mindmap` 关键字写在栅栏内的第一行（顶格，不缩进）。
+  2. **有且只有一个 root，且 root 必须缩进**（比 `mindmap` 关键字深，推荐 2 空格）。mindmap 把"缩进最浅的那一层"识别为 root，若有两行处于同一最浅缩进，Mermaid 会报错 **"There can be only one root"**。
+  3. **缩进必须逐层一致递增**（每深一层 +2 空格）：同级节点缩进必须**完全相同**，子节点必须**严格比父节点更深**。最常见的错误就是"只给前几行加了缩进，后面的兄弟节点忘了同步" → 导致后面的节点意外升到 root 层 → 多 root 报错。
+  4. **节点文字避免特殊字符**：`→`、`≠`、`（）`、`：`、`#` 等可能破坏解析。换行用 `<br/>`（root 形状 `root((文字))` 内部也不要再嵌套括号）。
+
+  **✅ 唯一正确的 mindmap 写法（请严格照抄此缩进结构）**：
+  ```mermaid
+  mindmap
+    root((文章核心主题))
+      第一章节
+        要点一
+        要点二
+      第二章节
+        要点三
+        要点四
+  ```
+  对应缩进：`mindmap`=0 空格 → `root`=2 空格 → 一级分支=4 空格 → 二级要点=6 空格。
+
+  **❌ 三种会报错的错误写法**：
+  ```
+  ```mindmap          ← 错误1：栅栏写成 mindmap，Obsidian 不渲染
+  root((主题))         ← 错误2：root 顶格未缩进，与 mindmap 同级
+    分支一
+  分支二              ← 错误3：兄弟节点缩进不一致，被当成第二个 root
+  ```
+
+  > **稳健性提示**：mindmap 对缩进极度脆弱，且依赖 Obsidian 内置 Mermaid 版本（9.3.0+ 才支持）。若多次生成仍报错，可降级为 `graph TD`（根节点用蓝色高亮 + 各 `##` 章节作为一级子节点，用 `-->` 连接），它在所有版本都稳定渲染，可作为 mindmap 的可靠替代。
 - `stateDiagram-v2`：明确 `[*]` 起止；转移条件写在箭头上
 - 复杂图（>8 节点）用 `subgraph 分组名` 归组，但**不要在 subgraph 之间加连线**——让 dagre 自然排列即可
 
@@ -454,6 +484,8 @@ grep "^## " <FILE>
 grep -c '```mermaid' <FILE>
 grep -c 'mindmap' <FILE>
 grep -cE 'display:(grid|flex)' <FILE>
+# 核查 4b：mindmap 栅栏必须是 ```mermaid，不能是 ```mindmap（期望输出 0）
+grep -c '```mindmap' <FILE>
 
 # 核查 6：思考题（原文有思考题时期望 ≥ 1）
 grep -c '\[!QUESTION\]' <FILE>
@@ -471,6 +503,29 @@ blocks = re.findall(r'\`\`\`mermaid\n(.*?)\`\`\`', content, re.DOTALL)
 count = sum(1 for b in blocks for line in b.split('\n') if r'\n' in line)
 print(count)
 "
+
+# 核查 10：mindmap 结构合法性（单 root + 缩进一致；期望输出 OK）
+python3 -c "
+import re
+content = open('<FILE>').read()
+blocks = re.findall(r'\`\`\`mermaid\n(.*?)\`\`\`', content, re.DOTALL)
+errs = []
+for b in blocks:
+    lines = [l for l in b.split('\n') if l.strip()]
+    if not lines or lines[0].strip() != 'mindmap':
+        continue
+    body = lines[1:]  # 去掉 mindmap 关键字行
+    if not body:
+        continue
+    indents = [len(l) - len(l.lstrip()) for l in body]
+    min_indent = min(indents)
+    if min_indent == 0:
+        errs.append('root 未缩进（与 mindmap 关键字同级）')
+    roots = [i for i, ind in enumerate(indents) if ind == min_indent]
+    if len(roots) > 1:
+        errs.append(f'检测到 {len(roots)} 个 root 层节点（应只有 1 个）: ' + ', '.join(body[i].strip() for i in roots))
+print('OK' if not errs else 'MINDMAP ERRORS: ' + ' | '.join(errs))
+"
 ```
 
 基于以上命令输出结果执行以下 7 项核查，以 checklist 形式输出结果：
@@ -486,6 +541,7 @@ print(count)
 | 7 | 无外部资源污染 | 笔记中不含 `![](https://`、`<img src="http`、外部 `<style>` 标签或外部脚本引用；HTML 卡片的 inline `<div>/<span>` 不违反此规则 |
 | 8 | 内容未过度压缩 | 笔记字符数（`wc -m` 统计）≥ Step 1a 记录的 `SLATE_CHARS` 值 × 60% |
 | 9 | Mermaid 节点无 `\n` 换行 | 所有 mermaid 代码块内的节点标签不含 `\n` 转义符（期望核查命令输出 `0`）；换行必须用 `<br/>` |
+| 10 | mindmap 结构合法 | ① 栅栏是 ` ```mermaid ` 而非 ` ```mindmap `（核查 4b 输出 `0`）；② 核查 10 输出 `OK`——root 已缩进且只有一个 root 层节点，缩进逐层一致。这是 mindmap 能否在 Obsidian 渲染的硬条件，失败则报 "There can be only one root" 等错误 |
 
 **HTML 卡片空行检查的简化命令**（可直接复制执行）：
 ```bash
@@ -516,6 +572,7 @@ print('VIOLATIONS at lines:', violations) if violations else print('OK')
 - [x] 无外部资源污染
 - [ ] 内容未过度压缩 ⚠️ 笔记 xxxx 字，原文 xxxx 字，未达 60%
 - [x] Mermaid 节点无 \n 换行
+- [x] mindmap 结构合法（栅栏=mermaid，单 root，缩进一致）
 ```
 
 **核查失败处理**：
