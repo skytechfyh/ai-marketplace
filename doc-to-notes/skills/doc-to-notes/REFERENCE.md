@@ -16,9 +16,13 @@ reference. **Add a diagram wherever the text describes a relationship, not just 
 | 对比 / 区别 / 批 vs 流 / 有界 vs 无界 | 对比 | Markdown table, or 2 side-by-side subgraphs |
 | 概念总览 / 知识体系 / 多模块陈列 | 总览卡片 | HTML/CSS card (NOT Mermaid) |
 
-**Rule of thumb**: 有方向的拓扑 → Mermaid；无方向的陈列/矩阵 → HTML 卡片；精确查找 → 表格。
+**Rule of thumb**: 有方向的拓扑 → Mermaid；无方向的陈列/矩阵 → HTML 卡片；精确查找 → 表格；数学公式 → LaTeX。
 Aim for **≥1 diagram per chapter file**; a chapter with an architecture/flow concept and
 no diagram is incomplete.
+
+> **典型误判**：原文"七大模块 / N 层架构"的**彩色分区图**——❌ 不要画 `ROOT-->M1-->M1A`
+> 的 Mermaid 树（dagre 自动布局会乱、丑、节点挤成一团），✅ 用 **HTML 卡片**。只有当层与层
+> 之间**有数据流/调用箭头**时才用 Mermaid。"分区陈列"用卡片，"动态拓扑"用 Mermaid。
 
 ---
 
@@ -98,6 +102,43 @@ stream.assignTimestampsAndWatermarks(
 
 ---
 
+## 数学公式 (LaTeX / MathJax)
+
+Obsidian 内置 MathJax，**数学公式一律用 LaTeX 渲染，绝不截图嵌入、不塞代码块**。
+深度学习 / Transformer 类文档公式密集（attention、softmax、位置编码、LayerNorm），这是质量核心。
+
+| 形式 | 语法 | 用途 |
+|---|---|---|
+| 行内公式 | `$ ... $` | 夹在文字中的符号，如"维度 $d_k$ 决定缩放因子" |
+| 独立公式 | `$$ ... $$`（独占整行，前后留空行） | 重要公式单独成式 |
+
+**常见公式写法（直接参考，照抄改）**：
+
+- 缩放点积注意力（Scaled Dot-Product Attention）：
+  ```
+  $$
+  \text{Attention}(Q,K,V)=\text{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+  $$
+  ```
+- 多头注意力：`$$\text{MultiHead}(Q,K,V)=\text{Concat}(\text{head}_1,\dots,\text{head}_h)W^O$$`
+- 位置编码（Positional Encoding）：
+  ```
+  $$
+  PE_{(pos,2i)}=\sin\!\left(\frac{pos}{10000^{2i/d_{model}}}\right),\quad
+  PE_{(pos,2i+1)}=\cos\!\left(\frac{pos}{10000^{2i/d_{model}}}\right)
+  $$
+  ```
+- LayerNorm：`$$\text{LayerNorm}(x)=\gamma\odot\dfrac{x-\mu}{\sqrt{\sigma^2+\epsilon}}+\beta$$`
+
+**规则**：
+- 从**公式截图**转写时（`manifest.json` 里 `small_inline:true` 的小图常是公式），先 Read 图
+  核对每个符号 / 上标 / 下标 / 希腊字母，OCR 对公式不可靠。
+- 多行公式用 `\\` 换行 + `aligned` 环境：`$$\begin{aligned} a&=b\\ c&=d \end{aligned}$$`；
+  公式里**没有** `<br/>` 的概念（`<br/>` 是 Markdown 换行，不是 LaTeX 语法，别混用）。
+- 行内用单 `$`，块级用双 `$$` 且独占一行、前后空行，否则 Obsidian 可能不渲染。
+
+---
+
 ## Mermaid Rules (Strict)
 
 > ⚠️ All rules below are hard requirements — violating them causes Obsidian render failures.
@@ -120,7 +161,7 @@ stream.assignTimestampsAndWatermarks(
 - ❌ No pipe labels with quotes: `-->|"label"|` → `-->|label|`
 - ❌ No ASCII `()` inside node labels — use `（）` or `[]`
 - ❌ No cyclic edges inside `subgraph`
-- ❌ No `mindmap` — Obsidian built-in Mermaid may not support it; use `graph LR` tree instead
+- ⚠️ `mindmap` 谨慎使用：仅"总结 / 全文俯瞰"场景才用，且必须严格缩进（root 须缩进、每深一层 +2 空格、同级缩进完全一致），否则 Obsidian 报 "There can be only one root" 不渲染。栅栏写 ` ```mermaid `（非 ` ```mindmap `），`mindmap` 关键字顶格作第一行。**不确定能否渲染时降级为 `graph TD` 树**（根节点蓝色高亮 + 各章节作一级子节点、`-->` 连接），全版本稳定
 - ❌ No `subgraph ID` as arrow endpoint — connect to nodes inside the subgraph
 - ✅ Every `subgraph` must have matching `end`
 - ✅ Arrows in `graph` should have `|label|` unless purely structural

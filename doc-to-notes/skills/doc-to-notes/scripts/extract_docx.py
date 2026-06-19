@@ -270,6 +270,18 @@ def cell_has_image(cell) -> bool:
 # Image extraction + resize
 # ---------------------------------------------------------------------------
 
+# Small-image heuristic: a low/narrow image is often a math-formula screenshot or an
+# enlarged architecture-component label (e.g. "Add & Norm"), NOT a standalone figure.
+# Flagged images get `small_inline:true` in the manifest so the model prioritises
+# transcribing them to LaTeX ($$...$$) or folding them into prose, rather than embedding.
+SMALL_INLINE_MAX_W = 700
+SMALL_INLINE_MAX_H = 150
+
+
+def is_small_inline(w, h) -> bool:
+    return 0 < w <= SMALL_INLINE_MAX_W and 0 < h <= SMALL_INLINE_MAX_H
+
+
 def image_dimensions(path: str):
     """Return (w, h) using Pillow → sips → (0,0). Best-effort."""
     try:
@@ -368,9 +380,10 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
         if rid in img_seen:
             fname = img_seen[rid]
             meta = next((s for s in sections if s.get("image_file") == fname), {})
+            mw, mh = meta.get("width", 0), meta.get("height", 0)
             sections.append({"type": "image", "image_file": fname,
-                             "caption": caption, "width": meta.get("width", 0),
-                             "height": meta.get("height", 0), "duplicate": True})
+                             "caption": caption, "width": mw, "height": mh,
+                             "small_inline": is_small_inline(mw, mh), "duplicate": True})
             return
         try:
             part = doc.part.related_parts[rid]
@@ -378,7 +391,8 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
             fname, w, h = save_image(part._blob, ext, img_dir, img_counter, max_px)
             img_seen[rid] = fname
             sections.append({"type": "image", "image_file": fname,
-                             "caption": caption, "width": w, "height": h})
+                             "caption": caption, "width": w, "height": h,
+                             "small_inline": is_small_inline(w, h)})
         except Exception as e:
             print(f"  [WARN] image {rid}: {e}", file=sys.stderr)
 
@@ -477,7 +491,8 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
                 fname, w, h = save_image(base["image"], "." + base["ext"],
                                          img_dir, img_counter, max_px)
                 sections.append({"type": "image", "image_file": fname,
-                                 "caption": f"Page {page_num+1}", "width": w, "height": h})
+                                 "caption": f"Page {page_num+1}", "width": w, "height": h,
+                                 "small_inline": is_small_inline(w, h)})
             except Exception as e:
                 print(f"  [WARN] pdf image p{page_num+1}: {e}", file=sys.stderr)
 
@@ -551,6 +566,7 @@ def _max_chunk_size(sections, level, title) -> int:
 def _pick_split_level(sections, title, requested) -> int:
     """Choose the heading level to split chapter files at.
 
+    0 (--no-split): single chapter_01.json with ALL content.
     Default (auto): split at TOP-LEVEL chapters (H2) — one file per 一级章节 — keeping the
     file count low and natural (a doc's `1.` `2.` `3.` headings are the obvious units).
     Falls back to H1, then H3, only when H2 is absent.
@@ -559,6 +575,8 @@ def _pick_split_level(sections, title, requested) -> int:
     limits one Edit, not one file, so a big chapter is written safely via skeleton +
     per-section fill. If you do want a huge chapter broken up, pass --split-level 3.
     """
+    if requested == 0:
+        return 0  # no-split mode: everything in one file
     if requested in (1, 2, 3, 4):
         return requested
     for lvl in (2, 1, 3):
@@ -574,7 +592,7 @@ def _finalize(sections, src_path, img_dir, n_images, output_dir, split_level="au
         Path(src_path).stem,
     )
     chapter_level = _pick_split_level(sections, title, split_level)
-    chapters = _headings_at(sections, chapter_level, title)
+    chapters = [] if chapter_level == 0 else _headings_at(sections, chapter_level, title)
 
     from collections import Counter
     type_counts = dict(Counter(s["type"] for s in sections))
@@ -600,12 +618,22 @@ def _finalize(sections, src_path, img_dir, n_images, output_dir, split_level="au
     # Print summary
     print(f"✓ Title        : {title}")
     print(f"✓ Sections     : {len(sections)}  {type_counts}")
-    print(f"✓ Chapters (H{chapter_level}): {len(chapters)}")
-    print(f"✓ Images       : {n_images} → {img_dir}")
+    if chapter_level == 0:
+        print(f"✓ 模式         : --no-split（单文件，章节不拆分）")
+    else:
+        print(f"✓ Chapters (H{chapter_level}): {len(chapters)}")
+    n_small = sum(1 for s in sections if s.get("type") == "image" and s.get("small_inline"))
+    if n_small:
+        print(f"✓ Images       : {n_images} → {img_dir}  (其中 {n_small} 张小图疑似公式/局部标签)")
+    else:
+        print(f"✓ Images       : {n_images} → {img_dir}")
     print(f"✓ Manifest     : {out / 'manifest.json'}")
     print(f"✓ Chapter files: {len(chapter_files)} → {out}/chapter_NN.json")
     print()
-    if chapters:
+    if chapter_level == 0:
+        print("[no-split] 全部 section 写入 chapter_01.json。")
+        print("  写完 MD 后用 wc -c 检查文件大小；超过 5 MB 再按 H2 拆分为多文件。")
+    elif chapters:
         print(f"章节列表 (H{chapter_level}):")
         for i, c in enumerate(chapters, 1):
             print(f"  {i:2d}. {c}")
@@ -630,7 +658,22 @@ def _write_chapter_files(sections, chapter_level, title, out: Path,
     A parent-level heading (and any preamble before the first child heading) is PREPENDED
     to the chunk it introduces — not appended to the previous one — and leading content
     before the first split heading rides along into the first chunk.
+
+    chapter_level == 0 (--no-split): write all sections to a single chapter_01.json.
     """
+    # --no-split mode: one file with everything
+    if chapter_level == 0:
+        fp = out / "chapter_01.json"
+        fp.write_text(json.dumps({
+            "index": 1,
+            "heading": title,
+            "parent": None,
+            "headings": [title],
+            "section_count": len(sections),
+            "sections": sections,
+        }, ensure_ascii=False, indent=2), encoding="utf-8")
+        return [str(fp)]
+
     chapters = []
     current = None
     pending = []       # content to prepend to the next split-level chunk
@@ -749,6 +792,10 @@ if __name__ == "__main__":
                         help="Resize images larger than this on any side (default 2000)")
     parser.add_argument("--split-level", default="auto",
                         help="Heading level to split chapter files at: auto|2|3 (default auto)")
+    parser.add_argument("--no-split", action="store_true",
+                        help="Output all content in a single chapter_01.json; "
+                             "no chapter splitting. After writing the MD check its size — "
+                             "if > 5 MB, split manually by H2 headings.")
     parser.add_argument("--min-sections", type=int, default=MIN_CHAPTER_SECTIONS,
                         help=f"Merge small same-parent chapters below this size "
                              f"(default {MIN_CHAPTER_SECTIONS}; 0 disables merging)")
@@ -770,12 +817,15 @@ if __name__ == "__main__":
         doc_path = convert_doc_to_docx(doc_path)
         ext = ".docx"
 
-    split = args.split_level
-    if split not in ("auto",):
-        try:
-            split = int(split)
-        except ValueError:
-            sys.exit("[ERROR] --split-level must be auto, 2, or 3")
+    if args.no_split:
+        split = 0
+    else:
+        split = args.split_level
+        if split not in ("auto",):
+            try:
+                split = int(split)
+            except ValueError:
+                sys.exit("[ERROR] --split-level must be auto, 2, or 3")
 
     if ext == ".docx":
         extract_docx(doc_path, output_dir, args.max_img_px, split, args.min_sections)
