@@ -1,6 +1,6 @@
 ---
 name: doc-to-notes
-description: Convert .docx / .doc / .pdf training or learning documents into structured, up-to-date Obsidian Markdown notes. Scripts parse headings/code/lists/tables/images and split the doc into per-chapter JSON; images upload to Aliyun OSS; oversized screenshots are auto-resized, OCR'd (Apple Vision) and visually analyzed (architecture→Mermaid, code screenshot→code block, data screenshot→table, math formula→LaTeX); content is re-baselined to the latest stable version against official docs for technical docs (concepts/API/config/terminology taught in the new version's voice, old version kept only as migration notes; conceptual/history docs skip re-baselining); output is one Markdown file per chapter, or a single combined file with --no-split (auto-split only if it exceeds 5MB); a verify_content.py pass mechanically checks no prose/numbers/enumerations were dropped. Big-data tech (Flink/Hadoop/Spark/Kafka) routes to 214_Big_Data. Use when user provides a .docx/.doc/.pdf path to turn into knowledge base notes, mentions 资料转换 / 培训文档整理 / 学习笔记, or processes training materials (e.g. 多易大数据, Flink/Spark/Kafka internal docs).
+description: Convert .docx / .doc / .pdf training or learning documents into structured, up-to-date Obsidian Markdown notes. Scripts parse headings/code/lists/tables/images and split the doc into per-chapter JSON; images upload to Aliyun OSS; oversized screenshots are auto-resized, OCR'd (Apple Vision) and visually analyzed (architecture→Mermaid, code screenshot→code block, data screenshot→table, math formula→LaTeX); content is re-baselined to the latest stable version against official docs for technical docs (concepts/API/config/terminology taught in the new version's voice, old version kept only as migration notes; conceptual/history docs skip re-baselining); output is one Markdown file per chapter, or a single combined file with --no-split (auto-split only if it exceeds 5MB); verify_content.py checks no prose/numbers/enumerations were dropped; check_mermaid.py checks all Mermaid blocks for syntax errors (edge label <br/>, unclosed fences, invalid diagram types, etc.). Big-data tech (Flink/Hadoop/Spark/Kafka) routes to 214_Big_Data. Use when user provides a .docx/.doc/.pdf path to turn into knowledge base notes, mentions 资料转换 / 培训文档整理 / 学习笔记, or processes training materials (e.g. 多易大数据, Flink/Spark/Kafka internal docs).
 ---
 
 # Doc to Notes
@@ -28,10 +28,18 @@ Never batch multiple chapters, never write a full chapter body in one call.
 | 位置 | 正确写法 | 错误写法 |
 |---|---|---|
 | Mermaid 节点标签 | `A["第一行<br/>第二行"]` | `A["第一行\n第二行"]` |
+| **Mermaid 边标签（edge label）** | `-->\|"第一行<br/>第二行"\|`（**必须加双引号**） | `-->\|第一行<br/>第二行\|`（无引号→解析失败） |
+| **Mermaid timeline 图** | `1956 : 事件一 : 事件二`（**冒号分隔多事件**） | `1956 : 事件一<br/>事件二`（Obsidian 不渲染→显示字面 `<br/>`） |
 | 表格单元格 | `内容A<br/>内容B` | `内容A\n内容B` |
 | callout / 正文段落内联换行 | `说明第一句。<br/>说明第二句。` | `说明第一句。\n说明第二句。` |
 
 > `\n` 在 Markdown 中不会渲染为换行，只会产生乱码或意外空行；`<br/>` 是唯一可靠的内联换行方式。
+>
+> ⚠️ **不同图表类型的 `<br/>` 规则不一样**（这是最容易踩错的点）：
+> - **节点标签** `["...<br/>..."]`（方括号）：直接支持 ✓
+> - **边标签** `|...|`：**必须加双引号** `|"...<br/>..."|`，否则 `< > /` 致解析失败、整图报红框
+> - **timeline**：**不支持** `<br/>`（Obsidian 下显示字面文本），改用冒号 ` : ` 分隔为多个事件
+> - 任何位置都只认 `<br/>` 或 `<br>`，**不要写 `<br />`（带空格）**
 
 ## 🚨 内容守恒规则：提炼重组，绝不删减
 
@@ -338,7 +346,38 @@ python3 __SKILL_DIR__/scripts/verify_content.py \
 - "关键数字核查"出现 `[MISSING]`、"长枚举核查"出现 `[FLAG]` 时，回原文确认是否确属遗漏，
   是则补回后重新运行，直至无告警。脚本只抓离散 token 丢失，"提到但没展开"仍需人工对照。
 
-**7c — 思考题答案核验**：
+**7c — Mermaid 语法检查（必做）**：
+
+```bash
+python3 __SKILL_DIR__/scripts/check_mermaid.py <笔记.md 或笔记目录>
+```
+
+- 有 `[ERROR]` 输出时，Obsidian 中对应 mermaid 块会显示红色报错，**必须修复**后重新运行直至全部 OK。
+- 常见错误与修法：
+
+| 错误码 | 级别 | 场景 | 错误写法 | 正确写法 |
+|---|---|---|---|---|
+| **E1** | ERROR | flowchart **未加引号**的 edge label 含 `<br/>` / `\n` | `-->|简单任务<br/>如天气查询|` | `-->|"简单任务<br/>如天气查询"|`（**加双引号**） |
+| **E2** | ERROR | mermaid 围栏未闭合 | 缺结束 ` ``` ` | 补上 ` ``` ` |
+| **E3** | ERROR | 图表类型缺失/拼错 | ` ```mermaid ` 后第一行空白或错误 | 首行写 `flowchart TD` / `mindmap` 等 |
+| **E4** | ERROR | code 段（`` `…` `` **或** `<code>…</code>`）以 `=` 开头，触发 Dataview 误解析 | `` `===` ``、`<code>===</code>` | `` `(===)` `` 或 `= `a / b`` |
+| **W1** | WARN | mindmap 括号节点含 `<br/>`（个别渲染器不渲染） | `root((提示词<br/>六大要素))` | `root((提示词六大要素))` 或 markdown 字符串 |
+| **W2** | WARN | 节点标签含字面 `\n` | `["第一行\n第二行"]` | `["第一行<br/>第二行"]` |
+| **W3** | WARN | 用了 `<br />`（带空格），Mermaid 不识别 | `<br />` | `<br/>` 或 `<br>` |
+| **W4** | WARN | **timeline** 图含 `<br/>`（Obsidian 下不渲染，显示字面 `<br/>`） | `1956 : 会议<br/>诞生` | `1956 : 会议 : 诞生`（**冒号分隔为多事件**） |
+
+> **核心记忆 1（edge label 的引号规则）**：Mermaid flowchart 的 edge label（`|...|`）**支持 `<br/>`，
+> 但必须用双引号包裹**——`|"换行<br/>文本"|` 合法，`|换行<br/>文本|` 不带引号时会因 `< > /`
+> 特殊字符导致解析失败。**节点标签**用方括号 `["...<br/>..."]` 本就合法。简言之：**带 `<br/>` 的
+> 标签一律加引号**（节点用 `[]`、边用 `|""|`），最稳妥。
+>
+> **核心记忆 2（Dataview 触发）**：Obsidian Dataview 把**渲染后的 code 元素**当 inline query 扫描——
+> 凡 code 文本**以 `=` 开头**就执行。所以 `` `===` `` 会弹 `PARSING FAILED`。
+> ⚠️ **换成 `<code>===</code>` 没用**：它渲染出的 code 元素文本仍是 `===`，照样触发（这是最容易踩的坑）。
+> 正确修法三选一：① 用非 `=` 字符开头，如 `` `(===)` ``；② 把 `=` 移到 code 外，如 `` = `a / b` ``；
+> ③ 根治：Obsidian 设置 → Dataview → **Inline Query Prefix** 从 `=` 改为 `dv=`，全库一次性永久生效。
+
+**7d — 思考题答案核验**：
 ```bash
 for f in <out_dir>/[0-9]*.md; do
   q=$(grep -c '\[!QUESTION\]' "$f"); a=$(grep -c '\[!SUCCESS\]' "$f")
@@ -346,10 +385,11 @@ for f in <out_dir>/[0-9]*.md; do
 done
 ```
 
-**7d — 完成报告**：先按以下格式输出自检 checklist，再附摘要。
+**7e — 完成报告**：先按以下格式输出自检 checklist，再附摘要。
 ```
 ## 质量核查结果
 - [x] 内容守恒：verify_content RATIO=xx.x% PASS（type=xxx）；数字 0 处 MISSING，枚举 0 处 FLAG
+- [x] Mermaid 语法：check_mermaid 0 ERROR，0 WARN
 - [x] 章节无遗漏：原文 N 个 H2，笔记已覆盖 N 个
 - [x] 配图充分：Mermaid N 个 + LaTeX 公式 M 处 + HTML 卡片 K 个（每个 H2 ≥1 图）
 - [x] 思考题均有参考答案
