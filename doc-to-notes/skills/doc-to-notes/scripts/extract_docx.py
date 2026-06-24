@@ -376,6 +376,43 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
     para_map = {id(p._element): p for p in doc.paragraphs}
     table_map = {id(t._element): t for t in doc.tables}
 
+    def _para_text_with_links(para) -> str:
+        """
+        重建段落文本，将 Word 内嵌超链接（w:hyperlink r:id）转为 [display](url) Markdown 格式。
+        无超链接时直接返回 para.text.strip()（zero-overhead fast path）。
+        """
+        W_NS   = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+        W_T    = f"{W_NS}t"
+        W_R    = f"{W_NS}r"
+        W_HL   = f"{W_NS}hyperlink"
+        R_ID   = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"
+        SKIP   = {f"{W_NS}bookmarkStart", f"{W_NS}bookmarkEnd",
+                  f"{W_NS}proofErr",      f"{W_NS}pPr"}
+
+        if para._element.find(f".//{W_HL}") is None:
+            return para.text.strip()   # fast path: 无超链接
+
+        buf = []
+        for child in para._element:
+            if child.tag == W_HL:
+                rel_id = child.get(R_ID)
+                text   = "".join(child.itertext()).strip()
+                url    = None
+                if rel_id:
+                    try:
+                        url = doc.part.rels[rel_id].target_ref
+                    except (KeyError, AttributeError):
+                        pass
+                if url and url.startswith("http") and text:
+                    buf.append(f"[{text}]({url})")
+                elif text:
+                    buf.append(text)
+            elif child.tag == W_R:
+                buf.append("".join(t.text or "" for t in child.iter() if t.tag == W_T))
+            elif child.tag not in SKIP:
+                buf.append("".join(child.itertext()))
+        return "".join(buf).strip()
+
     def emit_image_from_rid(doc, rid, caption):
         if rid in img_seen:
             fname = img_seen[rid]
@@ -403,7 +440,7 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
             para = para_map.get(id(child))
             if para is None:
                 continue
-            text = para.text.strip()
+            text = _para_text_with_links(para)
 
             # images embedded in the paragraph
             blips = para._element.findall(".//" + qn("a:blip"))
