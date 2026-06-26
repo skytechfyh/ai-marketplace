@@ -1,6 +1,6 @@
 {
   "name": "doc-to-notes",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记，支持图片 OCR、版本升级、Mermaid/LaTeX/HTML卡片图解、单文件模式（默认）、内容守恒核验、Mermaid+Dataview 渲染校验、OSS 图片上传后回读校验、成稿外链可达性核验、Word 超链接提取、Scala→Java 转换、Python 补充示例",
   "author": { "name": "fengyuhao" },
   "keywords": ["obsidian", "notes", "docx", "pdf", "learning", "second-brain"]

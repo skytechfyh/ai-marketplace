@@ -131,6 +131,13 @@ Output structure — 两种模式：
 > conceptual；拿不准就按"原文是否存在可提炼的代码"二选一。该类型决定 Step 7
 > `verify_content.py --type` 的取值，以及是否执行 Step 4 的版本重对齐。
 
+> 🚨 **判定结果必须显式输出**（后续步骤强依赖此结论，不输出视为未完成本步）：
+> ```
+> 文档类型判定：technical / conceptual
+> 理由：[1-2 句，说明判定依据]
+> Step 4 版本重对齐：执行 / 跳过（原因：XXX）
+> ```
+
 ### Step 2 — Upload images
 
 ```bash
@@ -182,11 +189,21 @@ base64 from context and prevents request-body overflow.
 
 ### Step 4 — Re-baseline content to the latest version (unless `--no-version-update`)
 
-> **先判断该不该做版本重对齐。** 本步骤只对**有明确技术版本的框架/工具类文档**有意义
-> （Flink/Spark/K8s/中间件 等）。对**概念、理论、历史、方法论类**文档（如 AI 发展史、
-> 设计模式、软技能、数学原理），没有"版本"可言，强行重对齐反而会改写原意、塞进文档没讲
-> 的内容——这类文档应**跳过本步**（等价于 `--no-version-update`），忠实保留原文的概念与
-> 表述，把精力放在结构化、配图、提炼上。判断不准时问用户。
+🚨 **本步骤默认必做，跳过须满足明确条件之一：**
+- Step 1b 判定为 **conceptual**（通篇无可跑代码/API，如 AI 发展史、软技能、数学原理）
+- 用户明确传入 `--no-version-update`
+
+**其他情况一律执行本步，包括**：框架文档内有少量理论章节、文档版本只是较旧、"不确定该框架是否有版本差异"。判断不准时**必须问用户**，不能自行决定跳过。
+
+**合法跳过时，输出中必须声明：**
+> ⏭️ Step 4 已跳过（原因：conceptual 文档 / --no-version-update）
+
+**执行时，必须按顺序完成以下三步，再进入 Step 5/6（未完成不得推进）：**
+1. 打印在文档中找到的原始版本（如 "Flink 1.15.3"）
+2. 用 `WebSearch` 搜索最新稳定版，用 `WebFetch` 拉取官方功能文档页面（非 release notes）——打印所用的官方文档 URL，至少覆盖本文档的主要章节
+3. 打印 re-baseline map（格式：`旧 → 新`，至少列出 5 条 API/配置/术语/推荐做法变更；若版本差异确实极小需附说明）
+
+> **不执行上述三步就进入 Step 6 = 只做了格式转换，未做版本对齐，输出视为不合格。**
 
 **The latest stable version is the PRIMARY teaching baseline — not the doc's old version.**
 The notes explain every concept, term, API, config, and recommended practice as it works in
@@ -453,6 +470,7 @@ python3 __SKILL_DIR__/scripts/check_links.py <笔记.md 或笔记目录> \
 - [x] 配图充分：Mermaid N 个 + LaTeX 公式 M 处 + HTML 卡片 K 个（每个 H2 ≥1 图）
 - [x] 思考题均有参考答案
 - [x] 无 `\n` 换行、无残留 `<!-- FILL -->`
+- [x] 版本重对齐：（technical）已完成，WebFetch URL: [列出至少1条] / （conceptual / --no-version-update）已跳过，理由：[列出]
 ```
 摘要：output dir、files created、图片处理统计（嵌入 / 重绘 Mermaid / 转 LaTeX / 转卡片）、
 Mermaid 数量、版本差异（technical）或"概念类已跳过版本重对齐"（conceptual）、思考题数量。
