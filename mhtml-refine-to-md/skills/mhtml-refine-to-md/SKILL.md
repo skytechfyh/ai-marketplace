@@ -253,6 +253,20 @@ Obsidian 的 markdown 处理器看到空行会把后面的 `<div>` 包进新的 
 **铁律 3：禁止外部资源**
 HTML 卡片不得引用任何外部 URL（图片、字体、JS）。
 
+**🚨 铁律 4：HTML 卡片结束的 `</div>` 与紧随其后的 `>` callout/引用块之间，必须插入一个空行**
+Obsidian 的 Markdown 渲染器处理 HTML 块时，必须看到一个空行才能切换回正常的 Markdown 解析模式。若 `</div>` 与 `> [!NOTE]` / `> 📊` 等 callout 之间无空行，渲染器停留在 HTML 上下文，`>` 被当作 HTML 原文，callout/引用块以**纯文本**直接展示。
+```
+❌ 错误：
+</div>
+> [!NOTE] 核心结论……
+
+✅ 正确：
+</div>
+
+> [!NOTE] 核心结论……
+```
+这同样适用于 HTML 卡片下方的 `> 📊 [图说明]` 引用行——卡片与图配文之间也必须有空行。
+
 **两种核心模板**：
 
 **模板 A1 — 列表卡片（纵向堆叠，每张大卡片内含子标签）**
@@ -544,6 +558,18 @@ count = sum(1 for b in blocks for line in b.split('\n') if r'\n' in line)
 print(count)
 "
 
+# 核查 12：</div> 后缺空行直接跟 > callout/引用块（期望输出 OK）
+# 根因：Obsidian 渲染器需要空行才能从 HTML 模式切换回 Markdown 解析模式
+python3 -c "
+content = open('<FILE>').read()
+lines = content.split('\n')
+violations = []
+for i in range(len(lines) - 1):
+    if lines[i].rstrip().endswith('</div>') and lines[i+1].strip().startswith('>'):
+        violations.append(i + 2)
+print('VIOLATIONS at lines:', violations) if violations else print('OK')
+"
+
 # 核查 10：mindmap 结构合法性（单 root + 缩进一致；期望输出 OK）
 python3 -c "
 import re
@@ -583,6 +609,7 @@ print('OK' if not errs else 'MINDMAP ERRORS: ' + ' | '.join(errs))
 | 9 | Mermaid 节点无 `\n` 换行 | 所有 mermaid 代码块内的节点标签不含 `\n` 转义符（期望核查命令输出 `0`）；换行必须用 `<br/>` |
 | 10 | mindmap 结构合法 | ① 栅栏是 ` ```mermaid ` 而非 ` ```mindmap `（核查 4b 输出 `0`）；② 核查 10 输出 `OK`——root 已缩进且只有一个 root 层节点，缩进逐层一致。这是 mindmap 能否在 Obsidian 渲染的硬条件，失败则报 "There can be only one root" 等错误 |
 | 11 | 关键内容元素无丢失 | `verify_content.py` 的"关键数字核查"无 `[MISSING]`、"长顿号枚举核查"无 `[FLAG]`；若有，回原文确认确属遗漏的须补回（对照 Step 1 的"关键内容元素清单"）。脚本只抓离散 token 丢失，**"N个X 结构提到但未展开"仍需人工对照 Step 2 散文规则判断** |
+| 12 | HTML 卡片 `</div>` 后有空行 | 核查 12 输出 `OK`——HTML 卡片结束的 `</div>` 与后续 `>` callout/引用块之间均有空行（无空行会导致 callout 以纯文本展示） |
 
 **HTML 卡片空行检查的简化命令**（可直接复制执行）：
 ```bash
@@ -615,6 +642,7 @@ print('VIOLATIONS at lines:', violations) if violations else print('OK')
 - [x] Mermaid 节点无 \n 换行
 - [x] mindmap 结构合法（栅栏=mermaid，单 root，缩进一致）
 - [x] 关键内容元素无丢失（数字 0 处 MISSING，长枚举 0 处 FLAG）
+- [x] HTML 卡片 </div> 后有空行（核查 12 输出 OK）
 ```
 
 **核查失败处理**：
@@ -629,3 +657,139 @@ print('VIOLATIONS at lines:', violations) if violations else print('OK')
 - **内容深度**：笔记字数不少于原文核心内容的 60%，不允许过度压缩导致关键细节丢失。
 - **思考题处理**：若文章含"思考题"H2（正式课程讲次通常有），必须完整保留并附参考答案；若文章无思考题（开篇词、热点速递等特殊讲次），跳过该章节，不强制。
 - **示例代码语言偏好（重要）**：当原文未指定语言、或在回答后续问题时需要**自创**代码示例（包括思考题参考答案、最佳实践演示、对比示例等），**必须**使用 **Java** 或 **Python**，**不得使用 Go**。理由：用户日常开发栈为 Java + Python，Go 示例无助于其落地理解。例外情况：① 原文本身就是 Go 代码 → 完整保留原文 Go 代码不翻译；② 原文明确讨论 Go 生态特性（如 goroutine、channel）→ 保留 Go 示例并补一段 Java/Python 的等价实现作对照。
+
+---
+
+## Step 7 — 时效性复查（按需执行，非日常转换流程的一部分）
+
+### 触发方式
+
+用户对**已有笔记**发起时效性检查时触发，关键词示例：
+- "检查这篇笔记还适不适用：/path/to/note.md"
+- "帮我看看这篇极客时间笔记里的内容还对吗"
+- "对比官方文档核验一下"
+- "freshness check / 时效性检查"
+
+> 本步骤完全独立于 Step 1–6，不影响日常笔记生成流程。可对任意时间生成的笔记执行。
+
+### 7a — 提取笔记技术声明
+
+```bash
+source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_note_claims.py \
+  "<笔记.md 绝对路径>"
+```
+
+读取输出 JSON，记录以下字段：
+- `tech`：技术名（从 `tags` / `course` / 标题推断）
+- `note_date`：笔记写入日期（frontmatter `date` 字段）
+- `classes` / `methods` / `configs`：从代码块机械提取的 API 声明
+- `deprecated_warnings`：`[!WARNING]` callout 里标注的废弃 API
+
+> **conceptual 类判断**：若 `classes` 和 `configs` 均为空列表，为概念类笔记，跳至 **7b-conceptual** 路径。
+
+### 7b — 搜索最新官方版本（technical 路径）
+
+```
+WebSearch: "<tech> latest stable release 2026"
+```
+
+记录 `latest_version`。若笔记 `note_date` 与当前日期差距 ≤6 个月，报告中注明"写入时间较近，API 整体应仍有效，本次做快速扫描"。
+
+**7b-conceptual（概念类路径）**：
+
+```
+WebSearch: "<文章主题/技术领域> 方法论/框架/最佳实践 最新动态 2026"
+```
+
+了解该领域是否有重大观念演变，直接跳至 7f 生成简短概念时效报告。
+
+### 7c — 拉取官方文档（≤3 页）
+
+```
+WebFetch: 官方 API 文档页（按 classes 列表关键类名定位）
+WebFetch: 官方配置参考页（按 configs 列表定位）
+```
+
+打印所用 URL（写入报告 frontmatter）。每次 WebFetch 后立即记录核验结论。
+
+### 7d — 逐一核验（technical 路径）
+
+| 结论 | 含义 | 报告分区 |
+|---|---|---|
+| ✅ 仍有效 | 官方文档中仍存在且语义一致 | `## ✅ 仍然有效` |
+| ⚠️ 有变化需核验 | 存在但签名/行为/推荐做法有变动 | `## ⚠️ 有变化，需核验` |
+| ❌ 已废弃/移除 | 官方标记 deprecated 或从文档移除 | `## ❌ 已废弃 / 移除` |
+| 🆕 官方新增 | 当前官方存在、笔记未提及的重要 API | `## 🆕 官方新增` |
+
+### 7e — 准备临时目录
+
+```bash
+NOTE_STEM=$(basename "<笔记.md>" .md)
+mkdir -p "/tmp/freshness_check_${NOTE_STEM}/"
+```
+
+记录 `TEMP_DIR=/tmp/freshness_check_${NOTE_STEM}/`。
+
+### 7f — 写报告到临时目录
+
+将核验结论写入 `${TEMP_DIR}/report.md`，格式如下：
+
+````markdown
+---
+note: "<笔记文件名>"
+note_path: "<笔记绝对路径>"
+note_date: "<笔记写入日期>"
+latest_version: "<latest_version>"
+check_date: "<YYYY-MM-DD>"
+official_docs:
+  - <WebFetch URL>
+---
+
+# <笔记标题> · 时效性检查
+
+> [!ABSTRACT] 检查结论
+> 笔记写于 <note_date> | 官方最新 <latest_version> | ❌ N 处已废弃 · ⚠️ M 处需核验 · ✅ K 处有效
+
+## ❌ 已废弃 / 移除
+
+| 笔记中的内容 | 当前官方说明 | 所在章节 |
+|---|---|---|
+
+## ⚠️ 有变化，需核验
+
+| 笔记中的内容 | 官方变化说明 | 所在章节 |
+|---|---|---|
+
+## ✅ 仍然有效（已核验）
+
+## 🆕 官方新增（可考虑补充）
+
+## 📋 检查说明
+
+- 技术栈：<tech>
+- 核验范围：N 个类名 · M 个配置项 · K 个方法名
+- 官方文档来源：<URL 列表>
+- 生成时间：<YYYY-MM-DD>
+````
+
+报告写完后，**在对话中完整展示报告内容**，然后询问：
+
+> "以上是时效性检查结果。是否需要将报告中标注的内容更新到原笔记？
+> - **'更新全部'** → 按 ❌ + ⚠️ 全部应用
+> - **'只更新 ❌ 项'** → 仅替换已废弃内容
+> - **'不更新'** → 跳过，直接清理临时文件"
+
+### 7g — （仅当用户确认后）编辑原笔记
+
+按报告结论逐处 Edit 原笔记（一次一个 `##`/`###` 节，不批量写入）：
+- 废弃 API 替换为当前推荐写法
+- 新增 `[!WARNING]- 版本迁移` callout 说明旧写法被替换的原因
+
+### 7h — 清理临时目录
+
+```bash
+rm -rf "${TEMP_DIR}"
+echo "临时目录已清理：${TEMP_DIR}"
+```
+
+无论是否更新原笔记，最终都执行此步。

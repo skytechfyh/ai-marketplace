@@ -211,6 +211,7 @@ graph LR
 1. No blank lines inside HTML block (breaks Obsidian grid/flex)
 2. All styles via inline `style=` only (no `<style>` tags)
 3. No external URLs
+4. After the final `</div>`, always insert **one blank line** before any `>` callout / blockquote — Obsidian's renderer must see the blank line to switch back from HTML-block mode to Markdown mode; without it the `>` is treated as raw HTML and the callout renders as plain text
 
 **Template — Feature List Card:**
 

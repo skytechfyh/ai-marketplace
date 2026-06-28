@@ -9,13 +9,13 @@
       "name": "doc-to-notes",
       "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记",
       "source": "./doc-to-notes",
-      "version": "1.6.0"
+      "version": "1.8.0"
     },
     {
       "name": "mhtml-refine-to-md",
       "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian 学习笔记",
       "source": "./mhtml-refine-to-md",
-      "version": "1.0.1"
+      "version": "1.3.0"
     },
     {
       "name": "organize-course-package",
