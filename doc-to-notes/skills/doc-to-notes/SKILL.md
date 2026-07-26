@@ -1,6 +1,6 @@
 ---
 name: doc-to-notes
-description: Convert .docx / .doc / .pdf training or learning documents into structured, up-to-date Obsidian Markdown notes. Scripts parse headings/code/lists/tables/images and split the doc into per-chapter JSON; images upload to Aliyun OSS; oversized screenshots are auto-resized, OCR'd (Apple Vision) and visually analyzed (architecture→Mermaid, code screenshot→code block, data screenshot→table, math formula→LaTeX); content is re-baselined to the latest stable version against official docs for technical docs (concepts/API/config/terminology taught in the new version's voice, old version kept only as migration notes; conceptual/history docs skip re-baselining); output is one Markdown file per chapter, or a single combined file with --no-split (auto-split only if it exceeds 5MB); verify_content.py checks no prose/numbers/enumerations were dropped; check_mermaid.py checks all Mermaid blocks for syntax errors (edge label <br/>, unclosed fences, invalid diagram types, etc.). Big-data tech (Flink/Hadoop/Spark/Kafka) routes to 214_Big_Data. Use when user provides a .docx/.doc/.pdf path to turn into knowledge base notes, mentions 资料转换 / 培训文档整理 / 学习笔记, or processes training materials (e.g. 多易大数据, Flink/Spark/Kafka internal docs).
+description: Convert .docx / .doc / .pdf training or learning documents into structured, up-to-date Obsidian Markdown notes. Scripts parse headings/code/lists/tables/images and split the doc into per-chapter JSON; images upload to Aliyun OSS; oversized screenshots are auto-resized, OCR'd (Apple Vision) and visually analyzed (architecture→Mermaid, code screenshot→code block, data screenshot→table, math formula→LaTeX); content is re-baselined to the latest stable version against official docs for technical docs (concepts/API/config/terminology taught in the new version's voice, old version kept only as migration notes; conceptual/history docs skip re-baselining); output is one Markdown file per chapter, or a single combined file with --no-split (auto-split only if it exceeds 5MB); extract_batch.py merges a directory/list of related .pdf/.docx/.doc files (e.g. a course week's multiple lecture slide decks) into ONE combined manifest + note instead of one note per file; PDF extraction filters slide-deck noise (page numbers, repeated header/footer banners) and reclassifies tag-cloud/tool-list slides into structured list_item groups; verify_content.py checks no prose/numbers/enumerations (including list_item groups) were dropped; check_mermaid.py checks all Mermaid blocks for syntax errors (edge label <br/>, unclosed fences, invalid diagram types, etc.). Big-data tech (Flink/Hadoop/Spark/Kafka) routes to 214_Big_Data. Use when user provides a .docx/.doc/.pdf path (or a folder of several related ones) to turn into knowledge base notes, mentions 资料转换 / 培训文档整理 / 学习笔记 / 批量合并笔记, or processes training materials (e.g. 多易大数据, Flink/Spark/Kafka internal docs, slide-deck course series).
 ---
 
 # Doc to Notes
@@ -86,6 +86,33 @@ Handles `.docx`, `.doc` (auto-converts via `textutil`), and `.pdf`. Outputs to
 Read the printed summary: title, chapter list, section-type counts. **Note the chapter
 count** — you'll process exactly that many files.
 
+### Step 0b — 变体：批量合并多个文档为一篇笔记
+
+当用户给的是**同一批逻辑上属于一篇内容**的多个 `.pdf`/`.docx`/`.doc`（例如同一训练营某一周的
+多节课件、同一课程的多讲 PPT），用 `extract_batch.py` 代替逐个跑 `extract_docx.py`，一次性合并成
+**一份** `manifest.json` + `chapter_NN.json`：
+
+```bash
+# 目录模式：按文件名中第一个数字自动排序（"第2节"排在"第10节"前面，不会按字典序出错）
+source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
+  "/path/to/资料目录" --pattern "*.pdf" --title "Week1 导论" --no-split
+
+# 显式文件列表模式：按给定顺序合并，不重新排序
+source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
+  file1.pdf file2.pdf file3.docx --title "Week1 导论"
+```
+
+- 每个源文件在合并结果里天然成为**一个 H2 章节**；该文件内部原有的标题全部降到 H3/H4，
+  不会与合成的 H2 抢章节边界。
+- **章节标题默认取文件名**（`--title-from filename`）：讲义/PPT 型 PDF 的封面大字通常是
+  *标语*（如"工具太多不可怕，没有地图才可怕。"），真正的章节名在文件名里（"第4节：选型力：
+  看懂 AI 编程工具的七层架构"）。需要用文档内 H1 时传 `--title-from heading`。
+- 图片跨文件共享同一个编号序列和 `images/` 目录，不会互相覆盖。
+- **输出格式与单文件模式完全一致**——Step 1 之后的所有步骤（图片上传、OCR、配图、写作、核验）
+  不需要区分"这是合并出来的"还是"单文件跑出来的"，照常处理即可。
+- 何时用：文件名带连续编号（第 N 节/讲/课）、内容主题连贯、体量都不大（讲义/PPT 型尤其常见）。
+  超大型参考手册、内容彼此独立的文档，仍按单文件模式逐个处理。
+
 ### Step 1 — Decide output location
 
 | Doc topic | Target |
@@ -100,6 +127,15 @@ count** — you'll process exactly that many files.
 > **Big data lives in its own `214_Big_Data/`**, a sibling of `213_Middleware/` — not
 > inside Middleware. Each technology gets its own sub-dir: `214_Big_Data/Flink/`,
 > `214_Big_Data/Hadoop/`, `214_Big_Data/Spark/`, … New tech dirs are created as needed.
+
+**落位决策流程（尤其适用于 Step 0b 合并出的课程系列笔记）：**
+1. 先用 `find`/`ls` **只读**扫描目标知识库（如 `260_Courses/`），看有没有同训练营/同课程的现成
+   子目录——命中就直接用，并说明理由。
+2. 没命中、需要新建目录（如 `260_Courses/<训练营名>/Week1/`）时，**先在对话里提出建议路径并征得
+   用户确认**，再创建目录/写入文件——新建目录、写入用户知识库属于会改变用户实际文件系统状态的
+   操作，不能未经确认就自动执行（与本项目"低风险但仍需确认"的通用原则一致，不是例外）。
+3. 新目录的命名沿用该知识库里 `260_Courses/`（或对应分类目录）已有的实际命名规律，不要凭空发明
+   新规则。
 
 Output structure — 两种模式：
 
@@ -130,6 +166,13 @@ Output structure — 两种模式：
 > 判定信号：有可提炼的代码/可跑的 API → technical；通篇"是什么/为什么/发展历程/数学推导" →
 > conceptual；拿不准就按"原文是否存在可提炼的代码"二选一。该类型决定 Step 7
 > `verify_content.py --type` 的取值，以及是否执行 Step 4 的版本重对齐。
+
+> **讲义/PPT 型（正交于 technical/conceptual，二者都可能是讲义型）**：识别信号——
+> `manifest.json` 里 `list_item` 占比明显偏高、段落普遍很短（标签墙/要点罗列多于连续段落）、
+> 每页对应一个独立小概念。处理原则：**允许把简短要点适度扩写成完整解释句**（提炼+重组的应有之义），
+> 但**每一项都要点名保留**，不能因为原文本来就短就一句话概括带过。配图优先级复用 Step 5 决策表：
+> 标签墙/工具清单 → HTML 卡片；"N 层架构"这类分层结构 → Mermaid `subgraph` 分层图；方法论/概念间
+> 关系 → Mermaid 关系图。
 
 > 🚨 **判定结果必须显式输出**（后续步骤强依赖此结论，不输出视为未完成本步）：
 > ```
@@ -407,8 +450,10 @@ python3 __SKILL_DIR__/scripts/verify_content.py \
 ```
 - `RATIO` 行必须 **PASS**（剥离 Mermaid/HTML/LaTeX 标记后的纯散文 ≥ 原文 × 阈值；type 取
   Step 1b 判定值）。FAIL 说明叙述被过度压缩，回去把缺的内容补回，**不要靠堆图凑字数**。
-- "关键数字核查"出现 `[MISSING]`、"长枚举核查"出现 `[FLAG]` 时，回原文确认是否确属遗漏，
-  是则补回后重新运行，直至无告警。脚本只抓离散 token 丢失，"提到但没展开"仍需人工对照。
+- "关键数字核查"出现 `[MISSING]`、"长枚举核查"/"结构化列表枚举核查"出现 `[FLAG]` 时，回原文确认
+  是否确属遗漏，是则补回后重新运行，直至无告警。"结构化列表枚举"专门盯讲义型 PDF 里那种逐行罗列
+  （如标签墙、工具清单）被识别为 `list_item` 后的丢项情况，和"长枚举核查"（顿号散文枚举）互补。
+  脚本只抓离散 token 丢失，"提到但没展开"仍需人工对照。
 
 **7c — Mermaid 语法检查（必做）**：
 
@@ -489,6 +534,23 @@ Mermaid 数量、版本差异（technical）或"概念类已跳过版本重对�
 | `--no-split` | off | **推荐默认**：全部内容写入单个 `chapter_01.json`。写完 MD 后用 `wc -c` 检查**成稿大小**，超过 5 MB 再按 H2 手动拆分。 |
 | `--min-sections` | 15 | Merge small same-parent chapters below this size (0 disables) |
 
+## Arguments (extract_batch.py — Step 0b)
+
+| Arg | Default | Description |
+|---|---|---|
+| `paths` | — | A directory (glob-scanned) **or** an explicit list of files (merged in the exact order given) |
+| `--pattern` | match `.pdf`/`.docx`/`.doc` | Glob pattern, only used in directory mode |
+| `--title` | dir name / first file's stem | Title of the merged document |
+| `--title-from` | `filename` | 每个文件的 H2 章节标题来源：`filename`（默认）/ `heading`（用文档内 H1）/ `auto`（文件名含"第N节/讲/课"时用文件名，否则用 H1） |
+| `--output-dir` | `/tmp/doc_notes_<title>` | Override extraction output dir |
+| `--max-img-px` | 2000 | Same as `extract_docx.py` |
+| `--split-level` | `auto` | Same as `extract_docx.py` |
+| `--no-split` | off | Same as `extract_docx.py` |
+| `--min-sections` | 15 | Same as `extract_docx.py` |
+
+输出的 `manifest.json` / `chapter_NN.json` 与 `extract_docx.py` 单文件模式**同构**——每个源文件是一个
+H2 章节，其余字段/结构完全一致，因此 Step 1 之后的流程无需区分来源。
+
 ### How chapters are split (one file per top-level chapter)
 
 **`--no-split`（推荐默认）：全部内容放到单一 MD 文件，只有成稿超过 5 MB 时才拆分。**
@@ -514,12 +576,18 @@ Content is conserved exactly across all chapter files (nothing dropped or duplic
 
 ## Batch processing
 
-```bash
-for f in "/path/to/资料"/*.docx; do
-  [[ "$f" == *"(1).docx" ]] && continue   # skip duplicate copies
-  python3 .../extract_docx.py "$f"
-done
-```
+Two different needs, two different tools — pick based on whether the files should become
+**one note** or **stay separate notes**:
+
+- **One note per file** (files are independent topics): loop `extract_docx.py` as before.
+  ```bash
+  for f in "/path/to/资料"/*.docx; do
+    [[ "$f" == *"(1).docx" ]] && continue   # skip duplicate copies
+    python3 .../extract_docx.py "$f"
+  done
+  ```
+- **One merged note for the whole batch** (files are chapters of one logical document, e.g.
+  a course week's several lecture PDFs): use `extract_batch.py` instead — see Step 0b.
 
 ## Edge cases & compatibility
 
@@ -537,6 +605,10 @@ done
 | Image embedded in table cell | Extracted as image, not lost |
 | Code only exists as a screenshot | OCR baseline (`ocr_image.py`) + vision correction → code block |
 | Scanned PDF (no text layer) | `extract_docx.py` yields few sections; run `ocr_image.py` on page images |
+| PDF page number ("2 / 10") | Filtered out during extraction, never becomes a section |
+| PDF header/footer repeated on ≥3 pages | Kept only on first occurrence, rest dropped as watermark noise |
+| Tag-cloud / tool-list slide (≥3 short unpunctuated blocks, same page) | Reclassified to `list_item` so it's written & verified as one list, not scattered paragraphs |
+| Several related files (course week, lecture series) | Use `extract_batch.py` (Step 0b) to merge into one manifest/note instead of one-per-file |
 
 See [REFERENCE.md](REFERENCE.md) for Mermaid rules, the diagram decision table,
 language mapping, callout formats, and the per-chapter quality checklist.

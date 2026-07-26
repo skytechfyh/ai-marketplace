@@ -26,6 +26,11 @@ Key behaviours (tuned for Chinese training docs, e.g. 多易大数据):
     so Claude's vision Read calls don't hit the many-image size limit. Dimensions are
     recorded in the manifest.
   * PDF — text spans are merged per block/line (not per span) so prose isn't shredded.
+  * PDF slide decks (讲义/PPT 型) — bare page numbers ("2 / 10") and repeated header/footer
+    banners (identical text on ≥3 pages) are filtered out as noise; each text section is
+    tagged with its source `page`; runs of ≥3 consecutive short unpunctuated blocks on the
+    same page (tag-cloud / tool-list slides) are reclassified as `list_item` instead of
+    scattered `paragraph` sections, so they're written and verified as one enumerable list.
   * .doc — auto-converted to .docx via macOS `textutil` when available.
 
 Requires: python-docx (docx) ; PyMuPDF (fitz) for PDF ; Pillow optional for resize.
@@ -363,7 +368,7 @@ def table_to_markdown(table) -> str:
 # ---------------------------------------------------------------------------
 
 def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto",
-                 min_size=MIN_CHAPTER_SECTIONS) -> dict:
+                 min_size=MIN_CHAPTER_SECTIONS, finalize: bool = True):
     doc = Document(docx_path)
     numbering = NumberingResolver(doc)
     img_dir = Path(output_dir) / "images"
@@ -496,6 +501,8 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
                 sections.append({"type": "table", "rows": n_rows, "cols": n_cols,
                                  "markdown": md})
 
+    if not finalize:
+        return sections
     return _finalize(sections, docx_path, img_dir, img_counter[0], output_dir, split_level, min_size)
 
 
@@ -503,8 +510,75 @@ def extract_docx(docx_path: str, output_dir: str, max_px: int, split_level="auto
 # PDF extraction (spans merged per block)
 # ---------------------------------------------------------------------------
 
+# Slide-deck / 讲义型 PDF noise & structure heuristics.
+PDF_PAGE_NUM_RE = re.compile(r'^\d+\s*/\s*\d+$')      # bare page number, e.g. "2 / 10"
+# A trailing page number glued onto the end of a footer block by PyMuPDF's block merging,
+# e.g. "企业级 AI 编程实战营 · Week 1 · 约 15 分钟 1 / 10" — strip it so the remaining text
+# matches its occurrences on other pages and the watermark filter can see them as identical.
+PDF_TRAILING_PAGE_NUM_RE = re.compile(r'\s+\d+\s*/\s*\d+$')
+SENTENCE_END_RE = re.compile(r'[。！？.!?]$')           # a block ending in real punctuation
+NON_CONTENT_RE = re.compile(r'^[\W_]+$')               # pure symbols/punctuation, no words
+TAG_MAX_LEN = 14         # a "tag/term" block (tool name, keyword) is short and unpunctuated
+TAG_RUN_MIN = 3          # ≥3 consecutive tag-like blocks on one page = a tag wall, not prose
+WATERMARK_MIN_PAGES = 3  # exact text repeated on ≥3 pages = header/footer/watermark, not content
+
+
+def _merge_pdf_block(block):
+    """Merge a PDF text block's spans into one text string, tracking max font size / bold."""
+    block_text_lines = []
+    max_size = 0.0
+    any_bold = False
+    for line in block["lines"]:
+        parts = []
+        for span in line["spans"]:
+            t = span["text"]
+            if t:
+                parts.append(t)
+                max_size = max(max_size, span["size"])
+                if span["flags"] & 16:
+                    any_bold = True
+        if parts:
+            block_text_lines.append("".join(parts))
+    text = "\n".join(block_text_lines).strip()
+    # A footer banner often has the page number glued onto its end by block merging;
+    # strip it so the same banner on different pages compares as identical text.
+    stripped = PDF_TRAILING_PAGE_NUM_RE.sub("", text)
+    if stripped != text and stripped.strip():
+        text = stripped.strip()
+    return text, max_size, any_bold
+
+
+def _group_pdf_tag_walls(sections):
+    """Reclassify runs of ≥TAG_RUN_MIN consecutive short, unpunctuated paragraph blocks on
+    the same PDF page (tag-cloud / tool-list slides, e.g. a page listing 20 tool names) as
+    list_item, in place. Without this they'd stay scattered one-line `paragraph` sections
+    that are easy to drop individually when writing notes; as list_item they're recognized
+    as one enumerable group by both the writing workflow and verify_content.py."""
+    i, n = 0, len(sections)
+
+    def is_tag_like(s):
+        return (s.get("type") == "paragraph" and len(s["text"]) <= TAG_MAX_LEN
+                and not SENTENCE_END_RE.search(s["text"])
+                and not NON_CONTENT_RE.match(s["text"]))
+
+    while i < n:
+        if is_tag_like(sections[i]):
+            page = sections[i].get("page")
+            j = i
+            while j < n and is_tag_like(sections[j]) and sections[j].get("page") == page:
+                j += 1
+            if j - i >= TAG_RUN_MIN:
+                for k in range(i, j):
+                    sections[k]["type"] = "list_item"
+                    sections[k]["ordered"] = False
+                    sections[k]["level"] = 1
+            i = j
+        else:
+            i += 1
+
+
 def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
-                min_size=MIN_CHAPTER_SECTIONS) -> dict:
+                min_size=MIN_CHAPTER_SECTIONS, finalize: bool = True):
     try:
         import fitz
     except ImportError:
@@ -513,10 +587,27 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
     img_dir = Path(output_dir) / "images"
     img_dir.mkdir(parents=True, exist_ok=True)
     doc = fitz.open(pdf_path)
-    sections = []
     img_counter = [0]
     xref_seen = set()
 
+    # Pass 1: tally how many distinct pages each exact block text appears on. A slide deck
+    # commonly repeats a header/footer banner (course name, week, duration) on every page —
+    # that's boilerplate, not content, and would otherwise pollute every chapter.
+    text_page_count = {}
+    for page in doc:
+        seen_this_page = set()
+        for block in page.get_text("dict")["blocks"]:
+            if block["type"] != 0:
+                continue
+            text, _, _ = _merge_pdf_block(block)
+            if text and text not in seen_this_page:
+                seen_this_page.add(text)
+                text_page_count[text] = text_page_count.get(text, 0) + 1
+    watermark_texts = {t for t, n in text_page_count.items() if n >= WATERMARK_MIN_PAGES}
+    watermark_emitted = set()
+
+    # Pass 2: build sections in document order (images + text interleaved per page, as before).
+    sections = []
     for page_num, page in enumerate(doc):
         for img_info in page.get_images(full=True):
             xref = img_info[0]
@@ -529,6 +620,7 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
                                          img_dir, img_counter, max_px)
                 sections.append({"type": "image", "image_file": fname,
                                  "caption": f"Page {page_num+1}", "width": w, "height": h,
+                                 "page": page_num + 1,
                                  "small_inline": is_small_inline(w, h)})
             except Exception as e:
                 print(f"  [WARN] pdf image p{page_num+1}: {e}", file=sys.stderr)
@@ -536,24 +628,22 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
         for block in page.get_text("dict")["blocks"]:
             if block["type"] != 0:
                 continue
-            # Merge all spans in the block into one text + track max font size
-            block_text_lines = []
-            max_size = 0.0
-            any_bold = False
-            for line in block["lines"]:
-                parts = []
-                for span in line["spans"]:
-                    t = span["text"]
-                    if t:
-                        parts.append(t)
-                        max_size = max(max_size, span["size"])
-                        if span["flags"] & 16:
-                            any_bold = True
-                if parts:
-                    block_text_lines.append("".join(parts))
-            text = "\n".join(block_text_lines).strip()
+            text, max_size, any_bold = _merge_pdf_block(block)
             if not text:
                 continue
+
+            # Noise filter 1: a bare page number ("2 / 10") carries no content.
+            if PDF_PAGE_NUM_RE.match(text.replace("\n", "").strip()):
+                continue
+            # Noise filter 2: repeated header/footer/watermark — keep its first occurrence
+            # (still meaningful once, e.g. the course title on slide 1), drop the rest.
+            # The survivor is tagged `banner` so a batch merge can drop it again across
+            # files (the same deck banner repeats in every file of a course series).
+            is_banner = text in watermark_texts
+            if is_banner:
+                if text in watermark_emitted:
+                    continue
+                watermark_emitted.add(text)
 
             depth = numbering_depth(text.split("\n")[0])
             if any_bold and max_size >= H1_MIN_PT:
@@ -568,11 +658,19 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
                 level = 0
 
             if level > 0:
-                sections.append({"type": "heading", "level": level,
-                                 "text": text.replace("\n", " ")})
+                sec = {"type": "heading", "level": level,
+                       "text": text.replace("\n", " "), "page": page_num + 1}
             else:
-                sections.append({"type": "paragraph", "text": text.replace("\n", " ")})
+                sec = {"type": "paragraph",
+                       "text": text.replace("\n", " "), "page": page_num + 1}
+            if is_banner:
+                sec["banner"] = True
+            sections.append(sec)
 
+    _group_pdf_tag_walls(sections)
+
+    if not finalize:
+        return sections
     return _finalize(sections, pdf_path, img_dir, img_counter[0], output_dir, split_level, min_size)
 
 

@@ -7,9 +7,9 @@
   "plugins": [
     {
       "name": "doc-to-notes",
-      "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记",
+      "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记，支持批量合并多文档为一篇笔记",
       "source": "./doc-to-notes",
-      "version": "1.8.0"
+      "version": "1.9.0"
     },
     {
       "name": "mhtml-refine-to-md",

@@ -17,10 +17,12 @@
     （code / table 不计入散文比例分母——它们在笔记里基本原样保留，计入会让基数虚高、
     掩盖叙述被压缩的问题）。
 
-做两件事:
+做三件事:
     1. 剥离笔记的 frontmatter / mermaid / HTML / callout / LaTeX 标记，只数**纯散文字符**，
        按文档类型阈值比对原文（technical 60% / conceptual 80%）。
     2. 从原文抽取关键数字 + 长顿号枚举，逐一在笔记中查找，缺失即告警。
+    3. 从原文抽取"结构化列表枚举"——manifest 里连续 ≥5 条 list_item 的分组（讲义/PPT 型 PDF
+       的标签墙/工具清单常以这种逐行罗列而非顿号散文出现），同样逐项核对是否被保留。
 
 局限（必须诚实告知）:
     只抓"整条长枚举被压缩""统计数字被删"这类**离散 token 丢失**，抓不住"提到但没展开"。
@@ -41,28 +43,28 @@ import sys
 PROSE_TYPES = {"paragraph", "heading", "list_item", "quote"}
 
 
-def load_source_text(manifest_path: str) -> str:
-    """从 manifest.json 提取原文散文文本。支持传 manifest.json 或其所在目录。"""
+def load_source_sections(manifest_path: str) -> list:
+    """从 manifest.json（或其所在目录，或兜底的 chapter_*.json）加载原始 sections 列表。"""
     if os.path.isdir(manifest_path):
         manifest_path = os.path.join(manifest_path, "manifest.json")
     if not os.path.isfile(manifest_path):
-        # 兜底：从同目录的 chapter_*.json 合并 sections
         d = os.path.dirname(manifest_path)
         chapters = sorted(glob.glob(os.path.join(d, "chapter_*.json")))
         if not chapters:
             raise FileNotFoundError(f"找不到 manifest.json 或 chapter_*.json: {manifest_path}")
-        parts = []
+        sections = []
         for c in chapters:
             data = json.load(open(c, encoding="utf-8"))
-            for s in data.get("sections", []):
-                if s.get("type") in PROSE_TYPES and s.get("text"):
-                    parts.append(s["text"])
-        return "".join(parts)
+            sections.extend(data.get("sections", []))
+        return sections
     data = json.load(open(manifest_path, encoding="utf-8"))
-    parts = []
-    for s in data.get("sections", []):
-        if s.get("type") in PROSE_TYPES and s.get("text"):
-            parts.append(s["text"])
+    return data.get("sections", [])
+
+
+def load_source_text(manifest_path: str) -> str:
+    """从 manifest.json 提取原文散文文本。支持传 manifest.json 或其所在目录。"""
+    parts = [s["text"] for s in load_source_sections(manifest_path)
+             if s.get("type") in PROSE_TYPES and s.get("text")]
     return "".join(parts)
 
 
@@ -144,6 +146,31 @@ def extract_long_enumerations(src: str):
     return results
 
 
+def extract_list_enumerations(sections: list):
+    """
+    抽取"结构化列表枚举"：manifest sections 里连续 ≥ ENUM_MIN_ITEMS 条 list_item 的分组
+    （例如讲义型 PDF 里"标签墙/工具清单"式的逐行罗列，被 extract_docx.py 识别为 list_item，
+    而不是靠 、 分隔的散文——extract_long_enumerations 的正则抓不到这种按行罗列的枚举）。
+    返回 [(分组预览文本, [item, ...]), ...]，与 extract_long_enumerations 的返回结构一致。
+    """
+    results = []
+    i, n = 0, len(sections)
+    while i < n:
+        if sections[i].get("type") == "list_item":
+            j = i
+            while j < n and sections[j].get("type") == "list_item":
+                j += 1
+            items = [sections[k].get("text", "").strip() for k in range(i, j)]
+            items = [x for x in items if x]
+            if len(items) >= ENUM_MIN_ITEMS:
+                preview = "、".join(items[:5]) + ("…" if len(items) > 5 else "")
+                results.append((preview, items))
+            i = j
+        else:
+            i += 1
+    return results
+
+
 def present(token: str, note: str) -> bool:
     return token in note
 
@@ -160,7 +187,9 @@ def main() -> int:
     args = ap.parse_args()
 
     try:
-        src = load_source_text(args.manifest)
+        src_sections = load_source_sections(args.manifest)
+        src = "".join(s["text"] for s in src_sections
+                       if s.get("type") in PROSE_TYPES and s.get("text"))
     except Exception as e:
         print(f"ERROR: 读取原文失败: {e}", file=sys.stderr)
         return 1
@@ -215,6 +244,23 @@ def main() -> int:
         if enum_flagged == 0:
             print(f"原文 {len(enums)} 条长枚举均已基本保留。")
 
+    # 结构化列表枚举（list_item 分组，讲义型 PDF 的标签墙/要点罗列常以此形式出现）
+    list_enums = extract_list_enumerations(src_sections)
+    print(f"\n=== 结构化列表枚举核查（≥{ENUM_MIN_ITEMS} 条连续 list_item，缺失 ≥{int(ENUM_MISS_RATIO*100)}% 即告警）===")
+    list_enum_flagged = 0
+    if not list_enums:
+        print(f"(原文无 ≥{ENUM_MIN_ITEMS} 条的连续列表分组)")
+    else:
+        for preview, items in list_enums:
+            miss = [it for it in items if not present(it, note_raw)]
+            if len(miss) >= ENUM_MISS_RATIO * len(items):
+                list_enum_flagged += 1
+                print(f"[FLAG] 整组列表枚举疑似被整体丢弃（{len(miss)}/{len(items)} 项缺失）:")
+                print(f"       {preview}")
+                print(f"       缺失项: {'、'.join(miss[:8])}{' …' if len(miss) > 8 else ''}")
+        if list_enum_flagged == 0:
+            print(f"原文 {len(list_enums)} 组连续列表均已基本保留。")
+
     # 结论
     print("\n=== 结论 ===")
     flags = []
@@ -224,6 +270,8 @@ def main() -> int:
         flags.append(f"{len(missing_nums)} 个数字缺失")
     if enum_flagged:
         flags.append(f"{enum_flagged} 条长枚举被丢弃")
+    if list_enum_flagged:
+        flags.append(f"{list_enum_flagged} 组结构化列表枚举被丢弃")
     if flags:
         print("⚠️ 需人工复核: " + "；".join(flags))
         print("（注：脚本只抓离散 token 丢失，'提到但未展开'仍需对照内容守恒规则人工判断）")
