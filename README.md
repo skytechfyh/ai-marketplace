@@ -10,38 +10,36 @@
 
 ```
 ai-marketplace/
-├── marketplace.json                    # 私有市场索引
-├── doc-to-notes/                       # Plugin：文档转笔记
-│   ├── .claude-plugin/
-│   │   └── plugin.json
-│   ├── skills/
-│   │   └── doc-to-notes/
-│   │       ├── SKILL.md
-│   │       ├── REFERENCE.md
-│   │       └── scripts/
-│   │           ├── extract_docx.py
-│   │           ├── upload_oss.py
-│   │           ├── ocr_image.py
-│   │           └── suggest_diagrams.py
-│   └── README.md
-├── mhtml-refine-to-md/                 # Plugin：极客时间 mhtml 转笔记
-│   ├── .claude-plugin/
-│   │   └── plugin.json
-│   ├── skills/
-│   │   └── mhtml-refine-to-md/
-│   │       ├── SKILL.md
-│   │       └── scripts/
-│   │           └── extract_images.py
-│   └── README.md
-└── organize-course-package/            # Plugin：极客时间资料包整合
+├── .claude-plugin/
+│   └── marketplace.json                # 私有市场索引
+└── notes-from-docs/                    # Plugin：学习/培训资料转 Obsidian 笔记
     ├── .claude-plugin/
     │   └── plugin.json
-    ├── skills/
-    │   └── organize-course-package/
-    │       ├── SKILL.md
-    │       └── scripts/
-    │           └── organize.py
-    └── README.md
+    └── skills/
+        └── notes-from-docs/
+            ├── SKILL.md                 # 编排骨架：格式检测路由、全局硬规则
+            ├── reference/                # 按格式/主题分文件的详细规则
+            │   ├── extract-docx-pdf.md   # .docx/.doc/.pdf/.html/.htm 共用主流程
+            │   ├── extract-html.md       # html 专属提取细节（复用上面主流程）
+            │   ├── extract-mhtml.md      # 极客时间专栏 .mhtml
+            │   ├── organize-course-package.md  # 极客时间课程资料包目录
+            │   ├── visualization.md      # Mermaid/HTML卡片可视化规则（共享）
+            │   ├── verification.md       # 核查脚本用法（共享）
+            │   ├── math-latex.md         # 数学公式规范
+            │   └── freshness-check.md    # 时效性复查流程
+            └── scripts/                  # 提取/上传/核验脚本
+                ├── extract_docx.py
+                ├── extract_html.py
+                ├── extract_batch.py
+                ├── extract_mhtml_images.py
+                ├── organize.py
+                ├── upload_oss.py
+                ├── ocr_image.py
+                ├── suggest_diagrams.py
+                ├── verify_content.py
+                ├── check_mermaid.py
+                ├── check_links.py
+                └── extract_note_claims.py
 ```
 
 ---
@@ -76,15 +74,13 @@ ai-marketplace/
 ## 安装 Plugin
 
 ```bash
-/plugin install doc-to-notes            # 安装单个
-/plugin install mhtml-refine-to-md
-/plugin install organize-course-package
+/plugin install notes-from-docs
 ```
 
 ## 更新 Plugin
 
 ```bash
-/plugin update doc-to-notes
+/plugin update notes-from-docs
 ```
 
 ---
@@ -93,9 +89,7 @@ ai-marketplace/
 
 | Plugin | 描述 | 包含组件 |
 |--------|------|---------|
-| `doc-to-notes` | .docx/.doc/.pdf → Obsidian 笔记 | Skills + Scripts |
-| `mhtml-refine-to-md` | 极客时间 .mhtml → Obsidian 笔记 | Skills + Scripts |
-| `organize-course-package` | 极客时间资料包 → Obsidian 笔记 | Skills + Scripts |
+| `notes-from-docs` | .docx/.doc/.pdf/.html/.htm 培训文档、极客时间 .mhtml 专栏、极客时间课程资料包目录 → Obsidian 笔记（合并自原 doc-to-notes + mhtml-refine-to-md + organize-course-package） | Skills + Scripts |
 
 ---
 
@@ -106,4 +100,3 @@ ai-marketplace/
 3. 按需添加 `commands/`、`agents/`、`skills/`、`hooks/`、`.mcp.json`
 4. 在 `marketplace.json` 中追加一条记录
 5. `git commit + git tag vX.Y.Z`
-# ai-marketplace
