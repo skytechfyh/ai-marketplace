@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Mermaid + Obsidian 渲染检查（doc-to-notes 版）：扫描笔记 .md，检测 Mermaid 语法错误
+Mermaid + Obsidian 渲染检查（notes-from-docs 版）：扫描笔记 .md，检测 Mermaid 语法错误
 和会触发 Obsidian 插件误解析的写法，输出 [ERROR] / [WARN] / [OK] 报告。
 
 用法：
@@ -293,7 +293,7 @@ def check_path(path: str) -> list:
 # ── 主程序 ─────────────────────────────────────────────────────────────────────
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Mermaid + Obsidian 渲染检查 (doc-to-notes)")
+    ap = argparse.ArgumentParser(description="Mermaid + Obsidian 渲染检查 (notes-from-docs)")
     ap.add_argument("note", help="笔记 .md 路径或目录")
     args = ap.parse_args()
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-成稿外链可达性核验（doc-to-notes Step 7e）：扫描笔记 .md 里引用的所有图片/链接 URL，
+成稿外链可达性核验（notes-from-docs 核查阶段）：扫描笔记 .md 里引用的所有图片/链接 URL，
 逐个 HTTP 探测，确认能正常展示。发现不可达的 OSS 图时，加 --images-dir 可自动重传修复。
 
 用法：
@@ -68,7 +68,7 @@ def check_url(url: str, is_image: bool) -> dict:
     for method in ("HEAD", "GET"):
         try:
             req = urllib.request.Request(url, method=method,
-                                         headers={"User-Agent": "doc-to-notes-checker/1.0"})
+                                         headers={"User-Agent": "notes-from-docs-checker/1.0"})
             with urllib.request.urlopen(req, timeout=_TIMEOUT) as resp:
                 result["status"] = resp.status
                 result["content_type"] = resp.headers.get("Content-Type", "")
@@ -149,7 +149,7 @@ def check_path(path: str) -> list:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="成稿外链可达性核验 (doc-to-notes Step 7e)")
+    ap = argparse.ArgumentParser(description="成稿外链可达性核验 (notes-from-docs)")
     ap.add_argument("note", help="笔记 .md 路径或目录")
     ap.add_argument("--images-dir", default=None,
                     help="本地图片目录（/tmp/doc_notes_xxx/images），发现 OSS 图不可达时自动重传修复")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OCR code / UI / data screenshots to a TEXT BASELINE for the doc-to-notes skill.
+OCR code / UI / data screenshots to a TEXT BASELINE for the notes-from-docs skill.
 
 Usage:
     python3 ocr_image.py <image_file>                 # print text for one image

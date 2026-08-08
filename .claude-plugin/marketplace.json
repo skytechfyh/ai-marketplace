@@ -6,22 +6,10 @@
   "description": "个人 AI 工具市场 — 存放可跨项目、跨电脑复用的插件（Skills、Agents、Commands、Hooks、MCP）",
   "plugins": [
     {
-      "name": "doc-to-notes",
-      "description": "将 .docx/.doc/.pdf 培训文档转换为结构化 Obsidian 笔记，支持批量合并多文档为一篇笔记",
-      "source": "./doc-to-notes",
-      "version": "1.9.0"
-    },
-    {
-      "name": "mhtml-refine-to-md",
-      "description": "将极客时间专栏 .mhtml 文件深度提炼为 Obsidian 学习笔记",
-      "source": "./mhtml-refine-to-md",
-      "version": "1.3.0"
-    },
-    {
-      "name": "organize-course-package",
-      "description": "将极客时间课程资料包整合为单一 Obsidian 笔记",
-      "source": "./organize-course-package",
-      "version": "1.0.0"
+      "name": "notes-from-docs",
+      "description": "将 .docx/.doc/.pdf/.html/.htm 培训文档、极客时间 .mhtml 专栏文章、极客时间课程资料包目录转换为结构化 Obsidian 笔记（合并自 doc-to-notes + mhtml-refine-to-md + organize-course-package）",
+      "source": "./notes-from-docs",
+      "version": "1.2.0"
     }
   ]
 }

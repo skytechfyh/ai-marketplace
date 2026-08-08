@@ -2,7 +2,7 @@
 """
 Combine GeekTime 资料包 MD task files (实操任务 + SDD训练) into one Markdown file.
 Also extracts PDF 课件 from the package root and prepends it as a structured section.
-Uploads local images directly to Aliyun OSS via oss2 SDK.
+Uploads local images to Aliyun OSS via upload_oss.py (content-md5 keyed, idempotent).
 
 Usage:
     python3 organize.py <package_dir> <output_dir> [--filename <name>]
@@ -18,10 +18,7 @@ import argparse
 import datetime
 from pathlib import Path
 
-try:
-    import oss2
-except ImportError:
-    sys.exit("[ERROR] oss2 not installed. Run: pip install oss2")
+from upload_oss import get_bucket, upload_image as _oss_upload_image
 
 try:
     import fitz  # PyMuPDF
@@ -35,19 +32,10 @@ try:
 except ImportError:
     _ANTHROPIC_AVAILABLE = False
 
-# OSS configuration (mirrors PicGo settings)
-_OSS_ACCESS_KEY_ID     = os.environ.get("OSS_ACCESS_KEY_ID", "")
-_OSS_ACCESS_KEY_SECRET = os.environ.get("OSS_ACCESS_KEY_SECRET", "")
-_OSS_BUCKET_NAME       = "sky-obsidian-images"
-_OSS_ENDPOINT          = "https://oss-cn-shanghai.aliyuncs.com"
-_OSS_PATH_PREFIX       = "images/"
-_OSS_CUSTOM_DOMAIN     = "sky-obsidian-images.oss-cn-shanghai.aliyuncs.com"
+_bucket = get_bucket()
 
-_auth   = oss2.Auth(_OSS_ACCESS_KEY_ID, _OSS_ACCESS_KEY_SECRET)
-_bucket = oss2.Bucket(_auth, _OSS_ENDPOINT, _OSS_BUCKET_NAME)
-
-# Maps original abs path → remote URL, avoids re-uploading the same file twice.
-_cache: dict[str, str] = {}
+# Running totals for the final [DONE] summary line.
+_upload_stats = {"uploaded": 0, "skipped": 0, "failed": 0}
 
 # Bullet characters used in Chinese slide decks
 _BULLET_CHARS = frozenset("•·–—▪◦‣⁃")
@@ -55,31 +43,6 @@ _BULLET_CHARS = frozenset("•·–—▪◦‣⁃")
 # Math / logic operators that signal a key-insight line worth quoting.
 # Intentionally excludes plain "=" (too common in general text like "x = value").
 _MATH_OPS = frozenset("≠×÷→←⇒⟹")
-
-
-# ---------------------------------------------------------------------------
-# OSS upload
-# ---------------------------------------------------------------------------
-
-def upload_image(src_path: str, unique_name: str) -> str | None:
-    """Upload src_path to OSS as unique_name and return the public URL."""
-    if src_path in _cache:
-        return _cache[src_path]
-
-    if not os.path.exists(src_path):
-        print(f"  [WARN] not found: {src_path}", file=sys.stderr)
-        return None
-
-    ext = Path(src_path).suffix
-    oss_key = f"{_OSS_PATH_PREFIX}{unique_name}{ext}"
-    try:
-        _bucket.put_object_from_file(oss_key, src_path)
-        url = f"https://{_OSS_CUSTOM_DOMAIN}/{oss_key}"
-        _cache[src_path] = url
-        return url
-    except Exception as e:
-        print(f"  [ERROR] OSS upload failed for {src_path}: {e}", file=sys.stderr)
-        return None
 
 
 # ---------------------------------------------------------------------------
@@ -223,6 +186,9 @@ def _process_slide(page) -> tuple[str, str] | None:
 # Claude API — PDF restructuring
 # ---------------------------------------------------------------------------
 
+# ⚠️ 这份 prompt 是发给外部 Claude API 的独立字符串（--use-claude opt-in 分支），运行时无法
+# "引用"仓库里的 reference/visualization.md 文件，因此 Mermaid/色板/callout 规则在这里必须
+# 内嵌一份。改可视化规则时，这里和 reference/visualization.md 两处都要同步改。
 _PDF_RESTRUCTURE_PROMPT = """\
 以下是极客时间课件的 PDF 幻灯片逐页提取内容（标题 + 正文）。
 
@@ -395,13 +361,12 @@ def collect_md_files(md_folder: Path) -> list[Path]:
     )
 
 
-def process_md_file(md_file: Path, md_folder: Path, file_index: int, pkg_prefix: str) -> str:
+def process_md_file(md_file: Path, md_folder: Path) -> str:
     """
-    Read a single MD file, upload every local image with a unique OSS name,
-    and return the processed markdown content.
-
-    unique_name format: {pkg_prefix}_f{file_index:02d}_img{img_index:03d}
-    pkg_prefix (e.g. "p01") ensures images from different packages never overwrite each other.
+    Read a single MD file, upload every local image via upload_oss.py
+    (content-md5 keyed — identical images across files/packages dedupe to one
+    OSS object, and re-running never re-uploads), and return the processed
+    markdown content with image links rewritten to the OSS URL.
     """
     content = md_file.read_text(encoding="utf-8")
     img_pattern = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
@@ -417,12 +382,18 @@ def process_md_file(md_file: Path, md_folder: Path, file_index: int, pkg_prefix:
 
         abs_path = str(md_folder / rel_path)
         img_counter += 1
-        unique_name = f"{pkg_prefix}_f{file_index:02d}_img{img_counter:03d}"
 
-        url = upload_image(abs_path, unique_name)
+        url, status = _oss_upload_image(_bucket, abs_path)
         if url:
-            print(f"    [{img_counter}] {os.path.basename(rel_path)} → {url[url.rfind('/')+1:]}")
+            if status == "skipped":
+                _upload_stats["skipped"] += 1
+                tag = "已存在"
+            else:
+                _upload_stats["uploaded"] += 1
+                tag = "已上传"
+            print(f"    [{img_counter}] {os.path.basename(rel_path)} → {tag}: {url[url.rfind('/')+1:]}")
             return f"![{alt}]({url})"
+        _upload_stats["failed"] += 1
         return f"![{alt} ⚠️上传失败]({rel_path})"
 
     content = img_pattern.sub(replace_image, content)
@@ -470,7 +441,6 @@ def build_document(
     md_files: list[Path],
     md_folder: Path,
     package_dir: Path,
-    pkg_prefix: str,
     pdf_files: list[Path] | None = None,
     use_claude: bool = True,
 ) -> str:
@@ -517,7 +487,7 @@ def build_document(
     for i, md_file in enumerate(md_files, start=1):
         title = md_file.stem
         print(f"\n  [{i}/{len(md_files)}] {title}")
-        content = process_md_file(md_file, md_folder, file_index=i, pkg_prefix=pkg_prefix)
+        content = process_md_file(md_file, md_folder)
 
         # Demote any H1 headings in the content to H2 so the doc has one clear root
         content = re.sub(r"^# (.+)$", r"## \1", content, flags=re.MULTILINE)
@@ -707,7 +677,7 @@ def derive_filename(package_dir: Path, provided: str | None, pdf_files: list[Pat
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Combine 资料包 MD task files into one Markdown note"
+        description="Combine 资料包 MD task files into one Markdown note (notes-from-docs)"
     )
     parser.add_argument("package_dir", help="Path to the 资料包 directory")
     parser.add_argument("output_dir", help="Target output directory")
@@ -732,14 +702,10 @@ def main() -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Derive short package prefix from leading digits in directory name (e.g. "01资料包" → "p01")
-    m = re.match(r"^(\d+)", package_dir.name)
-    pkg_prefix = f"p{m.group(1).zfill(2)}" if m else "pkg"
-
     pdf_files = collect_root_pdfs(package_dir)
     output_path = output_dir / derive_filename(package_dir, args.filename, pdf_files or None)
 
-    print(f"[INFO] Package  : {package_dir.name}  (prefix={pkg_prefix})")
+    print(f"[INFO] Package  : {package_dir.name}")
     print(f"[INFO] MD folder: {md_folder.name}  ({len(md_files)} files)")
     if pdf_files:
         print(f"[INFO] PDF 课件 : {', '.join(f.name for f in pdf_files)}")
@@ -761,7 +727,7 @@ def main() -> None:
             print("[INFO] Claude重排: 跳过（默认，skill 执行者直接重排）")
         else:
             print("[INFO] Claude重排: 跳过（未设置 ANTHROPIC_API_KEY）")
-    doc = build_document(md_files, md_folder, package_dir, pkg_prefix, pdf_files=pdf_files or None, use_claude=use_claude)
+    doc = build_document(md_files, md_folder, package_dir, pdf_files=pdf_files or None, use_claude=use_claude)
 
     # Markdown table fixes
     print("\n[Table] 检查表格格式...")
@@ -786,7 +752,8 @@ def main() -> None:
 
     pdf_info = f", {len(pdf_files)} PDF(s) extracted" if pdf_files else ""
     mermaid_info = f", {mermaid_total} Mermaid 图表" + (f" ({mermaid_issues} 处警告)" if mermaid_issues else "")
-    print(f"\n[DONE] {output_path.name}  ({len(_cache)} images uploaded{pdf_info}{mermaid_info})")
+    total_images = _upload_stats["uploaded"] + _upload_stats["skipped"]
+    print(f"\n[DONE] {output_path.name}  ({total_images} images uploaded{pdf_info}{mermaid_info})")
 
 
 if __name__ == "__main__":

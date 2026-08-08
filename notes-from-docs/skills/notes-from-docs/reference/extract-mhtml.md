@@ -1,19 +1,17 @@
----
-name: mhtml-refine-to-md
-description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提取、深度提炼，并转换为结构化、包含 Mermaid 图解与 HTML/CSS 信息卡片、完美适配 Obsidian 的 Markdown 学习笔记。仅适用于极客时间（time.geekbang.org）站点的文章。
----
+# 格式专属流程 · 极客时间 .mhtml
 
-## 🚦 触发机制 (Trigger)
-当用户要求"总结"、"整理"、"提取"一个或多个**极客时间专栏** `.mhtml` 文件并输出为笔记/Markdown 时，自动触发。**非极客时间站点的 mhtml 不适用本 skill**（关键提取规则如 `data-slate-string`、`articleInfo` class、`resource/image` 路径均为极客时间专属）。
+本文件是 [SKILL.md](../SKILL.md) Step 0 路由到 `.mhtml` 输入时的完整流程。**仅适用于极客时间
+（time.geekbang.org）站点的文章**——关键提取规则如 `data-slate-string`、`articleInfo` class、
+`resource/image` 路径均为极客时间专属，非极客时间站点的 mhtml 不适用本流程。
+
+可视化规则（Mermaid + HTML 卡片模板/配色板）见 [visualization.md](visualization.md)，核查脚本
+用法见 [verification.md](verification.md)，时效性复查见 [freshness-check.md](freshness-check.md)。
 
 ## 📥 输入参数 (Inputs)
 - `Source_File`: 待处理的源 `.mhtml` 文件绝对路径。
 - `Target_Directory`: (可选) 笔记输出的目标目录。如果不指定，默认输出到 `/Users/fengyuhao/SecondBrain/200_Learning/` 下的相关课程目录。
 
-## ⚙️ 执行工作流 (Workflow)
-请严格按照以下步骤执行任务：
-
-### 1. 读取与解析 (Read & Parse)
+## B1 — 读取与解析 (Read & Parse)
 - 读取 `Source_File` 的原始内容，正确处理 mhtml 的 `Base64` 或 `quoted-printable` 编码分段。
 - **极客时间专栏 HTML 特性**：极客时间专栏使用 Slate.js 富文本渲染，正文所有文本存储在 `<span data-slate-string="true">` 元素中，**不在 `<p>` 标签内**。提取正文必须使用此选择器，而非常规 `<p>` 标签。
 - **🆕 文档类型判定（关键，决定后续可视化强度与核查阈值）**：极客时间专栏覆盖技术与非技术两大类，二者的提炼重点截然不同，必须先判定类型并记录，供 Step 3（可视化强度）与 Step 6（`--type` 阈值）使用。
@@ -38,9 +36,9 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
     提取后存为变量供后续章节标题（`## [作者名]说`）和署名使用。
 - **图片处理（必须逐张视觉核查，不得跳过）**：
 
-  **1a — 提取图片并获取原文字符数**：调用 skill 自带的提取脚本（已封装清空临时目录、封面识别、Slate 字符统计）：
+  **B1a — 提取图片并获取原文字符数**：调用 skill 自带的提取脚本（已封装清空临时目录、封面识别、Slate 字符统计）：
   ```bash
-  python3 __SKILL_DIR__/scripts/extract_images.py "<Source_File 的绝对路径>"
+  python3 __SKILL_DIR__/scripts/extract_mhtml_images.py "<Source_File 的绝对路径>"
   ```
   脚本输出：
   - 图片清单：每行 `<文件名> | <COVER|CONTENT> | <字节数> | <原始URL> [可选标注]`，存放在 `/tmp/geektime_imgs/`。`CONTENT` 待视觉核查，`COVER` 直接跳过。
@@ -49,16 +47,16 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
     - **先读同系列第 1 张**（如多张卡通厨师插画通常风格一致）
     - 若确认是"标题 + 一行特性描述"形态的装饰图 → **其余同系列图可直接 base on 文件名跳过 Read，不再进入上下文**
     - 在笔记中**默认省略 `[!INFO] 类比示意`**——这些图的文字内容已被正文覆盖，[!INFO] 块只是冗余复述
-    - 例外：若用户明确要求"逐图还原"，则按 Step 1c 正常处理
+    - 例外：若用户明确要求"逐图还原"，则按 B1c 正常处理
   - 末尾一行 `SLATE_CHARS: N`：原文正文纯字符数。**必须记录此 N 值**，Step 6 字数比例核查依赖它（笔记字符数应 ≥ N × 60%）。
 
-  脚本源码见 `scripts/extract_images.py`，可独立测试。
+  脚本源码见 `scripts/extract_mhtml_images.py`，可独立测试。
 
-  **1b — 逐张视觉分析（Read 工具查看每张图片）**：对 1a 提取的每张图，使用 Read 工具查看实际内容，记录：
+  **B1b — 逐张视觉分析（Read 工具查看每张图片）**：对 B1a 提取的每张图，使用 Read 工具查看实际内容，记录：
   - 图片类型（流程图 / 架构图 / 代码截图 / 配置截图 / 数据表格 / UI操作截图）
   - 图片中的**关键信息**：代码截图需记录实际代码内容；架构图需记录节点名称和关系；数据截图需记录关键数值
   - 在正文中的位置（对应哪段 Slate 文本之后）
-  - 处理决策（见 1c）
+  - 处理决策（见 B1c）
 
   **⚠️ 批量读取与上下文控制（必须遵守，防止请求体超限）**：图片超过 4 张时，**每读完 4 张立即将分析结果归纳为一张紧凑摘要表，再继续读下一批**。原始图片 base64 数据会快速撑大对话上下文；及时归纳摘要可将图片数据从"活跃上下文"中清出，避免后续 API 请求体超限崩溃。
 
@@ -69,9 +67,9 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
   | img001.png | 架构图 | Client→Gateway→Service→DB 四层 | Mermaid graph TD | 第2节"架构概览"后 |
   | img002.png | 代码截图 | Spring `@Async` + `CompletableFuture` 并发模式 | 代码块(java) | 第4节示例后 |
 
-  **1c — 按类型决定处理方式**（基于视觉分析，而非文字推测）：
-  - **信息图 / 总览图 / 多分区架构图**（特征：≥3 个**并列彩色面板**、多卡片网格、章节式分区，如"课程总览七大部分"、"五层架构总览"、"知识体系大图"、"方法论矩阵"）→ **HTML/CSS 卡片**（见 Step 3·A）。**禁止用 Mermaid 重绘这类图**——Mermaid 的 dagre 自动布局算法做不出"设计师手工排版"的卡片矩阵质感，强行画只会得到丑陋的树形噪音图。
-  - **流程图 / 时序图 / 状态机 / 决策树 / 单一关系图 / 思维导图**（特征：节点之间有**明确的方向连接**、强调"动态/拓扑"而非"分区/陈列"）→ Mermaid（见 Step 3·B）
+  **B1c — 按类型决定处理方式**（基于视觉分析，而非文字推测；完整选型表见 [visualization.md](visualization.md)）：
+  - **信息图 / 总览图 / 多分区架构图**（特征：≥3 个**并列彩色面板**、多卡片网格、章节式分区，如"课程总览七大部分"、"五层架构总览"、"知识体系大图"、"方法论矩阵"）→ **HTML/CSS 卡片**。**禁止用 Mermaid 重绘这类图**——Mermaid 的 dagre 自动布局算法做不出"设计师手工排版"的卡片矩阵质感，强行画只会得到丑陋的树形噪音图。
+  - **流程图 / 时序图 / 状态机 / 决策树 / 单一关系图 / 思维导图**（特征：节点之间有**明确的方向连接**、强调"动态/拓扑"而非"分区/陈列"）→ Mermaid
   - **代码截图** → 将图中可读取的实际代码提炼为代码块（保留语言、关键注释），置于对应正文位置
   - **数据表格 / 参数截图** → 将截图中的数据以 Markdown 表格还原，保持原有行列结构
   - **UI 操作截图 / 配置界面** → 写 `[!INFO] 📷 图示：`，内容不少于 3 句话，说明截图展示的具体界面、操作步骤和关键结论
@@ -119,12 +117,12 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
   - [ ] 类比: 沟通通道 ≈ 技术模块间的"连接"
   ```
 
-### 2. 内容提炼与重构 (Distill & Restructure)
+## B2 — 内容提炼与重构 (Distill & Restructure)
 
 **⚠️ 写作前必须执行：内容完整性核查**
-1. 对照 Step 1 的**章节级覆盖清单**，逐项确认每个章节级标题（H1 或 H2，取决于本文判定结果）在笔记中均有对应的 `##` 或 `###` 节覆盖。
+1. 对照 B1 的**章节级覆盖清单**，逐项确认每个章节级标题（H1 或 H2，取决于本文判定结果）在笔记中均有对应的 `##` 或 `###` 节覆盖。
 2. **不得以"与其他章节重复"为由跳过任何章节级标题**——若内容有交叉，也须单独成节（或作为 `###` 子节），保留该视角的核心论述。
-3. 若 Step 1 识别到的 M > 0，确认 M 个作者旁白块已全部收入 `## [作者名]说`，不得因"内容已在正文中体现"而删减；若 M = 0，跳过该章节。
+3. 若 B1 识别到的 M > 0，确认 M 个作者旁白块已全部收入 `## [作者名]说`，不得因"内容已在正文中体现"而删减；若 M = 0，跳过该章节。
 
 将提炼后的内容重新组织为以下笔记结构（根据文章内容选用适合的章节，**不强制全部包含**）：
 
@@ -157,7 +155,7 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
 ---
 
 ## [作者名]说（仅当 M > 0 时包含）
-（完整保留 Step 1 识别到的 M 个作者旁白块，每段独立一个 [!QUOTE] callout，末尾署名 `— [作者名]`；章节标题中的「作者名」替换为 Step 1 提取到的实际作者名，如「咖哥说」「张磊说」「Robert说」。若 M = 0（极客时间专栏常见情况），整节省略）
+（完整保留 B1 识别到的 M 个作者旁白块，每段独立一个 [!QUOTE] callout，末尾署名 `— [作者名]`；章节标题中的「作者名」替换为 B1 提取到的实际作者名，如「咖哥说」「张磊说」「Robert说」。若 M = 0（极客时间专栏常见情况），整节省略）
 
 ---
 
@@ -185,26 +183,13 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
 - **🆕 桥接逻辑与关键类比不得省略**：原文中连接两个论点的因果推导句（"正因为如此……""这就解释了……为什么……""这一样绝非偶然"）承载作者论证的核心因果链，必须在对应段落保留其逻辑；作者用于解释抽象概念的关键类比也须原样保留（类比是软技能类文章最有效的解释机制）。
 - **原文参考表格与目录结构必须完整保留**：比较表、配置参数表、目录结构树等，直接以 Markdown 表格或 plain code block 原样呈现，不得压缩为描述性文字。
 - **plain code block 的使用场景**：对于层级文本、目录树、结构化列表等"参考型"内容，使用普通 ` ``` ` 代码块（不带语言标注），而非强制转为 Mermaid；Mermaid 保留给需要展示"关系与动态"的内容。
-- **图片内容还原**（基于 Step 1b 的视觉分析结果，按 Step 1c 的决策执行，不再重复推测）：
-  - Step 1c 中已确定处理方式的图，在笔记对应位置按决策输出（**HTML 卡片** / Mermaid / 代码块 / 表格 / [!INFO]）。
+- **图片内容还原**（基于 B1b 的视觉分析结果，按 B1c 的决策执行，不再重复推测）：
+  - B1c 中已确定处理方式的图，在笔记对应位置按决策输出（**HTML 卡片** / Mermaid / 代码块 / 表格 / [!INFO]）。
   - **主动新增图/卡**：即便原文某处没有图片，若该段文字描述了**关系/流程/对比/层级/时序**，主动生成 Mermaid；若描述的是**多分区陈列/总览/方法论矩阵**，主动生成 HTML 卡片。不受原文图片数量限制。
-  - **可视化模式选型表**（按内容形态选工具，而不是按"原文有没有图"）：
-
-    | 内容形态 | 工具 | 典型场景 |
-    |---|---|---|
-    | 多分区**陈列**（≥3 并列面板，无方向连接） | **HTML 卡片** | 课程七大部分、五层架构总览、方法论矩阵、知识体系 |
-    | **层级**结构（有上下父子关系，节点 ≤6） | Mermaid `graph TD` + subgraph | 系统三层模型、调用栈 |
-    | **流程 / 链路 / 步骤** | Mermaid `graph TD/LR` | 请求处理流程、CI/CD 流水线 |
-    | **时序 / 交互** | Mermaid `sequenceDiagram` | OAuth 握手、RPC 调用 |
-    | **状态 / 生命周期** | Mermaid `stateDiagram-v2` | 订单状态机、连接生命周期 |
-    | **决策树 / 选型** | Mermaid `graph TD` + 菱形 | "什么时候用 X / Y" |
-    | **思维导图 / 全文俯瞰** | Mermaid `mindmap` | 总结章节 |
-    | **属性对比 / 参数速查** | Markdown 表格 | 方案对比表、配置参数 |
-    | **目录 / 文件树** | plain code block | 工程目录结构 |
-
+  - 可视化模式选型表见 [visualization.md](visualization.md#可视化模式选型表)。
   - **关键判断**："**有方向的拓扑** → Mermaid"；"**无方向的陈列** → HTML 卡片"；"**精确查找** → 表格"。
   - **典型误判案例**：
-    - 原文是"七大模块"的彩色分区图 → ❌ 千万别画 `ROOT --> M1 --> M1A` 的 Mermaid 树（自动布局会乱、丑），✅ 用 HTML 卡片（见 Step 3·A）
+    - 原文是"七大模块"的彩色分区图 → ❌ 千万别画 `ROOT --> M1 --> M1A` 的 Mermaid 树（自动布局会乱、丑），✅ 用 HTML 卡片
     - 原文是"五层架构"流程：每层独立分区且互无连接 → HTML 卡片；若每层之间有数据流箭头 → Mermaid
   - 所有可视化块上方注明 `> 📊 [内容描述]`，下方 1-2 句话提炼核心结论。
 - **作者旁白完整保留**：识别到的所有作者旁白块（M > 0 时）必须全部保留，不得因"与正文重复"而删减，这是作者的教学设计核心；M = 0 时本规则不适用。
@@ -222,13 +207,15 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
 - **长代码分段**：超过 25 行的代码块，用注释行（`# --- 分段标题 ---`）在块内分段，方便定位。
 - **❌/✅ 对比示例**：展示"错误做法 vs 正确做法"时，用两个独立代码块，分别在上方标注 `**❌ 不推荐**` 和 `**✅ 推荐**`，而非在同一代码块内混合。
 
-### 3. 可视化生成 (Visualize)
+## B3 — 可视化生成 (Visualize)
 
 **核心原则：图是为了"看图就懂"，不是装饰**。读者扫一眼图就应该明白这个概念/流程/关系，不必回到正文找解释。可视化块**不设上限，鼓励多图**。
 
-**双轨制**：本 skill 用两种工具做可视化，必须按 Step 1c / Step 2 的选型表判断用哪种：
+**双轨制**：本流程用两种工具做可视化，必须按 B1c / B2 的选型表判断用哪种：
 - **A. HTML/CSS 卡片** —— 多分区陈列、总览信息图、方法论矩阵等"无方向拓扑"的内容
 - **B. Mermaid** —— 流程、时序、状态、决策树、思维导图等"有方向拓扑"的内容
+
+两者的完整规则、模板、配色板见 [visualization.md](visualization.md)。
 
 **图配文规范（两者共用）**：
 - 块**上方**：一句话用 `> 📊 [描述]` 引用块说明这张图想表达什么
@@ -236,185 +223,9 @@ description: 将本地下载的极客时间专栏 `.mhtml` 网页文件自动提
 
 **可视化数量下限**：每篇笔记至少 2 个可视化块（Mermaid + HTML 任意组合），且总结章节必须包含 1 个 `mindmap`。
 - **`technical` 类**：鼓励多图（代码块/Mermaid/表格/卡片密集）。
-- **`conceptual` 类**：可视化为辅助，**总结 1 个 mindmap + 正文按内容形态选 1 个图即可达标**；其第 2 个可视化块允许是 Mermaid（如逻辑递进流程图），**不要为凑"HTML 卡片"而把本就不是多分区陈列的内容硬塞成卡片**——精力应优先用于散文保真（见 Step 2 的枚举/桥接/N个要素规则）。
+- **`conceptual` 类**：可视化为辅助，**总结 1 个 mindmap + 正文按内容形态选 1 个图即可达标**；其第 2 个可视化块允许是 Mermaid（如逻辑递进流程图），**不要为凑"HTML 卡片"而把本就不是多分区陈列的内容硬塞成卡片**——精力应优先用于散文保真（见 B2 的枚举/桥接/N个要素规则）。
 
----
-
-#### 3.A HTML/CSS 卡片（用于多分区信息图）
-
-**为什么用 HTML 而不是 Mermaid**：Mermaid 是 dagre 自动布局，节点位置由算法决定，做不出"卡片矩阵+色面板+整齐对齐"的设计感。HTML+inline CSS 完全可控，且 Obsidian 原生渲染，无需任何插件。
-
-**🚨 铁律 1：HTML 块内禁止出现空行**
-Obsidian 的 markdown 处理器看到空行会把后面的 `<div>` 包进新的 `<p>`，**直接破坏 CSS Grid / Flex 的父子关系**，导致 grid 退化成单列、flex 间距错乱。所有 `<div>` 之间**不能有任何空行**，整个卡片块必须是连续的一整段 HTML。
-
-**铁律 2：只用 inline `style=` 属性**
-不要在笔记里引入 `<style>` 标签或外部 CSS——Obsidian 会过滤。所有样式必须写在 `style=` 内联属性中。
-
-**铁律 3：禁止外部资源**
-HTML 卡片不得引用任何外部 URL（图片、字体、JS）。
-
-**🚨 铁律 4：HTML 卡片结束的 `</div>` 与紧随其后的 `>` callout/引用块之间，必须插入一个空行**
-Obsidian 的 Markdown 渲染器处理 HTML 块时，必须看到一个空行才能切换回正常的 Markdown 解析模式。若 `</div>` 与 `> [!NOTE]` / `> 📊` 等 callout 之间无空行，渲染器停留在 HTML 上下文，`>` 被当作 HTML 原文，callout/引用块以**纯文本**直接展示。
-```
-❌ 错误：
-</div>
-> [!NOTE] 核心结论……
-
-✅ 正确：
-</div>
-
-> [!NOTE] 核心结论……
-```
-这同样适用于 HTML 卡片下方的 `> 📊 [图说明]` 引用行——卡片与图配文之间也必须有空行。
-
-**两种核心模板**：
-
-**模板 A1 — 列表卡片（纵向堆叠，每张大卡片内含子标签）**
-适用于：课程章节总览、五层架构、分区式知识图
-结构：外层 `flex column` 容器 → 每个分区一个色面板卡片 → 卡片内含 header 行（emoji + 加粗标题 + 副标题）和 chips 行（白底色边小标签）
-
-```html
-<div style="display:flex; flex-direction:column; gap:10px; margin:1em 0;">
-  <div style="background:#FCE4EC; border:2px solid #C2185B; border-radius:10px; padding:14px;">
-    <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-      <span style="font-weight:bold; color:#880E4F; font-size:1.05em;">🧠 第一部分 · 认知篇</span>
-      <span style="color:#AD1457; font-size:0.85em;">你是架构师，AI 是团队</span>
-    </div>
-    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-      <span style="background:#fff; border:1.5px solid #C2185B; color:#880E4F; padding:6px 12px; border-radius:6px; font-size:0.9em;">三层分工模型</span>
-      <span style="background:#fff; border:1.5px solid #C2185B; color:#880E4F; padding:6px 12px; border-radius:6px; font-size:0.9em;">规范驱动开发 SDD</span>
-    </div>
-  </div>
-  <!-- 下一个分区卡片紧接着写，不能空行 -->
-</div>
-```
-
-**模板 A2 — 网格卡片（2 列 / 3 列网格，每张同等大小）**
-适用于：方法论矩阵、能力九宫格、特性对比卡
-结构：外层 `display:grid; grid-template-columns:repeat(N, 1fr)` → 每张卡片同结构（标题 + 描述）
-
-```html
-<div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin:1em 0;">
-  <div style="background:#E8F5E9; border:1.5px solid #2E7D32; border-radius:8px; padding:12px;">
-    <div style="font-weight:bold; color:#1B5E20; margin-bottom:6px; font-size:1em;">🧩 三层分工</div>
-    <div style="color:#2E7D32; font-size:0.85em; line-height:1.5;">你负责思考<br/>AI / Agent 负责执行</div>
-  </div>
-  <!-- 下一张紧接着写，不能空行 -->
-</div>
-```
-
-**卡片配色板**（7 色循环，对每个分区/卡片分配一种色组，保持视觉区分度）：
-
-| 色系 | 面板底色 | 边框色 | 文字色（标题/正文） |
-|---|---|---|---|
-| 粉 | `#FCE4EC` | `#C2185B` | `#880E4F` / `#AD1457` |
-| 橙 | `#FFF3E0` | `#E65100` | `#BF360C` / `#E65100` |
-| 黄绿 | `#F1F8E9` | `#558B2F` | `#33691E` / `#558B2F` |
-| 绿 | `#E8F5E9` | `#2E7D32` | `#1B5E20` / `#2E7D32` |
-| 青 | `#E0F2F1` | `#00695C` | `#004D40` / `#00695C` |
-| 蓝 | `#E3F2FD` | `#1565C0` | `#0D47A1` / `#1565C0` |
-| 紫 | `#F3E5F5` | `#6A1B9A` | `#4A148C` / `#6A1B9A` |
-| 琥珀（备用） | `#FFF8E1` | `#F57F17` | `#E65100` / `#F57F17` |
-
-**配色应用原则**：
-- 每个分区/卡片**单独分配一种色组**（不要重复，按"粉→橙→黄绿→绿→青→蓝→紫"顺序循环）
-- 一个分区内：面板用浅底色 + 中等边框；内部 chips/子卡用白底/浅底 + 同色边框 + 深色文字
-- 不同分区色组互不混用
-
-**写卡片的硬性要求**：
-- emoji 图标放在标题前（🧠 🏛 🏗 ⚙️ 🚀 🧪 🎓 🧩 🔍 📈 💬 🚚 🔄 等），帮助分区识别
-- 标题用 `font-weight:bold`；副标题用 0.85em + 中等饱和度色
-- 子标签 chip：`padding:6px 12px; border-radius:6px; font-size:0.9em`
-- 卡片整体：`border-radius:8-10px; padding:12-14px`
-- 卡片之间：`gap:10px`（不要用 `margin`，用 flex/grid 的 `gap`）
-
----
-
-#### 3.B Mermaid（用于流程/时序/状态/决策/思维导图）
-
-**Mermaid 适用范围（再次强调）**：节点之间有**明确方向连接**的图——流程、时序、状态、决策、思维导图、类图、ER。
-**禁止用 Mermaid 画**：多分区陈列总览图（用 HTML 卡片）、方法论矩阵（用 HTML 卡片）。
-
-| 内容类型 | 推荐图表 | Mermaid 语法 |
-|---|---|---|
-| 流程 / 链路 / 步骤 | 流程图 | `graph TD` 或 `graph LR` |
-| 时序 / 交互 / 调用链 | 时序图 | `sequenceDiagram` |
-| 思维导图 / 全文俯瞰 | 思维导图 | `mindmap` |
-| 类 / 接口 / 继承 | 类图 | `classDiagram` |
-| 数据模型 / 表关系 | ER 图 | `erDiagram` |
-| 状态机 / 生命周期 | 状态图 | `stateDiagram-v2` |
-
-**🚫 禁止的 Mermaid 反模式**：
-- **ROOT + 树形扇出**：用一个根节点连出 N 条边到各个 subgraph 标题节点（如 `ROOT --> P1T`、`ROOT --> P2T`…）——这种图视觉噪音极大，且本质上是"分区陈列"，应改用 HTML 卡片
-- **subgraph 之间用 `~~~` 强连**：会让外层 TB 方向覆盖 subgraph 内的 `direction LR`，导致子项错乱。需要顺序时让 Mermaid 自然按声明顺序排
-- **subgraph 内子项之间用 `~~~`**：除非确实需要强制水平线性，否则不要用——会产生意外的不可见连线
-- **节点显示标签用单字母**：`A[X]` `B[Y]` 这种是大忌；节点 ID 可以用字母，但 `[...]` 内的显示文字必须是有意义的中文/术语
-
-**🚨 铁律：节点内换行必须用 `<br/>`，绝对禁止 `\n`**
-Mermaid 渲染器**不识别** `\n` 转义符——写 `A["第一行\n第二行"]` 在 Obsidian 里只会原样显示反斜杠 n，完全不换行。正确写法是 `A["第一行<br/>第二行"]`，且节点标签须用双引号包裹。
-
-**❌ 错误（常见踩坑）**：
-```
-S1["第一步\n项目骨架\nVue3+Vite"] --> S2["第二步\naxios层"]
-```
-**✅ 正确**：
-```
-S1["第一步<br/>项目骨架<br/>Vue3+Vite"] --> S2["第二步<br/>axios层"]
-```
-
-**图表详细度要求**：
-- **节点标签自带语义**：❌ `A[模型层]` → ✅ `A["模型层<br/>提供 LLM 能力"]`
-- **边必须带标签**：❌ `A --> B` → ✅ `A -->|调用| B`，让人不用看正文也能读懂连线含义
-- **决策点用菱形 + 分支标签**：`A{需要异步?} -->|是| B[消息队列]` `A -->|否| C[同步调用]`
-- **关键节点用色彩区分**：起点绿、核心蓝、结果橙、风险红（见统一色板）
-
-**统一色板（Mermaid 节点高亮）**：
-| 节点语义 | 颜色 | 样式写法 |
-|---|---|---|
-| 起点 / 入口 | 绿色 | `fill:#4CAF50,stroke:#388E3C,color:#fff` |
-| 核心概念 / 重点 | 蓝色 | `fill:#2196F3,stroke:#1565C0,color:#fff` |
-| 结果 / 输出 | 橙色 | `fill:#FF9800,stroke:#E65100,color:#fff` |
-| 风险 / 警告 | 红色 | `fill:#f44336,stroke:#B71C1C,color:#fff` |
-| 普通节点（默认）| 浅灰 | 不加 style，使用 Mermaid 默认 |
-
-**各图表类型细化规范**：
-- `graph TD`：流程首选，链路/对比选 `graph LR`
-- `sequenceDiagram`：参与者名称使用中文；消息描述简短（≤ 15 字）；用 `Note over` 标注关键说明
-- `mindmap`：根节点为文章核心主题；第二层为各 `##` 章节；第三层为关键要点；层级不超过 4 层。总结章节的 mindmap 应覆盖全文所有 `##` 章节。
-
-  **🚨 mindmap 是 Mermaid 中对缩进最敏感的图类型——它没有 `-->` 连接符，父子层级完全靠缩进深度推断。必须严格遵守以下铁律，否则在 Obsidian 中直接报错不渲染：**
-
-  1. **栅栏必须是 ` ```mermaid `，绝不能写 ` ```mindmap `**。Obsidian 只渲染 `mermaid` 栅栏；`mindmap` 关键字写在栅栏内的第一行（顶格，不缩进）。
-  2. **有且只有一个 root，且 root 必须缩进**（比 `mindmap` 关键字深，推荐 2 空格）。mindmap 把"缩进最浅的那一层"识别为 root，若有两行处于同一最浅缩进，Mermaid 会报错 **"There can be only one root"**。
-  3. **缩进必须逐层一致递增**（每深一层 +2 空格）：同级节点缩进必须**完全相同**，子节点必须**严格比父节点更深**。最常见的错误就是"只给前几行加了缩进，后面的兄弟节点忘了同步" → 导致后面的节点意外升到 root 层 → 多 root 报错。
-  4. **节点文字避免特殊字符**：`→`、`≠`、`（）`、`：`、`#` 等可能破坏解析。换行用 `<br/>`（root 形状 `root((文字))` 内部也不要再嵌套括号）。
-
-  **✅ 唯一正确的 mindmap 写法（请严格照抄此缩进结构）**：
-  ```mermaid
-  mindmap
-    root((文章核心主题))
-      第一章节
-        要点一
-        要点二
-      第二章节
-        要点三
-        要点四
-  ```
-  对应缩进：`mindmap`=0 空格 → `root`=2 空格 → 一级分支=4 空格 → 二级要点=6 空格。
-
-  **❌ 三种会报错的错误写法**：
-  ```
-  ```mindmap          ← 错误1：栅栏写成 mindmap，Obsidian 不渲染
-  root((主题))         ← 错误2：root 顶格未缩进，与 mindmap 同级
-    分支一
-  分支二              ← 错误3：兄弟节点缩进不一致，被当成第二个 root
-  ```
-
-  > **稳健性提示**：mindmap 对缩进极度脆弱，且依赖 Obsidian 内置 Mermaid 版本（9.3.0+ 才支持）。若多次生成仍报错，可降级为 `graph TD`（根节点用蓝色高亮 + 各 `##` 章节作为一级子节点，用 `-->` 连接），它在所有版本都稳定渲染，可作为 mindmap 的可靠替代。
-- `stateDiagram-v2`：明确 `[*]` 起止；转移条件写在箭头上
-- 复杂图（>8 节点）用 `subgraph 分组名` 归组，但**不要在 subgraph 之间加连线**——让 dagre 自然排列即可
-
-### 4. Obsidian 格式化 (Format for Obsidian)
+## B4 — Obsidian 格式化 (Format for Obsidian)
 
 **Frontmatter**（文件最顶部的 YAML 元数据）：
 ```yaml
@@ -456,7 +267,7 @@ source: "[原始mhtml文件名]"
 - **关键词加粗**：使用 `**文本**` 强调核心术语（每段不超过 2 处）。
 - **禁止外部资源**：正文中不得插入 Base64 图片、外部图片 URL、`<img src="http..."`、外部 `<style>` 标签或外部脚本；HTML 卡片的 inline `<div>/<span>` + inline `style=` 属性不受此限。
 
-### 5. 文件写入 (Write File)
+## B5 — 文件写入 (Write File)
 - **文件命名规则**：`[讲次编号]-[简短主题].md`
   - 讲次编号：从文章标题前缀提取（如 `01`、`09`、`23`）；无数字编号时保留文字前缀（如 `开篇词`、`热点速递`）。
   - 简短主题：4-8 个汉字，概括文章核心，不含特殊字符。
@@ -509,29 +320,29 @@ source: "[原始mhtml文件名]"
 
   > **`## 总结` 的 mindmap**：mindmap 图表内容复杂、生成耗时较长，必须单独作为最后一步写入，不要与其他章节合并。
 
-- 所有章节追加完成后**不要在对话框中打印笔记正文**（避免冗余刷屏），但**必须继续执行 Step 6 的回读核查并输出 checklist 与完成报告**。
+- 所有章节追加完成后**不要在对话框中打印笔记正文**（避免冗余刷屏），但**必须继续执行 B6 的回读核查并输出 checklist 与完成报告**。
 
-### 6. 后置质量核查 (Post-Write Verification)
+## B6 — 后置质量核查 (Post-Write Verification)
 
-**通过 Bash 命令核查，禁止用 Read 工具整体回读大文件**（文件全文重新进入上下文，叠加前面的 mhtml 原文 + 图片 base64 数据，会直接触发请求体超限错误）。逐条执行下方命令，根据输出填写 checklist。占位符替换：`<FILE>` = 笔记绝对路径；`<SOURCE_MHTML>` = 原始 .mhtml 绝对路径；`<TYPE>` = Step 1 判定的文档类型（`technical` 或 `conceptual`）；`__SKILL_DIR__` = 本 skill 目录。
+命令用法、脚本原理与错误码含义见 [verification.md](verification.md)。占位符替换：`<FILE>` = 笔记绝对路径；
+`<SOURCE_MHTML>` = 原始 .mhtml 绝对路径；`<TYPE>` = B1 判定的文档类型（`technical` 或 `conceptual`）；
+`__SKILL_DIR__` = 本 skill 目录。
+
+**通过 Bash 命令核查，禁止用 Read 工具整体回读大文件**（文件全文重新进入上下文，叠加前面的 mhtml 原文 + 图片 base64 数据，会直接触发请求体超限错误）。
 
 ```bash
 # 核查 1：文件存在且有实质内容（字符数 > 1000）
 wc -m <FILE>
 
-# 🆕 核查 8 & 11：内容完整性机械核查（替代旧的"wc -m ≥ 60%"——旧法把 HTML/Mermaid 标记
-#   也计入字符数，堆图即可虚高达标，无法发现散文流失。本脚本剥标记后只数纯散文，并机械
-#   核验关键数字与长枚举是否丢失。<TYPE> 用 Step 1 判定的类型：technical 或 conceptual）
+# 核查 8 & 11：内容完整性机械核查（见 verification.md）
 python3 __SKILL_DIR__/scripts/verify_content.py "<SOURCE_MHTML>" <FILE> --type <TYPE>
-#   读输出：RATIO 行需 PASS；"关键数字核查"/"长顿号枚举核查"出现 [MISSING]/[FLAG] 时，
-#   回到原文确认是否确属遗漏——若是，补回对应内容后重新运行脚本，直至无告警。
 
 # 核查 2：Frontmatter 字段（期望输出 5 行，覆盖 title/course/tags/date/source）
 grep -E "^(title|course|tags|date|source):" <FILE>
 # 核查 2b：tags 列表非空（期望输出 ≥ 2，至少 geektime + 1 个领域标签）
 awk '/^tags:/{flag=1; next} flag && /^[^[:space:]-]/ {flag=0} flag && /^[[:space:]]*-/{count++} END{print count+0}' <FILE>
 
-# 核查 3：章节级标题列表（对照 Step 1 覆盖清单逐一确认）
+# 核查 3：章节级标题列表（对照 B1 覆盖清单逐一确认）
 grep "^## " <FILE>
 
 # 核查 4：可视化块计数
@@ -559,7 +370,6 @@ print(count)
 "
 
 # 核查 12：</div> 后缺空行直接跟 > callout/引用块（期望输出 OK）
-# 根因：Obsidian 渲染器需要空行才能从 HTML 模式切换回 Markdown 解析模式
 python3 -c "
 content = open('<FILE>').read()
 lines = content.split('\n')
@@ -580,7 +390,7 @@ for b in blocks:
     lines = [l for l in b.split('\n') if l.strip()]
     if not lines or lines[0].strip() != 'mindmap':
         continue
-    body = lines[1:]  # 去掉 mindmap 关键字行
+    body = lines[1:]
     if not body:
         continue
     indents = [len(l) - len(l.lstrip()) for l in body]
@@ -594,21 +404,21 @@ print('OK' if not errs else 'MINDMAP ERRORS: ' + ' | '.join(errs))
 "
 ```
 
-基于以上命令输出结果执行以下 7 项核查，以 checklist 形式输出结果：
+基于以上命令输出结果执行以下 12 项核查，以 checklist 形式输出结果：
 
 | # | 核查项 | 通过标准 |
 |---|---|---|
 | 1 | 文件存在且有实质内容 | 文件可读，字符数 > 1000 |
 | 2 | Frontmatter 完整 | 包含 title / course / tags / date / source 五个字段；`tags` 列表至少含 2 项（geektime + 领域标签） |
-| 3 | 章节级覆盖无遗漏 | 对照 Step 1 的章节级覆盖清单，原文每个有效章节级标题在笔记中有对应章节；**扁平叙述型文章**则核对 Step 1 识别的每个「逻辑主题块」是否已归入笔记某个 `##`/`###` 节（而非核对字面标题） |
-| 4 | 可视化块充分 | ① 至少 2 个可视化块（Mermaid + HTML 卡片任意组合），且总结章节必须含 1 个 `mindmap`；② Mermaid 不出现单字母显示标签（节点 ID 可字母但 `[...]` 内显示文字必须有意义）；③ 有方向的 graph 箭头中至少 80% 带 `\|文字\|` 关系说明；④ **若**使用 HTML 卡片，必须用 Step 3·A 的两种模板之一，包含 emoji 图标 + 配色板（`conceptual` 类允许 2 个可视化块均为 Mermaid、不强制出现 HTML 卡片，见 Step 3 可视化数量下限） |
+| 3 | 章节级覆盖无遗漏 | 对照 B1 的章节级覆盖清单，原文每个有效章节级标题在笔记中有对应章节；**扁平叙述型文章**则核对 B1 识别的每个「逻辑主题块」是否已归入笔记某个 `##`/`###` 节（而非核对字面标题） |
+| 4 | 可视化块充分 | ① 至少 2 个可视化块（Mermaid + HTML 卡片任意组合），且总结章节必须含 1 个 `mindmap`；② Mermaid 不出现单字母显示标签（节点 ID 可字母但 `[...]` 内显示文字必须有意义）；③ 有方向的 graph 箭头中至少 80% 带 `\|文字\|` 关系说明；④ **若**使用 HTML 卡片，必须用 [visualization.md](visualization.md) 的两种模板之一，包含 emoji 图标 + 配色板（`conceptual` 类允许 2 个可视化块均为 Mermaid、不强制出现 HTML 卡片，见 B3 可视化数量下限） |
 | 5 | HTML 卡片块内无空行 | 用 `grep -Pzo '<div[^>]*style="[^"]*display:(grid\|flex)[^"]*"[^>]*>[\s\S]*?</div>'` 抽取每个卡片容器后，**容器内不得有 `\n\s*\n`**（连续两个换行）。**这是 HTML 卡片能否正确渲染的硬条件**——失败则 Obsidian 会把子 `<div>` 包进 `<p>`，破坏 grid/flex |
 | 6 | 思考题处理正确 | 原文有思考题 → 笔记中有 `[!QUESTION]` 和折叠参考答案；原文无 → 该项自动通过 |
 | 7 | 无外部资源污染 | 笔记中不含 `![](https://`、`<img src="http`、外部 `<style>` 标签或外部脚本引用；HTML 卡片的 inline `<div>/<span>` 不违反此规则 |
 | 8 | 散文未过度压缩 | `verify_content.py` 输出的 `RATIO` 行为 **PASS**（剥离 HTML/Mermaid 标记后的纯散文字符 ≥ SLATE_CHARS × 阈值；technical 60% / conceptual 80%）。⚠️ 不再用 `wc -m` 整篇字符数判断——那会被可视化标记撑高而虚假达标 |
 | 9 | Mermaid 节点无 `\n` 换行 | 所有 mermaid 代码块内的节点标签不含 `\n` 转义符（期望核查命令输出 `0`）；换行必须用 `<br/>` |
 | 10 | mindmap 结构合法 | ① 栅栏是 ` ```mermaid ` 而非 ` ```mindmap `（核查 4b 输出 `0`）；② 核查 10 输出 `OK`——root 已缩进且只有一个 root 层节点，缩进逐层一致。这是 mindmap 能否在 Obsidian 渲染的硬条件，失败则报 "There can be only one root" 等错误 |
-| 11 | 关键内容元素无丢失 | `verify_content.py` 的"关键数字核查"无 `[MISSING]`、"长顿号枚举核查"无 `[FLAG]`；若有，回原文确认确属遗漏的须补回（对照 Step 1 的"关键内容元素清单"）。脚本只抓离散 token 丢失，**"N个X 结构提到但未展开"仍需人工对照 Step 2 散文规则判断** |
+| 11 | 关键内容元素无丢失 | `verify_content.py` 的"关键数字核查"无 `[MISSING]`、"长顿号枚举核查"无 `[FLAG]`；若有，回原文确认确属遗漏的须补回（对照 B1 的"关键内容元素清单"）。脚本只抓离散 token 丢失，**"N个X 结构提到但未展开"仍需人工对照 B2 散文规则判断** |
 | 12 | HTML 卡片 `</div>` 后有空行 | 核查 12 输出 `OK`——HTML 卡片结束的 `</div>` 与后续 `>` callout/引用块之间均有空行（无空行会导致 callout 以纯文本展示） |
 
 **HTML 卡片空行检查的简化命令**（可直接复制执行）：
@@ -617,7 +427,6 @@ print('OK' if not errs else 'MINDMAP ERRORS: ' + ' | '.join(errs))
 python3 -c "
 import re, sys
 content = open('<FILE>').read()
-# 匹配所有 display:grid 或 display:flex 的顶层 div 块
 pattern = re.compile(r'<div[^>]*style=\"[^\"]*display:(grid|flex)[^\"]*\"[^>]*>(.*?)</div>\s*(?=<div|\n##|\n---|\Z)', re.DOTALL)
 violations = []
 for m in pattern.finditer(content):
@@ -657,139 +466,3 @@ print('VIOLATIONS at lines:', violations) if violations else print('OK')
 - **内容深度**：笔记字数不少于原文核心内容的 60%，不允许过度压缩导致关键细节丢失。
 - **思考题处理**：若文章含"思考题"H2（正式课程讲次通常有），必须完整保留并附参考答案；若文章无思考题（开篇词、热点速递等特殊讲次），跳过该章节，不强制。
 - **示例代码语言偏好（重要）**：当原文未指定语言、或在回答后续问题时需要**自创**代码示例（包括思考题参考答案、最佳实践演示、对比示例等），**必须**使用 **Java** 或 **Python**，**不得使用 Go**。理由：用户日常开发栈为 Java + Python，Go 示例无助于其落地理解。例外情况：① 原文本身就是 Go 代码 → 完整保留原文 Go 代码不翻译；② 原文明确讨论 Go 生态特性（如 goroutine、channel）→ 保留 Go 示例并补一段 Java/Python 的等价实现作对照。
-
----
-
-## Step 7 — 时效性复查（按需执行，非日常转换流程的一部分）
-
-### 触发方式
-
-用户对**已有笔记**发起时效性检查时触发，关键词示例：
-- "检查这篇笔记还适不适用：/path/to/note.md"
-- "帮我看看这篇极客时间笔记里的内容还对吗"
-- "对比官方文档核验一下"
-- "freshness check / 时效性检查"
-
-> 本步骤完全独立于 Step 1–6，不影响日常笔记生成流程。可对任意时间生成的笔记执行。
-
-### 7a — 提取笔记技术声明
-
-```bash
-source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_note_claims.py \
-  "<笔记.md 绝对路径>"
-```
-
-读取输出 JSON，记录以下字段：
-- `tech`：技术名（从 `tags` / `course` / 标题推断）
-- `note_date`：笔记写入日期（frontmatter `date` 字段）
-- `classes` / `methods` / `configs`：从代码块机械提取的 API 声明
-- `deprecated_warnings`：`[!WARNING]` callout 里标注的废弃 API
-
-> **conceptual 类判断**：若 `classes` 和 `configs` 均为空列表，为概念类笔记，跳至 **7b-conceptual** 路径。
-
-### 7b — 搜索最新官方版本（technical 路径）
-
-```
-WebSearch: "<tech> latest stable release 2026"
-```
-
-记录 `latest_version`。若笔记 `note_date` 与当前日期差距 ≤6 个月，报告中注明"写入时间较近，API 整体应仍有效，本次做快速扫描"。
-
-**7b-conceptual（概念类路径）**：
-
-```
-WebSearch: "<文章主题/技术领域> 方法论/框架/最佳实践 最新动态 2026"
-```
-
-了解该领域是否有重大观念演变，直接跳至 7f 生成简短概念时效报告。
-
-### 7c — 拉取官方文档（≤3 页）
-
-```
-WebFetch: 官方 API 文档页（按 classes 列表关键类名定位）
-WebFetch: 官方配置参考页（按 configs 列表定位）
-```
-
-打印所用 URL（写入报告 frontmatter）。每次 WebFetch 后立即记录核验结论。
-
-### 7d — 逐一核验（technical 路径）
-
-| 结论 | 含义 | 报告分区 |
-|---|---|---|
-| ✅ 仍有效 | 官方文档中仍存在且语义一致 | `## ✅ 仍然有效` |
-| ⚠️ 有变化需核验 | 存在但签名/行为/推荐做法有变动 | `## ⚠️ 有变化，需核验` |
-| ❌ 已废弃/移除 | 官方标记 deprecated 或从文档移除 | `## ❌ 已废弃 / 移除` |
-| 🆕 官方新增 | 当前官方存在、笔记未提及的重要 API | `## 🆕 官方新增` |
-
-### 7e — 准备临时目录
-
-```bash
-NOTE_STEM=$(basename "<笔记.md>" .md)
-mkdir -p "/tmp/freshness_check_${NOTE_STEM}/"
-```
-
-记录 `TEMP_DIR=/tmp/freshness_check_${NOTE_STEM}/`。
-
-### 7f — 写报告到临时目录
-
-将核验结论写入 `${TEMP_DIR}/report.md`，格式如下：
-
-````markdown
----
-note: "<笔记文件名>"
-note_path: "<笔记绝对路径>"
-note_date: "<笔记写入日期>"
-latest_version: "<latest_version>"
-check_date: "<YYYY-MM-DD>"
-official_docs:
-  - <WebFetch URL>
----
-
-# <笔记标题> · 时效性检查
-
-> [!ABSTRACT] 检查结论
-> 笔记写于 <note_date> | 官方最新 <latest_version> | ❌ N 处已废弃 · ⚠️ M 处需核验 · ✅ K 处有效
-
-## ❌ 已废弃 / 移除
-
-| 笔记中的内容 | 当前官方说明 | 所在章节 |
-|---|---|---|
-
-## ⚠️ 有变化，需核验
-
-| 笔记中的内容 | 官方变化说明 | 所在章节 |
-|---|---|---|
-
-## ✅ 仍然有效（已核验）
-
-## 🆕 官方新增（可考虑补充）
-
-## 📋 检查说明
-
-- 技术栈：<tech>
-- 核验范围：N 个类名 · M 个配置项 · K 个方法名
-- 官方文档来源：<URL 列表>
-- 生成时间：<YYYY-MM-DD>
-````
-
-报告写完后，**在对话中完整展示报告内容**，然后询问：
-
-> "以上是时效性检查结果。是否需要将报告中标注的内容更新到原笔记？
-> - **'更新全部'** → 按 ❌ + ⚠️ 全部应用
-> - **'只更新 ❌ 项'** → 仅替换已废弃内容
-> - **'不更新'** → 跳过，直接清理临时文件"
-
-### 7g — （仅当用户确认后）编辑原笔记
-
-按报告结论逐处 Edit 原笔记（一次一个 `##`/`###` 节，不批量写入）：
-- 废弃 API 替换为当前推荐写法
-- 新增 `[!WARNING]- 版本迁移` callout 说明旧写法被替换的原因
-
-### 7h — 清理临时目录
-
-```bash
-rm -rf "${TEMP_DIR}"
-echo "临时目录已清理：${TEMP_DIR}"
-```
-
-无论是否更新原笔记，最终都执行此步。

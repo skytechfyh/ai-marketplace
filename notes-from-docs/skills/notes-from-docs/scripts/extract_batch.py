@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Batch-merge multiple .docx / .doc / .pdf source documents into ONE combined
-manifest.json + chapter_NN.json — for doc-to-notes cases where several files logically
-form a single note (e.g. a training-camp week made of several per-lecture PDFs) and should
-become one merged Markdown note instead of one note per file.
+Batch-merge multiple .docx / .doc / .pdf / .html / .htm source documents into ONE combined
+manifest.json + chapter_NN.json — for notes-from-docs cases where several files logically
+form a single note (e.g. a training-camp week made of several per-lecture PDFs, or a course's
+"课前学习资料" folder of many per-lecture .html exports) and should become one merged
+Markdown note instead of one note per file.
 
 Usage:
     # Directory mode: glob-match files in a folder, auto-ordered by the first number found
@@ -14,10 +15,10 @@ Usage:
     # Explicit file list mode: files are merged in the EXACT order given (no re-sorting).
     python3 extract_batch.py file1.pdf file2.pdf file3.docx --title "..."
 
-Design (reuses extract_docx.py, does not modify single-file behaviour):
+Design (reuses extract_docx.py/extract_html.py, does not modify single-file behaviour):
     Each source file is extracted in its own scratch sub-directory via the existing
-    extract_docx()/extract_pdf() functions with finalize=False, so they return a raw
-    `sections` list instead of writing manifest/chapter files. This script then:
+    extract_docx()/extract_pdf()/extract_html() functions with finalize=False, so they return
+    a raw `sections` list instead of writing manifest/chapter files. This script then:
       1. Renumbers and moves that file's images into the batch's shared images/ dir (so
          numbering stays continuous and no two files' images collide).
       2. Prepends a synthetic H2 heading using the file's own detected title (or its
@@ -28,7 +29,7 @@ Design (reuses extract_docx.py, does not modify single-file behaviour):
       3. Concatenates every file's sections in order and calls the SAME `_finalize()` used
          by single-file extraction.
     The resulting manifest.json / chapter_NN.json is therefore INDISTINGUISHABLE in shape
-    from single-file output — Step 1 onward of the doc-to-notes workflow needs no changes
+    from single-file output — Step 1 onward of the notes-from-docs workflow needs no changes
     to consume a batch-merged doc.
 """
 
@@ -45,19 +46,25 @@ from extract_docx import (  # noqa: E402
     extract_docx, extract_pdf, convert_doc_to_docx, _finalize,
     MIN_CHAPTER_SECTIONS, DEFAULT_MAX_IMG_PX,
 )
+from extract_html import extract_html  # noqa: E402
 
-SUPPORTED_EXTS = (".pdf", ".docx", ".doc")
+SUPPORTED_EXTS = (".pdf", ".docx", ".doc", ".html", ".htm")
 
 
 def _natural_key(path: str):
-    """Sort key: first integer found in the filename stem, ascending; no digit sorts last.
+    """Sort key: every integer found in the filename stem, ascending, as a tuple; no digit
+    sorts last.
 
-    Plain string sort would put "第10节" before "第2节" — this avoids that trap for the
-    common "第N节" / "第N讲" naming convention.
+    Plain string sort would put "第10节" before "第2节" — using the first number alone fixes
+    that, but breaks a different common convention: "03-01 1. xxx.html" … "03-12 12. xxx.html"
+    (a constant day/week prefix "03-" followed by the real per-file ordinal). If only the
+    FIRST number were used, every file in such a directory would sort by the identical "03"
+    prefix and fall back to arbitrary filesystem order. Using the full sequence of numbers as
+    a tuple sorts by the constant prefix first, then correctly by the real ordinal.
     """
     stem = Path(path).stem
-    m = re.search(r"\d+", stem)
-    return (0, int(m.group())) if m else (1, stem)
+    nums = [int(n) for n in re.findall(r"\d+", stem)]
+    return (0, nums) if nums else (1, stem)
 
 
 def _collect_directory(dir_path: str, pattern: str) -> list:
@@ -102,6 +109,8 @@ def _extract_one(path: str, scratch_dir: str, max_px: int, title_from: str) -> t
         sections = extract_docx(path, scratch_dir, max_px, split_level=0, finalize=False)
     elif ext == ".pdf":
         sections = extract_pdf(path, scratch_dir, max_px, split_level=0, finalize=False)
+    elif ext in (".html", ".htm"):
+        sections = extract_html(path, scratch_dir, max_px, split_level=0, finalize=False)
     else:
         sys.exit(f"[ERROR] Unsupported type in batch: {path}")
     return _pick_chapter_title(path, sections, title_from), sections

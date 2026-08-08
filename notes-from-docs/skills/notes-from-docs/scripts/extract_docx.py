@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Extract text structure, code blocks, lists, tables and images from .docx / .doc / .pdf
-files for the doc-to-notes skill.
+files for the notes-from-docs skill.
 
 Usage:
     python3 extract_docx.py <doc_path> [--output-dir <dir>] [--max-img-px 2000]
@@ -920,7 +920,7 @@ def convert_doc_to_docx(doc_path: str) -> str:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Extract .docx/.doc/.pdf for doc-to-notes")
+    parser = argparse.ArgumentParser(description="Extract .docx/.doc/.pdf for notes-from-docs")
     parser.add_argument("doc_path", help="Absolute path to .docx / .doc / .pdf")
     parser.add_argument("--output-dir", default=None)
     parser.add_argument("--max-img-px", type=int, default=DEFAULT_MAX_IMG_PX,

@@ -40,6 +40,4 @@ docs(<plugin-name>): 说明/注释更新
 
 | 插件 | 当前版本 | 用途 |
 |---|---|---|
-| `doc-to-notes` | 见 plugin.json | .docx/.doc/.pdf 转 Obsidian 笔记 |
-| `mhtml-refine-to-md` | 见 plugin.json | 极客时间 .mhtml 提炼为学习笔记 |
-| `organize-course-package` | 见 plugin.json | 极客时间课程资料包整合为笔记 |
+| `notes-from-docs` | 见 plugin.json | .docx/.doc/.pdf/.html/.htm/极客时间 .mhtml/极客时间课程资料包目录转 Obsidian 笔记（合并自 doc-to-notes + mhtml-refine-to-md + organize-course-package） |

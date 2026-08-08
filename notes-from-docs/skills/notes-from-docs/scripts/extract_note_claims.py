@@ -1,30 +1,34 @@
 #!/usr/bin/env python3
 """
-从 mhtml-refine-to-md 生成的 Obsidian 笔记中机械提取技术声明，供时效性复查（Step 7）使用。
+从 notes-from-docs 生成的 Obsidian 笔记中机械提取技术声明，供时效性复查
+（见 reference/freshness-check.md F1）使用。合并自 doc-to-notes 与 mhtml-refine-to-md
+两份几乎相同的实现，兼容两种 frontmatter 形态：
 
-与 doc-to-notes 版本的差异：
-- 笔记 frontmatter 无 current_version 字段 → 从 tags / course / 标题推断技术名
-- 有 date 字段（笔记写入日期）→ 报告中展示"笔记写于 XXXX-XX-XX"
-- 有 course 字段 → 辅助推断技术领域
+- docx/pdf 路径：有 `current_version` 字段（如 "Flink 1.20"），无 `course` 字段
+- mhtml 路径：无 `current_version` 字段，有 `date`（笔记写入日期）/ `course` 字段
+
+两种形态的字段在输出里都保留，缺失的一侧留空字符串，由调用方（freshness-check.md F1）
+按笔记实际拥有的字段选用 note_version 或 note_date。
 
 用法：
     python3 extract_note_claims.py <笔记.md> [--output json|text]
 
 输出（JSON，打印到 stdout）：
 {
-  "title": "01-DataStream编程基础",
-  "tech": "Apache Flink",
-  "note_version": "",          # 无 current_version，留空
-  "note_date": "2026-06-01",   # 来自 frontmatter date 字段
-  "course": "Flink实战课",
+  "title": "DataStream 编程基础",
+  "tech": "Apache Flink",       # 从 tags / current_version / course / 标题推断
+  "note_version": "1.20",       # 从 current_version frontmatter 字段提取的版本号（无则空）
+  "note_version_raw": "Flink 1.20",
+  "note_date": "2026-06-01",    # 从 date frontmatter 字段（无则空）
+  "course": "Flink实战课",       # 从 course frontmatter 字段（无则空）
   "tags": ["flink", "big-data"],
-  "classes": [...],
-  "methods": [...],
-  "configs": [...],
-  "imports": [...],
-  "versions_mentioned": [...],
-  "deprecated_warnings": [...],
-  "code_languages": [...],
+  "classes": ["WatermarkStrategy", "StreamExecutionEnvironment"],
+  "methods": ["assignTimestampsAndWatermarks", "forBoundedOutOfOrderness"],
+  "configs": ["execution.checkpointing.interval", "state.backend"],
+  "imports": ["org.apache.flink.streaming.api.environment.*"],
+  "versions_mentioned": ["Flink 1.20", "Flink 1.15"],
+  "deprecated_warnings": ["BoundedOutOfOrdernessTimestampExtractor"],
+  "code_languages": ["java", "python", "yaml"],
   "source_note_path": "/path/to/note.md",
   "source_note_dir": "/path/to/note/"
 }
@@ -36,7 +40,7 @@ import os
 import re
 import sys
 
-# ── 技术关键词 → 官方文档搜索词映射 ────────────────────────────────────────────
+# ── 技术关键词 → 官方文档搜索词映射（doc-to-notes ∪ mhtml-refine-to-md 两边并集）───
 TECH_KEYWORDS = {
     "flink": "Apache Flink",
     "spark": "Apache Spark",
@@ -73,26 +77,28 @@ TECH_KEYWORDS = {
 # ── Frontmatter 解析 ───────────────────────────────────────────────────────────
 
 def parse_frontmatter(md: str) -> dict:
-    """提取 YAML frontmatter，返回 key→value 字典（不引入 pyyaml 依赖）。"""
+    """提取 YAML frontmatter，返回 key→value 字符串字典（不引入 pyyaml 依赖）。"""
     m = re.match(r'^---\n(.*?)\n---\n', md, re.DOTALL)
     if not m:
         return {}
     fm = {}
     block = m.group(1)
     current_key = None
+    # 简单行解析：key: value（不处理嵌套 YAML）
     for line in block.splitlines():
         kv = re.match(r'^(\w[\w_-]*):\s*(.*)', line)
         if kv:
             current_key = kv.group(1)
             key, val = kv.group(1), kv.group(2).strip().strip('"').strip("'")
             fm[key] = val
-        # 仅在当前活跃 key 为 tags 时收集列表项，避免其他 list key 的子项误入
+        # tags 列表项（仅在当前活跃 key 为 tags 时收集，避免其他 list key 的子项误入）
         tag_item = re.match(r'^\s+-\s+(.*)', line)
         if tag_item and current_key == 'tags':
             if not isinstance(fm['tags'], list):
                 fm['tags'] = []
             fm['tags'].append(tag_item.group(1).strip().strip('"').strip("'"))
 
+    # 补充解析 tags: [a, b, c] 单行形式
     tags_inline = re.search(r'^tags:\s*\[(.*?)\]', block, re.MULTILINE)
     if tags_inline:
         fm['tags'] = [t.strip().strip('"').strip("'") for t in tags_inline.group(1).split(',') if t.strip()]
@@ -106,19 +112,33 @@ def strip_frontmatter(md: str) -> str:
 
 # ── 技术名推断 ─────────────────────────────────────────────────────────────────
 
-def infer_tech(title: str, tags: list, course: str) -> str:
-    """从 tags / course / 标题中推断技术名。"""
-    combined = ' '.join([title.lower(), course.lower()] + [t.lower() for t in tags])
+def infer_tech(title: str, tags: list, version_str: str, course: str) -> str:
+    """
+    从 tags / current_version / course / 标题中推断技术名（用于 WebSearch 关键词）。
+    version_str / course 任一侧缺失时传空字符串即可，不影响另一侧的推断。
+    """
+    combined = ' '.join([title.lower(), version_str.lower(), course.lower()]
+                         + [t.lower() for t in tags])
     for kw, official in TECH_KEYWORDS.items():
         if kw in combined:
             return official
+    # 尝试从 version_str 提取（如 "Flink 1.20" → "Flink"），仅 docx/pdf 路径有此字段
+    m = re.match(r'([A-Za-z][A-Za-z\s]+?)\s+\d', version_str)
+    if m:
+        return m.group(1).strip()
     return ""
+
+
+def extract_version_number(version_str: str) -> str:
+    """从 'Flink 1.20' 中提取 '1.20'。"""
+    m = re.search(r'(\d+\.\d+[\.\d]*)', version_str)
+    return m.group(1) if m else ""
 
 
 # ── 围栏代码块提取 ─────────────────────────────────────────────────────────────
 
 def extract_fenced_blocks(body: str) -> list:
-    """返回 [(language, content), ...] 列表。"""
+    """返回 [(language, content), ...] 列表。language 小写，content 为块内文字。"""
     blocks = []
     pattern = re.compile(r'```(\w*)\n(.*?)```', re.DOTALL)
     for m in pattern.finditer(body):
@@ -130,13 +150,28 @@ def extract_fenced_blocks(body: str) -> list:
 
 # ── 技术声明提取 ───────────────────────────────────────────────────────────────
 
+# Java/Scala/Kotlin import 语句
 IMPORT_RE = re.compile(r'^import\s+([\w\.]+(?:\.\*)?)\s*;?', re.MULTILINE)
+
+# Java/Kotlin new 实例化：new ClassName(
 NEW_CLASS_RE = re.compile(r'\bnew\s+([A-Z][A-Za-z0-9_]+)\s*[(<]')
+
+# 方法调用：.methodName(
 METHOD_CALL_RE = re.compile(r'\.([a-z][A-Za-z0-9_]+)\s*\(')
+
+# 静态工厂 / 枚举：ClassName.something(
 STATIC_CALL_RE = re.compile(r'\b([A-Z][A-Za-z0-9_]+)\.([a-zA-Z][A-Za-z0-9_]+)\s*[\(<]')
+
+# YAML/Properties 配置键（非注释行）
 YAML_KEY_RE = re.compile(r'^([a-z][a-z0-9_.\-]+)\s*[:=]', re.MULTILINE)
+
+# 正文版本号（如 "Flink 1.20"、"Spring Boot 3.2.1"）
 VERSION_TEXT_RE = re.compile(r'\b([A-Z][A-Za-z]+(?:\s[A-Za-z]+)?)\s+(\d+\.\d+[\.\d]*)\b')
+
+# [!WARNING] callout 内容（已废弃 API 提示通常在这里）
 WARNING_CALLOUT_RE = re.compile(r'>\s*\[!WARNING\][^\n]*\n((?:>[^\n]*\n?)*)', re.IGNORECASE)
+
+# 代码片段中 backtick 标记的标识符（正文里的 `ClassName`）
 INLINE_CODE_RE = re.compile(r'`([A-Z][A-Za-z0-9_]+(?:\.[A-Za-z][A-Za-z0-9_]*)*)`')
 
 
@@ -160,7 +195,7 @@ def extract_claims(body: str) -> dict:
         elif lang in ('yaml', 'yml', 'properties', 'ini', 'conf', 'toml'):
             for m in YAML_KEY_RE.finditer(content):
                 key = m.group(1)
-                if '.' in key or '_' in key:
+                if '.' in key or '_' in key:  # 过滤单字 key 降噪
                     configs.add(key)
         elif lang == 'python':
             for m in re.finditer(r'^(?:from|import)\s+([\w\.]+)', content, re.MULTILINE):
@@ -171,9 +206,11 @@ def extract_claims(body: str) -> dict:
             for m in METHOD_CALL_RE.finditer(content):
                 methods.add(m.group(1))
 
+    # 正文中 `ClassName` 也纳入
     for m in INLINE_CODE_RE.finditer(body):
         classes.add(m.group(1))
 
+    # 版本号（正文）
     versions_mentioned = []
     seen_v = set()
     for m in VERSION_TEXT_RE.finditer(body):
@@ -182,14 +219,17 @@ def extract_claims(body: str) -> dict:
             versions_mentioned.append(label)
             seen_v.add(label)
 
+    # [!WARNING] callout 里提到的标识符（已废弃 API）
     deprecated_warnings = []
     for m in WARNING_CALLOUT_RE.finditer(body):
         callout_text = re.sub(r'^>\s*', '', m.group(1), flags=re.MULTILINE)
+        # 提取 `Identifier` 或 ClassName 形式的名字
         for id_m in re.finditer(r'`([A-Za-z][A-Za-z0-9_\.]+)`|([A-Z][A-Za-z0-9_]+)', callout_text):
             name = id_m.group(1) or id_m.group(2)
             if name and name not in deprecated_warnings:
                 deprecated_warnings.append(name)
 
+    # 噪音过滤：移除通用单词（太短或全是小写普通动词）
     NOISE = {'get', 'set', 'add', 'put', 'run', 'main', 'new', 'for', 'map',
               'on', 'of', 'at', 'to', 'is', 'in', 'it', 'by', 'do', 'if'}
     methods = {m for m in methods if len(m) > 2 and m not in NOISE}
@@ -210,7 +250,7 @@ def extract_claims(body: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="从 mhtml-refine-to-md 生成的笔记中提取技术声明，供时效性复查（Step 7）使用"
+        description="从 Obsidian 笔记中提取技术声明，供时效性复查使用 (notes-from-docs)"
     )
     ap.add_argument('note', help='笔记 .md 文件路径')
     ap.add_argument('--output', choices=['json', 'text'], default='json',
@@ -233,16 +273,20 @@ def main() -> int:
 
     title = fm.get('title', os.path.splitext(os.path.basename(note_path))[0])
     tags = fm.get('tags', []) if isinstance(fm.get('tags'), list) else []
-    course = fm.get('course', '')
-    note_date = fm.get('date', '')
+    current_version_raw = fm.get('current_version', '')  # docx/pdf 路径专属
+    note_date = fm.get('date', '')                        # mhtml 路径专属（docx/pdf 通常也有）
+    course = fm.get('course', '')                          # mhtml 路径专属
 
-    tech = infer_tech(title, tags, course)
+    tech = infer_tech(title, tags, current_version_raw, course)
+    note_version = extract_version_number(current_version_raw)
+
     claims = extract_claims(body)
 
     result = {
         'title': title,
         'tech': tech,
-        'note_version': '',       # mhtml 笔记无 current_version 字段
+        'note_version': note_version,
+        'note_version_raw': current_version_raw,
         'note_date': note_date,
         'course': course,
         'tags': tags,
@@ -255,9 +299,10 @@ def main() -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         print(f"标题    : {result['title']}")
-        print(f"课程    : {result['course'] or '(未知)'}")
         print(f"技术栈  : {result['tech'] or '(未识别)'}")
+        print(f"笔记版本: {result['note_version_raw'] or '(未知)'}")
         print(f"写入日期: {result['note_date'] or '(未知)'}")
+        print(f"课程    : {result['course'] or '(未知)'}")
         print(f"标签    : {', '.join(result['tags']) or '(无)'}")
         print(f"类名    : {', '.join(result['classes'][:20]) or '(无)'}")
         print(f"方法名  : {', '.join(result['methods'][:20]) or '(无)'}")
