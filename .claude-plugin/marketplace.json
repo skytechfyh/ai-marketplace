@@ -9,7 +9,7 @@
       "name": "notes-from-docs",
       "description": "将 .docx/.doc/.pdf/.html/.htm 培训文档、极客时间 .mhtml 专栏文章、极客时间课程资料包目录转换为结构化 Obsidian 笔记（合并自 doc-to-notes + mhtml-refine-to-md + organize-course-package）",
       "source": "./notes-from-docs",
-      "version": "1.2.0"
+      "version": "1.3.0"
     }
   ]
 }

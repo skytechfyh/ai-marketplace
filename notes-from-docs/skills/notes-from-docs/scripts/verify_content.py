@@ -50,6 +50,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 
 
 # ── 判断输入类型：manifest（结构化）还是 source（原始网页文件）──────────────────
@@ -253,6 +254,18 @@ def present(token: str, note: str) -> bool:
     return token in note
 
 
+# ── 字形归一 ──────────────────────────────────────────────────────────────────
+
+# PDF 常把汉字编码成兼容字形（康熙部首 "⼯" U+2F2F、CJK 兼容汉字），肉眼与 "工" 无异，
+# 但字符串比较不相等 → 枚举/数字核查报假 FLAG。两侧都只对这些区段做 NFKC（全量 NFKC
+# 会把全角标点折成半角，没必要）。旧 manifest 未在提取时归一，也靠这里兜底。
+_COMPAT_CJK_RE = re.compile(r'[\u2E80-\u2FDF\uF900-\uFAFF\U0002F800-\U0002FA1F]')
+
+
+def fold_compat(t: str) -> str:
+    return _COMPAT_CJK_RE.sub(lambda m: unicodedata.normalize("NFKC", m.group(0)), t)
+
+
 # ── 主流程 ────────────────────────────────────────────────────────────────────
 
 def main() -> int:
@@ -280,6 +293,12 @@ def main() -> int:
     except Exception as e:
         print(f"ERROR: 读取笔记失败: {e}", file=sys.stderr)
         return 1
+
+    src = fold_compat(src)
+    note_raw = fold_compat(note_raw)
+    if src_sections:
+        src_sections = [dict(x, text=fold_compat(x["text"])) if isinstance(x.get("text"), str)
+                        else x for x in src_sections]
 
     # manifest 路径原文基线不含代码/公式 → 笔记侧同步剥离；source 路径原文基线是网页
     # 全文（含代码/公式）→ 笔记侧保留，口径才对得上。

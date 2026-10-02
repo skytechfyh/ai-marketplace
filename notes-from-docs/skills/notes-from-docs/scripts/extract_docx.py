@@ -31,6 +31,17 @@ Key behaviours (tuned for Chinese training docs, e.g. 多易大数据):
     tagged with its source `page`; runs of ≥3 consecutive short unpunctuated blocks on the
     same page (tag-cloud / tool-list slides) are reclassified as `list_item` instead of
     scattered `paragraph` sections, so they're written and verified as one enumerable list.
+  * PDF reading order — blocks are read with `sort=True` (top-to-bottom, left-to-right);
+    slide decks often draw prose and cards/code in separate layers, so content-stream
+    order interleaves them out of sequence.
+  * PDF code — a block whose text is mostly in a monospace font (Menlo/Consolas/...) is
+    emitted as a `code` section with newlines + indentation preserved (a CJK comment soft-
+    wrapped onto its own line is re-joined); adjacent code blocks on a page are merged.
+  * PDF text hygiene — NFKC-normalized (Kangxi radicals like "⼯" → "工", fullwidth
+    compat forms) and CJK-aware line joining (no stray space inside "只翻译").
+  * PDF truncation — prose blocks with unbalanced quotes/brackets (text clipped by the
+    slide/table cell, e.g. `{"msgtype":"text","`) are tagged `truncated: true` and listed
+    at the end, so the writer discloses them instead of silently filling the gap.
   * .doc — auto-converted to .docx via macOS `textutil` when available.
 
 Requires: python-docx (docx) ; PyMuPDF (fitz) for PDF ; Pillow optional for resize.
@@ -43,6 +54,7 @@ import json
 import shutil
 import argparse
 import subprocess
+import unicodedata
 from pathlib import Path
 
 try:
@@ -523,29 +535,171 @@ TAG_RUN_MIN = 3          # ≥3 consecutive tag-like blocks on one page = a tag 
 WATERMARK_MIN_PAGES = 3  # exact text repeated on ≥3 pages = header/footer/watermark, not content
 
 
+CODE_MONO_RATIO = 0.5    # ≥ this share of a block's non-space chars in a monospace font = code
+CODE_LINE_RATIO = 0.6    # …and ≥ this share of its lines must START in a monospace font (prose
+                         # with inline `application.yaml` terms can hit the char ratio alone)
+CODE_MERGE_GAP_PT = 14.0  # adjacent code blocks on one page closer than this are one listing
+CJK_RE = re.compile(r'[⺀-鿿豈-﫿　-〿＀-￯]')
+COMMENT_MARK_RE = re.compile(r'(//|#|--|/\*|<!--)')
+_MONO_KEYS = {f.replace(" ", "") for f in MONOSPACE_FONTS} | {"mono", "courier"}
+
+
+def _is_mono_font(font: str) -> bool:
+    f = (font or "").lower().replace(" ", "").replace("-", "")
+    return any(k in f for k in _MONO_KEYS)
+
+
+# Compatibility-glyph ranges PDFs leak into extracted text: Kangxi radicals ("⼯" U+2F2F),
+# CJK radicals supplement, CJK compatibility ideographs (BMP + supplement).
+_COMPAT_CJK_RE = re.compile(r'[\u2E80-\u2FDF\uF900-\uFAFF\U0002F800-\U0002FA1F]')
+
+
+def _nfkc(t: str) -> str:
+    """Fold PDF compatibility glyphs back to the normal ideograph ("⼯" → "工") so the note
+    and verify_content.py agree on characters that look identical. Only those ranges are
+    NFKC-normalized — full NFKC would also turn Chinese fullwidth punctuation "，：（）"
+    into ASCII ",:()" and change the text's style."""
+    return _COMPAT_CJK_RE.sub(lambda m: unicodedata.normalize("NFKC", m.group(0)), t)
+
+
+def _join_prose_lines(text: str) -> str:
+    """Join a block's visual lines into one paragraph. A space is inserted only between
+    non-CJK neighbours — PDF line wraps inside Chinese text must not leave "只翻 译"."""
+    lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+    if not lines:
+        return ""
+    out = lines[0]
+    for ln in lines[1:]:
+        if CJK_RE.match(out[-1]) or CJK_RE.match(ln[0]):
+            out += ln
+        else:
+            out += " " + ln
+    return out
+
+
 def _merge_pdf_block(block):
-    """Merge a PDF text block's spans into one text string, tracking max font size / bold."""
+    """Merge a PDF text block's spans, tracking max font size / bold / monospace share.
+
+    Returns a dict: `text` (lines joined by \\n, page-number suffix stripped), `code_text`
+    (lines with indentation kept, CJK comment soft-wraps re-joined), `max_size`,
+    `any_bold`, `mono_ratio`, `bbox`."""
     block_text_lines = []
+    code_lines = []        # (line_text, has_mono_span)
     max_size = 0.0
     any_bold = False
+    mono_chars = total_chars = 0
+    mono_led_lines = 0
     for line in block["lines"]:
         parts = []
+        line_mono = False
+        line_led_mono = False
+        first_seen = False
         for span in line["spans"]:
-            t = span["text"]
+            t = _nfkc(span["text"])
             if t:
                 parts.append(t)
                 max_size = max(max_size, span["size"])
                 if span["flags"] & 16:
                     any_bold = True
+                n = len(re.sub(r'\s+', '', t))
+                total_chars += n
+                is_mono = _is_mono_font(span.get("font"))
+                if is_mono:
+                    mono_chars += n
+                    line_mono = True
+                if not first_seen and t.strip():
+                    first_seen = True
+                    line_led_mono = is_mono
+                    mono_led_lines += is_mono
         if parts:
-            block_text_lines.append("".join(parts))
+            joined = "".join(parts)
+            block_text_lines.append(joined)
+            code_lines.append((joined.rstrip(), line_led_mono))
     text = "\n".join(block_text_lines).strip()
     # A footer banner often has the page number glued onto its end by block merging;
     # strip it so the same banner on different pages compares as identical text.
     stripped = PDF_TRAILING_PAGE_NUM_RE.sub("", text)
     if stripped != text and stripped.strip():
         text = stripped.strip()
-    return text, max_size, any_bold
+
+    # Code view: a line that does not START in a monospace font and directly follows a
+    # commented line is the soft-wrapped tail of a CJK comment ("// 按名字取模" + "型",
+    # '// "不串' + '台"的直接证据') — glue it back.
+    merged_code = []
+    for ln, led_mono in code_lines:
+        if (merged_code and not led_mono and ln and not ln[0].isspace()
+                and COMMENT_MARK_RE.search(merged_code[-1])):
+            merged_code[-1] += ln.strip()
+        else:
+            merged_code.append(ln)
+    return {
+        "text": text,
+        "code_text": "\n".join(merged_code).strip("\n"),
+        "max_size": max_size,
+        "any_bold": any_bold,
+        "mono_ratio": (mono_chars / total_chars) if total_chars else 0.0,
+        "mono_line_ratio": (mono_led_lines / len(code_lines)) if code_lines else 0.0,
+        "bbox": block["bbox"],
+    }
+
+
+CJK_PUNCT_RE = re.compile(r'[，。、：；！？（）—]')
+_CODE_COMMENT_RE = re.compile(r'(//|#|--|/\*).*$', re.M)
+_CODE_STRING_RE = re.compile(r'"[^"\n]*"|\'[^\'\n]*\'')
+
+
+def _looks_like_prose(body: str) -> bool:
+    """A monospace-led block that is really a Chinese sentence about code ("Profile ：一个
+    承载全部字段的记录类——name、…"): after stripping comments and string literals it still
+    contains CJK punctuation, which real code never has outside comments/strings."""
+    stripped = _CODE_STRING_RE.sub("", _CODE_COMMENT_RE.sub("", body))
+    return bool(CJK_PUNCT_RE.search(stripped))
+
+
+def _guess_code_lang(body: str) -> str:
+    """Best-effort fence language for a PDF code listing (PDFs carry no language label)."""
+    first = next((ln.strip() for ln in body.splitlines() if ln.strip()), "")
+    label = LANG_LABEL_MAP.get(first.lower())
+    if label:
+        return label
+    if re.search(r'^\s*(public|private|protected|class|interface|record|enum|import\s+[\w.]+;'
+                 r'|package\s+[\w.]+;|@[A-Z]\w*)', body, re.M) or re.search(r';\s*$', body, re.M):
+        return "java"
+    if re.match(r'\s*[\[{]', body) and re.search(r'"\s*:', body):
+        return "json"
+    if re.search(r'^\s*(\$ |mvn |gradle |java -jar|curl |git |npm |pip |cd |export |\./)',
+                 body, re.M):
+        return "bash"
+    cmd_lines = [ln for ln in body.splitlines() if ln.strip()]
+    if cmd_lines and sum(bool(re.match(r'[a-z][\w.\-]*( \S+)*\s+#\s', ln)) for ln in cmd_lines) \
+            >= len(cmd_lines) * 0.6:
+        return "bash"   # CLI usage listing: `oryxos init   # 初始化工程`
+    lines = [ln for ln in body.splitlines() if ln.strip() and not ln.strip().startswith("#")]
+    if lines and sum(bool(re.match(r'\s*(- )?[\w.\-]+:(\s|$)|\s*- ', ln)) for ln in lines) \
+            >= max(1, len(lines) * 0.6):
+        return "yaml"
+    return "text"
+
+
+def _is_truncated(text: str) -> bool:
+    """Prose clipped mid-structure by a slide/table cell: unbalanced brackets or an odd
+    number of ASCII double quotes (e.g. `{"msgtype":"text","`)."""
+    if not re.search(r'[{\["]', text):
+        return False
+    if text.count('"') % 2:
+        return True
+    return (text.count("{") != text.count("}")) or (text.count("[") != text.count("]"))
+
+
+def _code_line_truncated(body: str) -> bool:
+    """A code/table listing line with an odd count of unescaped double quotes was clipped
+    by its cell (brace balance is NOT checked — listings legitimately span pages)."""
+    for ln in body.splitlines():
+        if '"""' in ln:
+            continue
+        if ln.replace('\\"', "").count('"') % 2:
+            return True
+    return False
 
 
 def _group_pdf_tag_walls(sections):
@@ -596,10 +750,10 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
     text_page_count = {}
     for page in doc:
         seen_this_page = set()
-        for block in page.get_text("dict")["blocks"]:
+        for block in page.get_text("dict", sort=True)["blocks"]:
             if block["type"] != 0:
                 continue
-            text, _, _ = _merge_pdf_block(block)
+            text = _merge_pdf_block(block)["text"]
             if text and text not in seen_this_page:
                 seen_this_page.add(text)
                 text_page_count[text] = text_page_count.get(text, 0) + 1
@@ -625,11 +779,39 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
             except Exception as e:
                 print(f"  [WARN] pdf image p{page_num+1}: {e}", file=sys.stderr)
 
-        for block in page.get_text("dict")["blocks"]:
+        # sort=True: reading order (top→bottom, left→right). Slide decks often draw prose
+        # and cards/code listings as separate layers, so raw content-stream order would
+        # emit a page's bottom paragraphs before its top card.
+        for block in page.get_text("dict", sort=True)["blocks"]:
             if block["type"] != 0:
                 continue
-            text, max_size, any_bold = _merge_pdf_block(block)
+            mb = _merge_pdf_block(block)
+            text, max_size, any_bold = mb["text"], mb["max_size"], mb["any_bold"]
             if not text:
+                continue
+
+            # Code listing: mostly monospace → keep lines + indentation; merge with the
+            # previous listing on this page when they sit directly below each other.
+            if (mb["mono_ratio"] >= CODE_MONO_RATIO and mb["mono_line_ratio"] >= CODE_LINE_RATIO
+                    and text not in watermark_texts and not _looks_like_prose(mb["code_text"])):
+                body = mb["code_text"]
+                prev = sections[-1] if sections else None
+                # A listing that starts indented or with a closing brace can only be the
+                # continuation of the previous one (split by a column/page break).
+                continuation = bool(re.match(r'\s|[}\])]', body))
+                close_below = (prev and prev.get("page") == page_num + 1
+                               and mb["bbox"][1] - prev.get("_y1", 0) < CODE_MERGE_GAP_PT)
+                if prev and prev.get("type") == "code" and (close_below or continuation):
+                    prev["text"] += "\n" + body
+                    prev["lang"] = _guess_code_lang(prev["text"])
+                    prev["_y1"] = mb["bbox"][3]
+                    target = prev
+                else:
+                    target = {"type": "code", "lang": _guess_code_lang(body),
+                              "text": body, "page": page_num + 1, "_y1": mb["bbox"][3]}
+                    sections.append(target)
+                if _code_line_truncated(body):
+                    target["truncated"] = True
                 continue
 
             # Noise filter 1: a bare page number ("2 / 10") carries no content.
@@ -657,17 +839,29 @@ def extract_pdf(pdf_path: str, output_dir: str, max_px: int, split_level="auto",
             else:
                 level = 0
 
+            joined = _join_prose_lines(text)
             if level > 0:
                 sec = {"type": "heading", "level": level,
-                       "text": text.replace("\n", " "), "page": page_num + 1}
+                       "text": joined, "page": page_num + 1}
             else:
                 sec = {"type": "paragraph",
-                       "text": text.replace("\n", " "), "page": page_num + 1}
+                       "text": joined, "page": page_num + 1}
+                if _is_truncated(joined):
+                    sec["truncated"] = True
             if is_banner:
                 sec["banner"] = True
             sections.append(sec)
 
+    for s in sections:
+        s.pop("_y1", None)
     _group_pdf_tag_walls(sections)
+
+    truncated = [s for s in sections if s.get("truncated")]
+    if truncated:
+        print(f"[WARN] {len(truncated)} 个 PDF 文本块疑似被页面/单元格截断（引号或括号不配对），"
+              f"已标 truncated=true；成稿补全时必须用 [!NOTE] 声明补全依据：", file=sys.stderr)
+        for s in truncated[:20]:
+            print(f"    p{s.get('page')}: {s['text'][:80]}", file=sys.stderr)
 
     if not finalize:
         return sections
@@ -768,6 +962,10 @@ def _finalize(sections, src_path, img_dir, n_images, output_dir, split_level="au
     if chapter_level == 0:
         print("[no-split] 全部 section 写入 chapter_01.json。")
         print("  写完 MD 后用 wc -c 检查文件大小；超过 5 MB 再按 H2 拆分为多文件。")
+        if len(sections) > MAX_CHAPTER_SECTIONS:
+            print(f"\n[WARN] chapter_01.json 有 {len(sections)} 个 section（>{MAX_CHAPTER_SECTIONS}），"
+                  f"一次读不完、违反 Chunk everything。chapter_NN.json 只是处理分块，与成稿是否"
+                  f"单个 .md 无关——想输出一篇笔记也应去掉 --no-split 重跑，逐个 chapter 写入同一个 .md。")
     elif chapters:
         print(f"章节列表 (H{chapter_level}):")
         for i, c in enumerate(chapters, 1):

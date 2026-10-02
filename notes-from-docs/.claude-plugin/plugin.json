@@ -1,6 +1,6 @@
 {
   "name": "notes-from-docs",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "将 .docx/.doc/.pdf/.html/.htm 培训文档、极客时间 .mhtml 专栏文章、极客时间课程资料包目录统一转换为结构化 Obsidian 笔记：图片 OCR/OSS 上传（html 远程图片自动下载后同一上传流程）、Mermaid/HTML卡片/LaTeX 图解、technical/conceptual 文档类型判定（docx/pdf/html、mhtml 路径）、内容守恒机械核验、时效性复查。合并自原 doc-to-notes + mhtml-refine-to-md + organize-course-package 三个插件，按输入格式路由到不同流程，共享可视化/核验规则",
   "author": { "name": "fengyuhao" },
   "keywords": ["obsidian", "notes", "docx", "pdf", "html", "mhtml", "geektime", "learning", "second-brain", "course-package"]

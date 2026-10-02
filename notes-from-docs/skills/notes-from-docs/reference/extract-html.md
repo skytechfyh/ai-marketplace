@@ -21,8 +21,11 @@ OCR+视觉分析、版本重对齐、骨架填充写作、`verify_content.py`/`c
 
 ```bash
 python3 __SKILL_DIR__/scripts/extract_html.py \
-  "/path/to/article.html" --no-split
+  "/path/to/article.html"
 ```
+
+> 单篇短文（总 section ≤ 90）可加 `--no-split`；更长的不要加——`chapter_NN.json` 只是处理分块，
+> 成稿照样是一篇 md（见 extract-docx-pdf.md A0 的"两个拆分"说明）。
 
 **同一逻辑内容的一批 html 文件**（如某训练营"课前学习资料"目录，每个文件是一讲）—— 用
 `extract_batch.py`，与 [extract-docx-pdf.md](extract-docx-pdf.md) A0b 的"课程系列"用法完全一致，
@@ -30,7 +33,7 @@ python3 __SKILL_DIR__/scripts/extract_html.py \
 
 ```bash
 python3 __SKILL_DIR__/scripts/extract_batch.py \
-  "/path/to/课前学习资料" --pattern "*.html" --title "训练营名-课前学习资料" --no-split
+  "/path/to/课前学习资料" --pattern "*.html" --title "训练营名-课前学习资料"
 ```
 
 判断用哪种模式：同一批带连续编号的讲次文件（文件名形如 `NN-MM 序号. 标题.html`）→ 批量；
