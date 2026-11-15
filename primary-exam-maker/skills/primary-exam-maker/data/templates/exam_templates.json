@@ -1,0 +1,924 @@
+{
+ "schema": 1,
+ "total": 100,
+ "tier_ratio": {
+  "基础": 70,
+  "中档": 20,
+  "拔高": 10
+ },
+ "notes": [
+  "结构来自多份通用期中/期末/单元卷的共性，不是南京或某校的官方规定；不做学校真卷校准，用 difficulty_levels 控制难度",
+  "suggested_minutes 仅供参考，不做时长限制",
+  "不设卷面分",
+  "同一模板总分必须为 100，由 validate_templates.py 校验"
+ ],
+ "math": {
+  "g2": {
+   "final": {
+    "suggested_minutes": 60,
+    "sections": [
+     {
+      "id": "kousuan",
+      "name": "口算",
+      "count": 10,
+      "per": 1,
+      "points": 10,
+      "tier": "基础",
+      "note": "表内/万以内口算，限时意识，不依赖草稿"
+     },
+     {
+      "id": "tiankong",
+      "name": "填空",
+      "count": 24,
+      "per": 1,
+      "points": 24,
+      "tier": "基础",
+      "note": "概念、算理、单位换算；末2空可设中档"
+     },
+     {
+      "id": "xuanze",
+      "name": "选择",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "中档"
+     },
+     {
+      "id": "panduan",
+      "name": "判断",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础",
+      "note": "含易错概念辨析，不含需改正的开放判断"
+     },
+     {
+      "id": "bisuan",
+      "name": "竖式与脱式计算",
+      "count": 4,
+      "per": 4,
+      "points": 16,
+      "tier": "基础",
+      "note": "按本册要求：竖式、验算、脱式、递等式"
+     },
+     {
+      "id": "caozuo",
+      "name": "图形与操作",
+      "count": 2,
+      "per": 4,
+      "points": 8,
+      "tier": "基础",
+      "note": "看图/画图/测量/分一分"
+     },
+     {
+      "id": "jiejue",
+      "name": "解决问题",
+      "count": 6,
+      "points_list": [
+       4,
+       4,
+       5,
+       5,
+       5,
+       5
+      ],
+      "points": 28,
+      "tier": "混合",
+      "note": "前几题基础，最后2题为中档/拔高（开放、多步、思维）"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册（约 1–4 单元），不含后半册"
+   },
+   "unit": {
+    "suggested_minutes": 40,
+    "sections": [
+     {
+      "id": "kousuan",
+      "name": "口算",
+      "count": 10,
+      "per": 1,
+      "points": 10,
+      "tier": "基础",
+      "note": "表内/万以内口算，限时意识，不依赖草稿"
+     },
+     {
+      "id": "tiankong",
+      "name": "填空",
+      "count": 30,
+      "per": 1,
+      "points": 30,
+      "tier": "基础",
+      "note": "概念、算理、单位换算；末2空可设中档"
+     },
+     {
+      "id": "xuanze",
+      "name": "选择",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "中档"
+     },
+     {
+      "id": "panduan",
+      "name": "判断",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础",
+      "note": "含易错概念辨析，不含需改正的开放判断"
+     },
+     {
+      "id": "bisuan",
+      "name": "竖式与脱式计算",
+      "count": 4,
+      "per": 4,
+      "points": 16,
+      "tier": "基础",
+      "note": "按本册要求：竖式、验算、脱式、递等式"
+     },
+     {
+      "id": "jiejue",
+      "name": "解决问题",
+      "count": 6,
+      "points_list": [
+       4,
+       4,
+       5,
+       5,
+       6,
+       6
+      ],
+      "points": 30,
+      "tier": "混合",
+      "note": "前几题基础，最后2题为中档/拔高（开放、多步、思维）"
+     }
+    ],
+    "note": "图形与操作类单元把‘解决问题’中1题换成操作题，总分保持 100"
+   }
+  },
+  "g3": {
+   "final": {
+    "suggested_minutes": 70,
+    "sections": [
+     {
+      "id": "kousuan",
+      "name": "口算",
+      "count": 12,
+      "per": 1,
+      "points": 12,
+      "tier": "基础",
+      "note": "表内/万以内口算，限时意识，不依赖草稿"
+     },
+     {
+      "id": "tiankong",
+      "name": "填空",
+      "count": 22,
+      "per": 1,
+      "points": 22,
+      "tier": "基础",
+      "note": "概念、算理、单位换算；末2空可设中档"
+     },
+     {
+      "id": "xuanze",
+      "name": "选择",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "中档"
+     },
+     {
+      "id": "panduan",
+      "name": "判断",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础",
+      "note": "含易错概念辨析，不含需改正的开放判断"
+     },
+     {
+      "id": "bisuan",
+      "name": "竖式与脱式计算",
+      "count": 4,
+      "per": 4,
+      "points": 16,
+      "tier": "基础",
+      "note": "按本册要求：竖式、验算、脱式、递等式"
+     },
+     {
+      "id": "caozuo",
+      "name": "图形与操作",
+      "count": 2,
+      "per": 3,
+      "points": 6,
+      "tier": "基础",
+      "note": "看图/画图/测量/分一分"
+     },
+     {
+      "id": "jiejue",
+      "name": "解决问题",
+      "count": 6,
+      "points_list": [
+       4,
+       4,
+       5,
+       5,
+       6,
+       6
+      ],
+      "points": 30,
+      "tier": "混合",
+      "note": "前几题基础，最后2题为中档/拔高（开放、多步、思维）"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册"
+   },
+   "unit": {
+    "suggested_minutes": 40,
+    "sections": [
+     {
+      "id": "kousuan",
+      "name": "口算",
+      "count": 10,
+      "per": 1,
+      "points": 10,
+      "tier": "基础",
+      "note": "表内/万以内口算，限时意识，不依赖草稿"
+     },
+     {
+      "id": "tiankong",
+      "name": "填空",
+      "count": 30,
+      "per": 1,
+      "points": 30,
+      "tier": "基础",
+      "note": "概念、算理、单位换算；末2空可设中档"
+     },
+     {
+      "id": "xuanze",
+      "name": "选择",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "中档"
+     },
+     {
+      "id": "panduan",
+      "name": "判断",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础",
+      "note": "含易错概念辨析，不含需改正的开放判断"
+     },
+     {
+      "id": "bisuan",
+      "name": "竖式与脱式计算",
+      "count": 4,
+      "per": 4,
+      "points": 16,
+      "tier": "基础",
+      "note": "按本册要求：竖式、验算、脱式、递等式"
+     },
+     {
+      "id": "jiejue",
+      "name": "解决问题",
+      "count": 6,
+      "points_list": [
+       4,
+       4,
+       5,
+       5,
+       6,
+       6
+      ],
+      "points": 30,
+      "tier": "混合",
+      "note": "前几题基础，最后2题为中档/拔高（开放、多步、思维）"
+     }
+    ]
+   }
+  }
+ },
+ "chinese": {
+  "g2": {
+   "final": {
+    "suggested_minutes": 70,
+    "sections": [
+     {
+      "id": "pinyin",
+      "name": "看拼音写词语",
+      "count": 10,
+      "per": 1,
+      "points": 10,
+      "tier": "基础",
+      "note": "词语取自本册词语表/写字表"
+     },
+     {
+      "id": "bianxi",
+      "name": "字词辨析",
+      "count": 8,
+      "per": 1,
+      "points": 8,
+      "tier": "基础",
+      "note": "多音字、形近字、同音字选字组词"
+     },
+     {
+      "id": "ciyu",
+      "name": "词语运用",
+      "count": 6,
+      "per": 1,
+      "points": 6,
+      "tier": "基础",
+      "note": "搭配、补充、分类、近反义词"
+     },
+     {
+      "id": "juzi",
+      "name": "句子训练",
+      "count": 4,
+      "per": 3,
+      "points": 12,
+      "tier": "基础",
+      "note": "排序、照样子写、改写（把字句/被字句）、标点"
+     },
+     {
+      "id": "jilei",
+      "name": "积累运用",
+      "count": 7,
+      "per": 2,
+      "points": 14,
+      "tier": "基础",
+      "note": "古诗词默写、课文填空、日积月累"
+     },
+     {
+      "id": "yuedu_nei",
+      "name": "课内阅读",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "课文片段"
+     },
+     {
+      "id": "yuedu_wai",
+      "name": "课外阅读",
+      "count": 6,
+      "points_list": [
+       3,
+       3,
+       3,
+       3,
+       4,
+       4
+      ],
+      "points": 20,
+      "tier": "混合",
+      "note": "原创/公版短文；最后一题为拔高（表达、感悟）"
+     },
+     {
+      "id": "xiehua",
+      "name": "看图写话",
+      "count": 1,
+      "per": 20,
+      "points": 20,
+      "tier": "中档",
+      "note": "评分量规：内容/语句/标点/想象；不设卷面分"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册（前4组课文与园地）"
+   },
+   "unit": {
+    "same_as": "final",
+    "scope": "所选单元；写话/习作用本单元要求，阅读选本单元文体",
+    "note": "单元卷各题型题量可按范围缩放，但题型与分值权重保持不变，总分 100"
+   }
+  },
+  "g3": {
+   "final": {
+    "suggested_minutes": 80,
+    "sections": [
+     {
+      "id": "pinyin",
+      "name": "看拼音写词语",
+      "count": 8,
+      "per": 1,
+      "points": 8,
+      "tier": "基础",
+      "note": "词语取自本册词语表/写字表"
+     },
+     {
+      "id": "bianxi",
+      "name": "字词辨析",
+      "count": 8,
+      "per": 1,
+      "points": 8,
+      "tier": "基础",
+      "note": "多音字、形近字、同音字、词语理解"
+     },
+     {
+      "id": "juzi",
+      "name": "句子训练",
+      "count": 4,
+      "points_list": [
+       2,
+       2,
+       3,
+       3
+      ],
+      "points": 10,
+      "tier": "基础",
+      "note": "扩句/缩句、修辞、改病句、关联词"
+     },
+     {
+      "id": "jilei",
+      "name": "积累运用",
+      "count": 7,
+      "per": 2,
+      "points": 14,
+      "tier": "基础",
+      "note": "古诗词默写、课文填空、日积月累、名句"
+     },
+     {
+      "id": "yuedu_nei",
+      "name": "课内阅读",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "课文片段"
+     },
+     {
+      "id": "yuedu_wai",
+      "name": "课外阅读",
+      "count": 5,
+      "per": 4,
+      "points": 20,
+      "tier": "混合",
+      "note": "原创/公版短文；最后一题为拔高（概括、感悟、迁移）"
+     },
+     {
+      "id": "xizuo",
+      "name": "习作",
+      "count": 1,
+      "per": 30,
+      "points": 30,
+      "tier": "中档",
+      "note": "评分量规：内容/结构/语句/标点；不设卷面分，字数不少于课标/单元要求"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册"
+   },
+   "unit": {
+    "same_as": "final",
+    "scope": "所选单元；习作用本单元习作要求"
+   }
+  }
+ },
+ "english": {
+  "g3_up": {
+   "final": {
+    "suggested_minutes": 60,
+    "sections": [
+     {
+      "id": "l_pic",
+      "name": "听音选图/选内容",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "单词/句子，每段读两遍"
+     },
+     {
+      "id": "l_tf",
+      "name": "听音判断（图文是否相符）",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础"
+     },
+     {
+      "id": "l_ans",
+      "name": "听句选答语",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "l_fill",
+      "name": "听对话填关键词",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础",
+      "note": "填首字母/词，词取自本册 core 词表"
+     },
+     {
+      "id": "l_order",
+      "name": "听短文排序",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "phon",
+      "name": "语音与字母",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "Sounds in focus / Letters in focus：辨音、字母大小写、字母顺序"
+     },
+     {
+      "id": "choice",
+      "name": "单项选择",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "中档"
+     },
+     {
+      "id": "cloze",
+      "name": "选词填空",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "dialog",
+      "name": "情景交际",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "选答句/排对话"
+     },
+     {
+      "id": "read",
+      "name": "阅读判断与选择",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "混合",
+      "note": "最后一题可设拔高"
+     },
+     {
+      "id": "write",
+      "name": "看图写词/抄写句子",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "三上书写要求低，以抄写、补全为主"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册（Unit 1–4）"
+   },
+   "unit": {
+    "suggested_minutes": 40,
+    "sections": [
+     {
+      "id": "l_pic",
+      "name": "听音选图/选内容",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "单词/句子，每段读两遍"
+     },
+     {
+      "id": "l_tf",
+      "name": "听音判断（图文是否相符）",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础"
+     },
+     {
+      "id": "l_ans",
+      "name": "听句选答语",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "l_fill",
+      "name": "听对话填关键词",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础",
+      "note": "填首字母/词，词取自本册 core 词表"
+     },
+     {
+      "id": "l_order",
+      "name": "听短文排序",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "phon",
+      "name": "语音与字母",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "choice",
+      "name": "单项选择",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "中档"
+     },
+     {
+      "id": "dialog",
+      "name": "情景交际",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "sent",
+      "name": "连词成句/句子补全",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "read",
+      "name": "阅读判断与选择",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "混合"
+     },
+     {
+      "id": "write",
+      "name": "看图写词/抄写",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     }
+    ]
+   }
+  },
+  "g3_down": {
+   "final": {
+    "suggested_minutes": 60,
+    "sections": [
+     {
+      "id": "l_pic",
+      "name": "听音选图/选内容",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "单词/句子，每段读两遍"
+     },
+     {
+      "id": "l_tf",
+      "name": "听音判断（图文是否相符）",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础"
+     },
+     {
+      "id": "l_ans",
+      "name": "听句选答语",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "l_fill",
+      "name": "听对话填关键词",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础",
+      "note": "填首字母/词，词取自本册 core 词表"
+     },
+     {
+      "id": "l_order",
+      "name": "听短文排序",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "phon",
+      "name": "语音辨析",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础"
+     },
+     {
+      "id": "choice",
+      "name": "单项选择",
+      "count": 6,
+      "per": 2,
+      "points": 12,
+      "tier": "中档"
+     },
+     {
+      "id": "vocab",
+      "name": "词汇运用（中文提示写单词）",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "词取自本册 core 词表"
+     },
+     {
+      "id": "dialog",
+      "name": "情景交际",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "order",
+      "name": "连词成句",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础",
+      "note": "含标点与大小写"
+     },
+     {
+      "id": "read",
+      "name": "阅读理解",
+      "count": 7,
+      "points_list": [
+       2,
+       2,
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "points": 14,
+      "tier": "混合",
+      "note": "最后一题可设拔高"
+     }
+    ]
+   },
+   "midterm": {
+    "same_as": "final",
+    "scope": "前半册（Unit 1–4）"
+   },
+   "unit": {
+    "suggested_minutes": 40,
+    "sections": [
+     {
+      "id": "l_pic",
+      "name": "听音选图/选内容",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础",
+      "note": "单词/句子，每段读两遍"
+     },
+     {
+      "id": "l_tf",
+      "name": "听音判断（图文是否相符）",
+      "count": 3,
+      "per": 2,
+      "points": 6,
+      "tier": "基础"
+     },
+     {
+      "id": "l_ans",
+      "name": "听句选答语",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "l_fill",
+      "name": "听对话填关键词",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础",
+      "note": "填首字母/词，词取自本册 core 词表"
+     },
+     {
+      "id": "l_order",
+      "name": "听短文排序",
+      "count": 4,
+      "per": 2,
+      "points": 8,
+      "tier": "基础"
+     },
+     {
+      "id": "phon",
+      "name": "语音辨析",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "choice",
+      "name": "单项选择",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "中档"
+     },
+     {
+      "id": "vocab",
+      "name": "词汇运用（中文提示写单词）",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "dialog",
+      "name": "情景交际",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "order",
+      "name": "连词成句",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "基础"
+     },
+     {
+      "id": "read",
+      "name": "阅读理解",
+      "count": 5,
+      "per": 2,
+      "points": 10,
+      "tier": "混合"
+     }
+    ]
+   }
+  }
+ },
+ "difficulty_levels": {
+  "basic": {
+   "name": "基础卷",
+   "ratio": {
+    "基础": 85,
+    "中档": 15,
+    "拔高": 0
+   }
+  },
+  "standard": {
+   "name": "标准卷",
+   "ratio": {
+    "基础": 70,
+    "中档": 20,
+    "拔高": 10
+   },
+   "default": true
+  },
+  "advanced": {
+   "name": "提高卷",
+   "ratio": {
+    "基础": 50,
+    "中档": 30,
+    "拔高": 20
+   }
+  }
+ }
+}

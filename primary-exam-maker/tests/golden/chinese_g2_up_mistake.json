@@ -1,0 +1,226 @@
+{
+ "schema": 1,
+ "exam_id": "golden-chinese-g2-up-mistake",
+ "created_at": "2026-11-12",
+ "child": {},
+ "subject": "chinese",
+ "kind": "mistake",
+ "title": "二年级语文上册 · 错题定向专项（黄金样例）",
+ "scope": {
+  "grade": 2,
+  "term": "up",
+  "textbook_edition": "统编版"
+ },
+ "difficulty_level": "basic",
+ "total_points": 16,
+ "suggested_minutes": 20,
+ "sections": [
+  {
+   "id": "kanpinyin",
+   "name": "一、看拼音写词语",
+   "points": 6,
+   "instructions": "读拼音，在田字格里写词语。",
+   "items": [
+    {
+     "id": "m1",
+     "no": 1,
+     "stem": "{{pinyin_tianzige py=\"xuě bái\"}}",
+     "type": "看拼音写词语",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "雪白",
+     "scoring_rules": "写对得 2 分；错字、别字不得分。",
+     "hint": "像雪一样的白。",
+     "knowledge_points": [
+      "C2U-1-01"
+     ],
+     "source_mistake": {
+      "original": "看拼音写词语：xuě bái（孩子写成“雪百”）",
+      "error_type": "同音字混淆",
+      "variant_kind": "同构"
+     }
+    },
+    {
+     "id": "m2",
+     "no": 2,
+     "stem": "{{pinyin_tianzige py=\"zhī shi\"}}",
+     "type": "看拼音写词语",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "知识",
+     "scoring_rules": "写对得 2 分；错字不得分。",
+     "hint": "学到的东西。",
+     "knowledge_points": [
+      "C2U-1-03"
+     ],
+     "source_mistake": {
+      "original": "看拼音写词语：zhī shi（孩子写成“知实”）",
+      "error_type": "同音字混淆",
+      "variant_kind": "同构"
+     }
+    },
+    {
+     "id": "m3",
+     "no": 3,
+     "stem": "{{pinyin_tianzige py=\"hǎi yáng\"}}",
+     "type": "看拼音写词语",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "海洋",
+     "scoring_rules": "写对得 2 分；错字不得分。",
+     "hint": "很大很大的水。",
+     "knowledge_points": [
+      "C2U-1-02"
+     ],
+     "source_mistake": {
+      "original": "看拼音写词语：hǎi yáng（孩子写成“海羊”）",
+      "error_type": "同音字混淆",
+      "variant_kind": "迁移"
+     }
+    }
+   ]
+  },
+  {
+   "id": "bianxi",
+   "name": "二、字词辨析",
+   "points": 6,
+   "instructions": "选字填空，把序号写在括号里。",
+   "items": [
+    {
+     "id": "m4",
+     "no": 1,
+     "stem": "下面词语中，写法完全正确的一项是（　）。",
+     "type": "字词辨析",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "options": [
+      "那里 / 哪里",
+      "那里 / 那里",
+      "哪能 / 那里"
+     ],
+     "answer": "那里 / 哪里",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "“那”指远处，“哪”表示疑问。",
+     "knowledge_points": [
+      "C2U-1-01"
+     ],
+     "source_mistake": {
+      "original": "选字填空：“那”与“哪”混用",
+      "error_type": "形近字混淆",
+      "variant_kind": "同构"
+     }
+    },
+    {
+     "id": "m5",
+     "no": 2,
+     "stem": "“孩子”的“孩”字，偏旁是（　）。",
+     "type": "字词辨析",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "options": [
+      "子字旁",
+      "亥字旁",
+      "亠"
+     ],
+     "answer": "子字旁",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "看看这个字的左边。",
+     "knowledge_points": [
+      "C2U-1-01"
+     ],
+     "source_mistake": {
+      "original": "写“孩”字时把左边的子字旁写成了亥",
+      "error_type": "偏旁错位",
+      "variant_kind": "同构"
+     }
+    },
+    {
+     "id": "m6",
+     "no": 3,
+     "stem": "“教”是多音字。在“老师教我读书”这句话里，“教”应该读（　）。",
+     "type": "字词辨析",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "options": [
+      "jiāo",
+      "jiào",
+      "xiào"
+     ],
+     "answer": "jiāo",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "表示“传授知识”时读第一声。",
+     "knowledge_points": [
+      "C2U-1-01"
+     ],
+     "source_mistake": {
+      "original": "给“教”注音时读成 jiào",
+      "error_type": "多音字误读",
+      "variant_kind": "同构"
+     }
+    }
+   ]
+  },
+  {
+   "id": "juzi",
+   "name": "三、句子练习",
+   "points": 4,
+   "instructions": "按要求写句子。",
+   "items": [
+    {
+     "id": "m7",
+     "no": 1,
+     "stem": "把句子补充完整：小蝌蚪在池塘里{{blank n=10}}。",
+     "type": "句子练习",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "游来游去（意思通顺即可）",
+     "scoring_rules": "句子通顺、搭配合理得 2 分；只写一个词不得分。",
+     "hint": "想想小蝌蚪在做什么。",
+     "knowledge_points": [
+      "C2U-1-01"
+     ],
+     "source_mistake": {
+      "original": "补充句子时写成“小蝌蚪在池塘里很可爱”，没写动作",
+      "error_type": "搭配不当",
+      "variant_kind": "同构"
+     }
+    },
+    {
+     "id": "m8",
+     "no": 2,
+     "stem": "照样子写句子：例：植物妈妈有办法。→ {{blank n=14}}有办法。",
+     "type": "句子练习",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "（填一个合适的人或事物，句子通顺即可）",
+     "scoring_rules": "句式正确、句子通顺得 2 分。",
+     "hint": "把“植物妈妈”换成别的。",
+     "knowledge_points": [
+      "C2U-1-03"
+     ],
+     "source_mistake": {
+      "original": "仿写时照抄原句，没换主语",
+      "error_type": "未按要求改写",
+      "variant_kind": "迁移"
+     }
+    }
+   ]
+  }
+ ]
+}

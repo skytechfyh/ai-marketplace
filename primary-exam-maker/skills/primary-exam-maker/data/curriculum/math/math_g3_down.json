@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "subject": "数学",
+  "grade": 3,
+  "term": "下",
+  "publisher": "江苏凤凰教育出版社",
+  "edition": "苏教版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "5f8e164a-5510-466f-b58b-4728edd09eb2",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·数学三年级下册",
+    "index_year_tag": null,
+    "index_update_time": "2026-03-11T10:50:11.237+0800",
+    "extracted_from": "第6页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "各单元内部的例题与知识点（目录只到单元级）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "title": "角",
+      "page": 1
+    },
+    {
+      "no": 2,
+      "title": "加法数量关系",
+      "page": 21,
+      "extras": [
+        {
+          "title": "年、月、日的秘密",
+          "page": 31,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "title": "两位数乘两位数",
+      "page": 37,
+      "extras": [
+        {
+          "title": "简单的周期",
+          "page": 58,
+          "kind": "数学广角"
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "title": "统计表和条形统计图（一）",
+      "page": 60,
+      "extras": [
+        {
+          "title": "垃圾分类中的数学问题",
+          "page": 71,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "title": "长方形和正方形",
+      "page": 75,
+      "extras": [
+        {
+          "title": "寻找“宝藏”",
+          "page": 91,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "title": "分数的初步认识",
+      "page": 94
+    }
+  ],
+  "review": [
+    {
+      "title": "期末复习",
+      "page": 112
+    }
+  ]
+}

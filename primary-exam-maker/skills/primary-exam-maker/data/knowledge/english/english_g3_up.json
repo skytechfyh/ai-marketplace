@@ -1,0 +1,1280 @@
+{
+ "schema": 1,
+ "subject": "英语",
+ "grade": 3,
+ "term": "上",
+ "edition": "译林版（三年级起点）",
+ "sources": {
+  "textbook": "义务教育教科书·英语三年级上册（译林版，三年级起点，根据2022年版课程标准修订），页码为教材印刷页码",
+  "standard": "义务教育英语课程标准（2022年版）一级（3～4年级），语言知识与语言技能主题；level 采用了解/理解/掌握/运用",
+  "unit_goals_from": "教材各单元 Big question、Story time/Wrap-up time 板块"
+ },
+ "unit_goals": {
+  "1": "能用 Hello!/Hi!、Good morning./Good afternoon. 在不同时段问候他人，用 Goodbye./Bye! 道别；能自我介绍 I'm...，并在 Story time 中读懂开学第一天的问候与道别",
+  "2": "能询问他人姓名 What's your name? 并回答 My name is.../I'm...；能用 Nice to meet you. 相互问候，认识新同学",
+  "3": "能用 Are you...? Yes, I am./No, I'm not. 确认他人身份，用 What class are you in? 询问班级；能读懂双胞胎故事并礼貌纠正误会",
+  "4": "能用 This is... He's/She's my friend. 向他人介绍朋友；能区分 he/she，读懂并表演介绍朋友的故事",
+  "5": "能说出父母、兄弟姐妹等家庭成员称谓，用 Who's he/she? He's/She's my... 询问和介绍家人；能用 Good evening. 问候，表达对家庭的爱",
+  "6": "能说出 grandpa、grandma、uncle、aunt、cousin 等大家庭成员称谓，用 Is he/she your...? Yes, he/she is./No, he/she isn't. 确认家人身份；能制作家谱并介绍家庭",
+  "7": "能认读数字 one～ten，用 How old are you? I'm... 询问和回答年龄；能用 Can I help you?/Here you are. 等购物用语，谈论生日礼物并表达感谢",
+  "8": "能用 I can.../We can... 说出自己能为他/家人做的事（sing, dance, draw, clean the table, take pictures）；能读懂家庭聚会故事并复述"
+ },
+ "item_type_vocab": [
+  "听写",
+  "选择",
+  "填空",
+  "连线",
+  "看图选词",
+  "听音选图",
+  "情景交际",
+  "连词成句",
+  "阅读判断",
+  "书写",
+  "口语"
+ ],
+ "knowledge_points": [
+  {
+   "id": "E3U-1-01",
+   "name": "Unit 1 核心词汇：问候与告别",
+   "unit": 1,
+   "pages": [
+    8,
+    10,
+    12,
+    13
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 hello、hi、Good morning.、Good afternoon.、goodbye、bye，知道 Miss 用于称呼女教师",
+   "error_types": [
+    "Good morning. 与 Good afternoon. 使用时段混淆",
+    "goodbye 拼写漏字母",
+    "问候语首字母未大写"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-1-02",
+   "name": "Unit 1 情景交际：不同时段的问候与道别",
+   "unit": 1,
+   "pages": [
+    9,
+    10,
+    12,
+    13
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-1-01"
+   ],
+   "mastery": "能在早上、下午等情境中运用 Good morning. / Good afternoon. 问候，用 Hello!/Hi! 打招呼，用 Goodbye./Bye! 道别",
+   "error_types": [
+    "问候语与时段不匹配",
+    "Good afternoon. 误用于早上",
+    "道别时误用 Good morning."
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-1-03",
+   "name": "Unit 1 字母认读与书写：Aa、Bb、Cc、Dd",
+   "unit": 1,
+   "pages": [
+    11
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能认读字母 Aa、Bb、Cc、Dd，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "字母 b/d 混淆",
+    "大写 D 与小写 d 混淆",
+    "四线三格占格错误"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ],
+   "note": "Letters in focus 板块（p.11）；本册为字母认读与书写，不涉及音标"
+  },
+  {
+   "id": "E3U-1-04",
+   "name": "Unit 1 故事阅读：First day at school",
+   "unit": 1,
+   "pages": [
+    12,
+    13
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-1-01",
+    "E3U-1-02"
+   ],
+   "mastery": "能读懂开学第一天师生问候与道别的故事，提取人物、时段和问候语，并能分角色朗读",
+   "error_types": [
+    "人物与对话对应错",
+    "上午/下午问候语判断错",
+    "图片顺序与对话顺序不符"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-1-05",
+   "name": "Unit 1 缩写形式：I'm = I am",
+   "unit": 1,
+   "pages": [
+    10
+   ],
+   "std": [
+    "语言知识/语法/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-1-02"
+   ],
+   "mastery": "知道 I'm 是 I am 的缩写，能用 I'm... 作自我介绍",
+   "error_types": [
+    "I'm 与 I am 缩写漏写",
+    "I'm 后误加 am",
+    "撇号位置写错"
+   ],
+   "item_types": [
+    "填空",
+    "选择",
+    "书写",
+    "口语"
+   ],
+   "note": "教材以 Cartoon time 注释形式呈现 I'm = I am（p.10）"
+  },
+  {
+   "id": "E3U-2-01",
+   "name": "Unit 2 核心词汇：姓名与人物",
+   "unit": 2,
+   "pages": [
+    16,
+    18,
+    21
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 what、is、your、name、my、too、boy、girl、and、Mr，理解询问姓名的表达",
+   "error_types": [
+    "name 拼写漏字母",
+    "your 与 you 混淆",
+    "Mr 后误加名字全称"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-2-02",
+   "name": "Unit 2 情景交际：询问与介绍姓名",
+   "unit": 2,
+   "pages": [
+    17,
+    18,
+    20,
+    21
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-2-01"
+   ],
+   "mastery": "能在认识新同学时运用 What's your name? 询问姓名，用 My name is... / I'm... 回答，并用 Nice to meet you. 相互问候",
+   "error_types": [
+    "What's 写成 Whats",
+    "My name is 后漏写姓名",
+    "Nice to meet you. 与 Nice to meet you too. 混用"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ],
+   "note": "Nice to meet you! 见教材 Word lists（p.18），词表 JSON 未收录"
+  },
+  {
+   "id": "E3U-2-03",
+   "name": "Unit 2 字母认读与书写：Ee、Ff、Gg",
+   "unit": 2,
+   "pages": [
+    19
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-1-03"
+   ],
+   "mastery": "能认读字母 Ee、Ff、Gg，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 f 占格错误",
+    "Ee 与 Gg 混淆",
+    "字母笔画顺序错"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-2-04",
+   "name": "Unit 2 故事阅读：A new classmate",
+   "unit": 2,
+   "pages": [
+    20,
+    21
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-2-02"
+   ],
+   "mastery": "能读懂新同学相互认识的对话，提取人物姓名和问候语，并能分角色表演",
+   "error_types": [
+    "Mike Brown 与 Mr Green 身份混淆",
+    "人物姓名与图片对应错",
+    "忽略 Nice to meet you. 的使用场景"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-2-05",
+   "name": "Unit 2 英文姓名与 Mr/Miss 称呼",
+   "unit": 2,
+   "pages": [
+    20,
+    21
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "文化知识/一级"
+   ],
+   "level": "了解",
+   "prereq": [
+    "E3U-2-01"
+   ],
+   "mastery": "知道英文姓名名在前、姓在后，会用 Mr / Miss 得体称呼他人",
+   "error_types": [
+    "英文姓名顺序写反",
+    "Mr 与 Miss 混用",
+    "姓名首字母未大写"
+   ],
+   "item_types": [
+    "选择",
+    "连线",
+    "填空",
+    "口语"
+   ],
+   "note": "英文姓名表达见 Learning tips（p.76）；课标未单列，按教材板块建点"
+  },
+  {
+   "id": "E3U-3-01",
+   "name": "Unit 3 核心词汇：确认身份与班级",
+   "unit": 3,
+   "pages": [
+    24,
+    26,
+    28,
+    29
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 are、you、yes、no、not、sorry、we、class、in、with、right，理解确认身份的用语",
+   "error_types": [
+    "yes 与 no 答语用反",
+    "class 拼写漏字母",
+    "sorry 与 excuse me 混淆"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-3-02",
+   "name": "Unit 3 情景交际：确认他人身份",
+   "unit": 3,
+   "pages": [
+    25,
+    26,
+    28,
+    30,
+    31
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-3-01"
+   ],
+   "mastery": "能在情境中运用 Are you...? 询问对方身份，并用 Yes, I am. / No, I'm not. 回答",
+   "error_types": [
+    "Yes, I am. 漏写 I",
+    "No, I'm not. 中 not 漏写",
+    "Are you...? 语序错"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-3-03",
+   "name": "Unit 3 字母认读与书写：Hh、Ii、Jj、Kk",
+   "unit": 3,
+   "pages": [
+    27
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-2-03"
+   ],
+   "mastery": "能认读字母 Hh、Ii、Jj、Kk，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 i 漏写点",
+    "小写 j 占格错误",
+    "大写 I 与小写 l 混淆"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-3-04",
+   "name": "Unit 3 故事阅读：You're twins!",
+   "unit": 3,
+   "pages": [
+    28,
+    29
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-3-02"
+   ],
+   "mastery": "能读懂双胞胎相认的故事，分清 Su Hai 与 Su Yang 的身份，理解礼貌纠正与道歉",
+   "error_types": [
+    "Su Hai 与 Su Yang 混淆",
+    "twins 含义理解错",
+    "人物对话顺序判断错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-3-05",
+   "name": "Unit 3 情景交际：询问班级",
+   "unit": 3,
+   "pages": [
+    29,
+    30,
+    31
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-3-02"
+   ],
+   "mastery": "能运用 What class are you in? 询问班级，并用 I'm in Class... 回答",
+   "error_types": [
+    "Class 首字母未大写",
+    "班级数字与答语不符",
+    "What class 语序错"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-4-01",
+   "name": "Unit 4 核心词汇：朋友与介绍",
+   "unit": 4,
+   "pages": [
+    32,
+    34,
+    37
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 this、friend、she、he、it、good、have、many、Thank you.，理解介绍朋友的用语",
+   "error_types": [
+    "friend 拼写漏字母",
+    "he 与 she 混淆",
+    "this 与 it 指代混淆"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-4-02",
+   "name": "Unit 4 情景交际：介绍朋友",
+   "unit": 4,
+   "pages": [
+    33,
+    34,
+    36,
+    37,
+    39
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-4-01"
+   ],
+   "mastery": "能在情境中运用 This is... He's/She's my friend. 介绍朋友，并用 Nice to meet you. 问候",
+   "error_types": [
+    "This is 后误加 my",
+    "介绍男孩用 she、女孩用 he",
+    "He's/She's 缩写漏写撇号"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-4-03",
+   "name": "Unit 4 字母认读与书写：Ll、Mm、Nn",
+   "unit": 4,
+   "pages": [
+    35
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-3-03"
+   ],
+   "mastery": "能认读字母 Ll、Mm、Nn，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "大写 M 与 N 混淆",
+    "小写 l 与大写 I 混淆",
+    "小写 n 占格错误"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-4-04",
+   "name": "Unit 4 故事阅读：This is Zhang Hua",
+   "unit": 4,
+   "pages": [
+    36,
+    37
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-4-02"
+   ],
+   "mastery": "能读懂介绍新朋友的故事，理清人物关系与介绍顺序，并能分角色表演",
+   "error_types": [
+    "人物关系判断错",
+    "he/she 指代对象混淆",
+    "介绍顺序与图片不符"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-4-05",
+   "name": "Unit 4 缩写形式：he's、she's、it's",
+   "unit": 4,
+   "pages": [
+    34,
+    37
+   ],
+   "std": [
+    "语言知识/语法/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-4-02"
+   ],
+   "mastery": "知道 he's = he is、she's = she is、it's = it is，能在介绍朋友时正确使用缩写",
+   "error_types": [
+    "缩写漏写撇号",
+    "he's 与 his 混淆",
+    "it's 与 its 混淆"
+   ],
+   "item_types": [
+    "填空",
+    "选择",
+    "书写",
+    "口语"
+   ],
+   "note": "教材以 Cartoon time/Story time 注释形式呈现 he's、it's、she's（p.34、p.37）"
+  },
+  {
+   "id": "E3U-5-01",
+   "name": "Unit 5 核心词汇：家庭成员",
+   "unit": 5,
+   "pages": [
+    42,
+    44,
+    46,
+    47
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 mother、father、dad、mum、brother、sister、baby、family 等家庭成员称谓",
+   "error_types": [
+    "mother 与 father 混淆",
+    "brother 与 sister 性别混淆",
+    "mum 与 dad 指代错"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-5-02",
+   "name": "Unit 5 情景交际：询问与介绍家人",
+   "unit": 5,
+   "pages": [
+    43,
+    44,
+    46,
+    47,
+    49
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-5-01"
+   ],
+   "mastery": "能在情境中运用 Who's he/she? 询问家人身份，并用 He's/She's my... 回答",
+   "error_types": [
+    "Who's 写成 Whos",
+    "he/she 与人物性别不符",
+    "He's/She's 后家庭成员称谓用错"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-5-03",
+   "name": "Unit 5 字母认读与书写：Oo、Pp、Qq",
+   "unit": 5,
+   "pages": [
+    45
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-4-03"
+   ],
+   "mastery": "能认读字母 Oo、Pp、Qq，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 q 与 p 混淆",
+    "小写 q 占格错误",
+    "大写 Q 与 O 混淆"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-5-04",
+   "name": "Unit 5 故事阅读：Meeting Liu Tao's family",
+   "unit": 5,
+   "pages": [
+    46,
+    47
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-5-02"
+   ],
+   "mastery": "能读懂 Liu Tao 介绍家人的故事，提取家庭成员称谓与人物关系",
+   "error_types": [
+    "家庭成员关系判断错",
+    "sister/brother 对应人物错",
+    "Who's he/she 指代对象混淆"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-5-05",
+   "name": "Unit 5 综合表达：介绍我的家庭",
+   "unit": 5,
+   "pages": [
+    46,
+    49
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-5-02",
+    "E3U-5-04"
+   ],
+   "mastery": "能运用 This is my family. He's/She's... I love my family. 介绍全家并表达对家庭的爱",
+   "error_types": [
+    "介绍时遗漏家庭成员",
+    "he/she 用错",
+    "I love my family. 漏写 my"
+   ],
+   "item_types": [
+    "情景交际",
+    "口语",
+    "填空",
+    "连线"
+   ]
+  },
+  {
+   "id": "E3U-6-01",
+   "name": "Unit 6 核心词汇：大家庭成员",
+   "unit": 6,
+   "pages": [
+    50,
+    52,
+    54,
+    55
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-5-01"
+   ],
+   "mastery": "能听、说、认读 grandpa、grandma、uncle、aunt、cousin、big、happy、love 等大家庭成员与情感词",
+   "error_types": [
+    "uncle 与 aunt 性别混淆",
+    "cousin 拼写漏字母",
+    "grandpa 与 grandma 混淆"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ],
+   "note": "grandfather (grandpa)、grandmother (grandma) 见教材 Word lists（p.50），词表 JSON 未收录，已按教材补入"
+  },
+  {
+   "id": "E3U-6-02",
+   "name": "Unit 6 情景交际：确认家人身份",
+   "unit": 6,
+   "pages": [
+    51,
+    52,
+    54,
+    55,
+    57
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-6-01"
+   ],
+   "mastery": "能在情境中运用 Is he/she your...? 询问家人身份，并用 Yes, he/she is. / No, he/she isn't. 回答",
+   "error_types": [
+    "Yes, he is. 漏写 he",
+    "No, he isn't. 误答 No, he is.",
+    "he/she 与人物性别不符"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-6-03",
+   "name": "Unit 6 字母认读与书写：Rr、Ss、Tt",
+   "unit": 6,
+   "pages": [
+    53
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-5-03"
+   ],
+   "mastery": "能认读字母 Rr、Ss、Tt，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 r 占格错误",
+    "大写 S 与小写 s 混淆",
+    "小写 t 占格错误"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-6-04",
+   "name": "Unit 6 故事阅读：This is my family",
+   "unit": 6,
+   "pages": [
+    54,
+    55
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-6-02"
+   ],
+   "mastery": "能读懂 Liu Tao 大家庭的故事，提取家庭成员称谓和 Yes/No 问答",
+   "error_types": [
+    "家庭成员关系判断错",
+    "grandpa/grandma 对应人物错",
+    "Is he/she 问句与答语不匹配"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-6-05",
+   "name": "Unit 6 综合实践：制作家谱并介绍家庭",
+   "unit": 6,
+   "pages": [
+    56,
+    57
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3U-6-01",
+    "E3U-6-02"
+   ],
+   "mastery": "能制作简易家谱，并用 Who's...? He's/She's... Is he/she...? 介绍家庭",
+   "error_types": [
+    "家谱层级关系画错",
+    "家庭成员称谓标注错",
+    "介绍时 he/she 指代错"
+   ],
+   "item_types": [
+    "口语",
+    "连线",
+    "书写",
+    "情景交际"
+   ],
+   "note": "教材 B Do a role-play 与 Wrap-up time 板块（p.56～57）；课标未单列，按教材板块建点"
+  },
+  {
+   "id": "E3U-7-01",
+   "name": "Unit 7 核心词汇：数字 one～ten",
+   "unit": 7,
+   "pages": [
+    58,
+    59
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读数字 one～ten，并将数字单词与阿拉伯数字对应",
+   "error_types": [
+    "three 拼写漏字母",
+    "six 与 seven 混淆",
+    "数字单词与阿拉伯数字连线错"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-7-02",
+   "name": "Unit 7 情景交际：询问与回答年龄",
+   "unit": 7,
+   "pages": [
+    59,
+    60,
+    62,
+    63,
+    65
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-7-01"
+   ],
+   "mastery": "能在情境中运用 How old are you? 询问年龄，并用 I'm... 回答",
+   "error_types": [
+    "How old are you? 答语漏 I'm",
+    "年龄数字与单词不符",
+    "I'm nine. 中 nine 拼写错"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-7-03",
+   "name": "Unit 7 字母认读与书写：Uu、Vv、Ww",
+   "unit": 7,
+   "pages": [
+    61
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-6-03"
+   ],
+   "mastery": "能认读字母 Uu、Vv、Ww，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 u 与 v 混淆",
+    "小写 w 占格错误",
+    "大写 W 与 M 混淆"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-7-04",
+   "name": "Unit 7 故事阅读：Thanks, Dad!",
+   "unit": 7,
+   "pages": [
+    62,
+    63
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-7-02"
+   ],
+   "mastery": "能读懂 Liu Tao 生日购物与感谢的故事，提取人物年龄、礼物和购物用语",
+   "error_types": [
+    "Liu Tao 与 Liu Hao 年龄混淆",
+    "生日礼物与人物对应错",
+    "购物对话顺序判断错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-7-05",
+   "name": "Unit 7 情景交际：购物与致谢用语",
+   "unit": 7,
+   "pages": [
+    62,
+    63,
+    64
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-7-02"
+   ],
+   "mastery": "能运用 Can I help you? / Yes, please. / Here you are. / You're welcome. 完成简单购物与致谢对话",
+   "error_types": [
+    "Can I help you? 与 How old are you? 混用",
+    "Here you are. 与 You're welcome. 混用",
+    "Yes, please. 答语使用不当"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ],
+   "note": "You're welcome. 见教材 Word lists（p.63），词表 JSON 未收录"
+  },
+  {
+   "id": "E3U-8-01",
+   "name": "Unit 8 核心词汇：会做的事",
+   "unit": 8,
+   "pages": [
+    66,
+    67
+   ],
+   "std": [
+    "语言知识/词汇/一级",
+    "语言技能/听/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听、说、认读 sing、dance、draw、clean the table、take pictures 等动作短语",
+   "error_types": [
+    "take pictures 漏写 s",
+    "clean the table 漏写 the",
+    "draw 与 dance 混淆"
+   ],
+   "item_types": [
+    "听音选图",
+    "看图选词",
+    "连线",
+    "听写"
+   ]
+  },
+  {
+   "id": "E3U-8-02",
+   "name": "Unit 8 情景交际：用 I can... 表达能力",
+   "unit": 8,
+   "pages": [
+    66,
+    67,
+    68,
+    70,
+    71,
+    73
+   ],
+   "std": [
+    "语言知识/语用/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-8-01"
+   ],
+   "mastery": "能在情境中运用 I can... 说出自己能做的事，并用 We can... 表达共同能力",
+   "error_types": [
+    "I can 后动词形式错误（误加 to）",
+    "can 后动词误用 -ing 形式",
+    "I can 与 We can 主语混用"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "连词成句",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-8-03",
+   "name": "Unit 8 字母认读与书写：Xx、Yy、Zz",
+   "unit": 8,
+   "pages": [
+    69
+   ],
+   "std": [
+    "语言知识/语音/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3U-7-03"
+   ],
+   "mastery": "能认读字母 Xx、Yy、Zz，按笔画顺序在四线三格中正确书写大小写",
+   "error_types": [
+    "小写 x 与 y 混淆",
+    "小写 z 占格错误",
+    "大写 Z 与小写 z 混淆"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-8-04",
+   "name": "Unit 8 故事阅读：A family get-together",
+   "unit": 8,
+   "pages": [
+    70,
+    71,
+    72
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3U-8-02"
+   ],
+   "mastery": "能读懂家庭聚会故事，提取人物会做的事，并能借助关键词复述",
+   "error_types": [
+    "人物与能做的事对应错",
+    "I can 与 We can 混淆",
+    "故事顺序与图片不符"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3U-8-05",
+   "name": "Unit 8 综合运用：为家庭聚会计划表演",
+   "unit": 8,
+   "pages": [
+    70,
+    71,
+    73
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3U-8-02"
+   ],
+   "mastery": "能结合 I can... 为家庭聚会选择并写下自己能表演的节目，并向同伴口头介绍",
+   "error_types": [
+    "节目与动作短语不匹配",
+    "I can 后动词形式错误（误加 to）",
+    "计划遗漏场合或对象"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际"
+   ],
+   "note": "教材 Wrap-up time B Think and write（p.73），结合 Story time 家庭聚会情境"
+  },
+  {
+   "id": "E3U-S-01",
+   "name": "综合实践：Project 1 Making friends",
+   "unit": 4,
+   "pages": [
+    40,
+    41
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3U-1-05",
+    "E3U-2-02",
+    "E3U-4-02"
+   ],
+   "mastery": "能制作姓名牌，并用 Hello, I'm... / My name is... / This is... He's/She's my friend. 介绍自己和朋友",
+   "error_types": [
+    "姓名牌上英文姓名大小写错",
+    "自我介绍时 I'm 与 My name is 混用",
+    "介绍朋友时 he/she 用错"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际"
+   ],
+   "note": "Project 1 Making friends（p.40～41），教材安排在 Unit 4 之后"
+  },
+  {
+   "id": "E3U-S-02",
+   "name": "综合实践：Project 2 My family poster",
+   "unit": 8,
+   "pages": [
+    74,
+    75
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3U-5-05",
+    "E3U-6-05",
+    "E3U-8-02"
+   ],
+   "mastery": "能制作家庭海报，并用 This is... He's/She's... I can... 介绍家人和自己能为家人做的事",
+   "error_types": [
+    "家庭成员称谓用错",
+    "介绍时 he/she 指代错",
+    "海报遗漏姓名或年龄信息"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "连线"
+   ],
+   "note": "Project 2 My family poster（p.74～75），教材安排在 Unit 8 之后"
+  }
+ ]
+}

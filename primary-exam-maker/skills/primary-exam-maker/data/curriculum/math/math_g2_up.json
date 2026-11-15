@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "subject": "数学",
+  "grade": 2,
+  "term": "上",
+  "publisher": "江苏凤凰教育出版社",
+  "edition": "苏教版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "d9874022-3a12-40d0-88be-db1692079535",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书•数学二年级上册",
+    "index_year_tag": null,
+    "index_update_time": "2026-08-18T11:46:17.356+0800",
+    "extracted_from": "第7页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "各单元内部的例题与知识点（目录只到单元级）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "title": "1～6的表内乘法",
+      "page": 1
+    },
+    {
+      "no": 2,
+      "title": "1～6的表内除法",
+      "page": 19,
+      "extras": [
+        {
+          "title": "奇妙的七巧板",
+          "page": 33,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "title": "7～9的表内乘除法",
+      "page": 39,
+      "extras": [
+        {
+          "title": "生活中的方向",
+          "page": 56,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "title": "认识三位数",
+      "page": 61
+    },
+    {
+      "no": 5,
+      "title": "两位数加、减两位数",
+      "page": 74,
+      "extras": [
+        {
+          "title": "欢乐购物街",
+          "page": 86,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "title": "有余数的除法",
+      "page": 91
+    }
+  ],
+  "review": [
+    {
+      "title": "期末复习",
+      "page": 98
+    }
+  ]
+}

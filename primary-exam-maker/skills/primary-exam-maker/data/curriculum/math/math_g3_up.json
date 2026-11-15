@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "subject": "数学",
+  "grade": 3,
+  "term": "上",
+  "publisher": "江苏凤凰教育出版社",
+  "edition": "苏教版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "c0cc18a9-e27d-40ab-96dd-b9236e19080c",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书•数学三年级上册",
+    "index_year_tag": null,
+    "index_update_time": "2026-08-24T17:03:59.957+0800",
+    "extracted_from": "第7页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "各单元内部的例题与知识点（目录只到单元级）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "title": "混合运算与数量关系（一）",
+      "page": 1,
+      "extras": [
+        {
+          "title": "一天的时间",
+          "page": 11,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "title": "两、三位数乘一位数",
+      "page": 17,
+      "extras": [
+        {
+          "title": "曹冲称象的故事",
+          "page": 31,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "title": "数据的收集与整理",
+      "page": 36,
+      "extras": [
+        {
+          "title": "了解你的好朋友",
+          "page": 47,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "title": "毫米、分米和千米",
+      "page": 50
+    },
+    {
+      "no": 5,
+      "title": "平移、旋转和轴对称",
+      "page": 59
+    },
+    {
+      "no": 6,
+      "title": "两、三位数除以一位数",
+      "page": 68,
+      "extras": [
+        {
+          "title": "间隔排列",
+          "page": 86,
+          "kind": "数学广角"
+        }
+      ]
+    },
+    {
+      "no": 7,
+      "title": "数量关系的分析（一）",
+      "page": 88
+    },
+    {
+      "no": 8,
+      "title": "观察物体（二）",
+      "page": 95
+    }
+  ],
+  "review": [
+    {
+      "title": "期末复习",
+      "page": 104
+    }
+  ]
+}

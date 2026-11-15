@@ -3,3 +3,10 @@
 *.pyo
 .DS_Store
 .env
+
+# 教材原文 PDF 仅本机使用，不提交（版权）
+primary-exam-maker/textbooks-local/*
+!primary-exam-maker/textbooks-local/README.md
+
+# Perch 本地临时文件（截图、中间产物）
+.perch/tmp/

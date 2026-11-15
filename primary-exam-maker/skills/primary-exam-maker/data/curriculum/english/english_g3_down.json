@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "subject": "英语",
+  "grade": 3,
+  "term": "下",
+  "publisher": "译林出版社",
+  "edition": "译林版（三年级起点）",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "c1a23e1e-a239-1533-bf2f-18332a4f7355",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书 英语 三年级 下册",
+    "index_year_tag": "2025年度",
+    "index_update_time": "2026-02-27T13:09:51.642+0800",
+    "extracted_from": "第7页 Contents",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "Learning tips（p.76）、Word lists（p.78）及各单元内部的 Story time / Fun time 等板块词汇与句型（预览仅覆盖前 49 页）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "module": "Module 1 School life",
+      "title": "School things",
+      "page": 9,
+      "big_question": "What do you need for school?",
+      "cartoon_time": {
+        "title": "Bobby’s school things",
+        "page": 10
+      },
+      "sounds_in_focus": "p (pencil); b (schoolbag)"
+    },
+    {
+      "no": 2,
+      "module": "Module 1 School life",
+      "title": "Clean our classroom",
+      "page": 17,
+      "big_question": "How do you clean your classroom?",
+      "cartoon_time": {
+        "title": "A dirty desk",
+        "page": 18
+      },
+      "sounds_in_focus": "k (look); g (good)"
+    },
+    {
+      "no": 3,
+      "module": "Module 1 School life",
+      "title": "School rules",
+      "page": 25,
+      "big_question": "What school rules should you follow?",
+      "cartoon_time": {
+        "title": "You can draw here",
+        "page": 26
+      },
+      "sounds_in_focus": "t (best); d (do)"
+    },
+    {
+      "no": 4,
+      "module": "Module 1 School life",
+      "title": "Have fun after class",
+      "page": 33,
+      "big_question": "How do you have fun after class?",
+      "cartoon_time": {
+        "title": "Where’s my paper plane?",
+        "page": 34
+      },
+      "sounds_in_focus": "f (fun); v (over)"
+    },
+    {
+      "no": 5,
+      "module": "Module 2 A colourful world",
+      "title": "Fruit",
+      "page": 43,
+      "big_question": "Why do you like fruit?",
+      "cartoon_time": {
+        "title": "A magic trick",
+        "page": 44
+      },
+      "sounds_in_focus": "m (mango); n (many)"
+    },
+    {
+      "no": 6,
+      "module": "Module 2 A colourful world",
+      "title": "On the farm",
+      "page": 51,
+      "big_question": "What can you find on the farm?",
+      "cartoon_time": {
+        "title": "A “big” carrot",
+        "page": 52
+      },
+      "sounds_in_focus": "r (rabbit)"
+    },
+    {
+      "no": 7,
+      "module": "Module 2 A colourful world",
+      "title": "Animals",
+      "page": 59,
+      "big_question": "What do you know about animals?",
+      "cartoon_time": {
+        "title": "High five!",
+        "page": 60
+      },
+      "sounds_in_focus": "l (like)"
+    },
+    {
+      "no": 8,
+      "module": "Module 2 A colourful world",
+      "title": "Colours",
+      "page": 67,
+      "big_question": "What colours are around us?",
+      "cartoon_time": {
+        "title": "Colourful balloons",
+        "page": 68
+      },
+      "sounds_in_focus": "rising and falling tones"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Project 1 A good student",
+      "page": 40,
+      "after_unit": 4
+    },
+    {
+      "title": "Project 2 My nature park",
+      "page": 74,
+      "after_unit": 8
+    }
+  ]
+}

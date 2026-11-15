@@ -1,0 +1,389 @@
+{
+  "schema": 1,
+  "subject": "语文",
+  "grade": 3,
+  "term": "上",
+  "publisher": "人民教育出版社",
+  "edition": "统编版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "837f368e-fd4e-404a-ae3f-342d75bc0227",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·语文三年级上册",
+    "index_year_tag": null,
+    "index_update_time": "2026-08-18T11:36:17.020+0800",
+    "extracted_from": "第4-5页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "识字表 / 写字表 / 词语表（书末，预览未覆盖，听写单与生字范围核验依赖这三张表）",
+      "课文正文"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "kind": "阅读",
+      "page": 1,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 1,
+          "title": "大青树下的小学",
+          "page": 2
+        },
+        {
+          "type": "lesson",
+          "no": 2,
+          "title": "花的学校",
+          "page": 5
+        },
+        {
+          "type": "lesson",
+          "no": 3,
+          "title": "不懂就要问",
+          "page": 7,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "我的暑假生活",
+          "page": 9
+        },
+        {
+          "type": "writing",
+          "title": "猜猜他是谁",
+          "page": 10
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "kind": "阅读",
+      "page": 13,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 4,
+          "title": "古诗三首",
+          "page": 14,
+          "poems": [
+            {
+              "title": "望洞庭",
+              "page": 14
+            },
+            {
+              "title": "山行",
+              "page": 14
+            },
+            {
+              "title": "夜书所见",
+              "page": 15
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 5,
+          "title": "铺满金色巴掌的水泥道",
+          "page": 16
+        },
+        {
+          "type": "lesson",
+          "no": 6,
+          "title": "秋天的雨",
+          "page": 19
+        },
+        {
+          "type": "lesson",
+          "no": 7,
+          "title": "听听，秋的声音",
+          "page": 22,
+          "skim": true
+        },
+        {
+          "type": "writing",
+          "title": "写日记",
+          "page": 24
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "kind": "阅读",
+      "page": 27,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 8,
+          "title": "总也倒不了的老屋",
+          "page": 28
+        },
+        {
+          "type": "lesson",
+          "no": 9,
+          "title": "犟龟",
+          "page": 32,
+          "skim": true
+        },
+        {
+          "type": "lesson",
+          "no": 10,
+          "title": "小狗学叫",
+          "page": 36,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "名字里的故事",
+          "page": 41
+        },
+        {
+          "type": "writing",
+          "title": "续写故事",
+          "page": 42
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 43
+        }
+      ],
+      "note": "阅读策略单元"
+    },
+    {
+      "no": 4,
+      "kind": "阅读",
+      "page": 45,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 11,
+          "title": "宝葫芦的秘密（节选）",
+          "page": 46
+        },
+        {
+          "type": "lesson",
+          "no": 12,
+          "title": "在牛肚子里旅行",
+          "page": 49
+        },
+        {
+          "type": "lesson",
+          "no": 13,
+          "title": "一块奶酪",
+          "page": 52,
+          "skim": true
+        },
+        {
+          "type": "writing",
+          "title": "我来编童话",
+          "page": 54
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 55
+        },
+        {
+          "type": "reading_club",
+          "title": "快乐读书吧：在那奇妙的王国里",
+          "page": 57
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "kind": "阅读",
+      "page": 59,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 14,
+          "title": "搭船的鸟",
+          "page": 60
+        },
+        {
+          "type": "lesson",
+          "no": 15,
+          "title": "金色的草地",
+          "page": 62
+        },
+        {
+          "type": "writing",
+          "title": "我们眼中的缤纷世界",
+          "page": 65
+        },
+        {
+          "type": "example",
+          "title": "我家的小狗",
+          "page": 66
+        },
+        {
+          "type": "example",
+          "title": "我爱故乡的杨梅",
+          "page": 67
+        }
+      ],
+      "note": "习作单元"
+    },
+    {
+      "no": 6,
+      "kind": "阅读",
+      "page": 69,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 16,
+          "title": "富饶的西沙群岛",
+          "page": 70
+        },
+        {
+          "type": "lesson",
+          "no": 17,
+          "title": "海滨小城",
+          "page": 73
+        },
+        {
+          "type": "lesson",
+          "no": 18,
+          "title": "美丽的小兴安岭",
+          "page": 75
+        },
+        {
+          "type": "lesson",
+          "no": 19,
+          "title": "香港，璀璨的明珠",
+          "page": 78,
+          "skim": true
+        },
+        {
+          "type": "writing",
+          "title": "这儿真美",
+          "page": 80
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 81
+        }
+      ]
+    },
+    {
+      "no": 7,
+      "kind": "阅读",
+      "page": 83,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 20,
+          "title": "古诗三首",
+          "page": 84,
+          "poems": [
+            {
+              "title": "鹿柴",
+              "page": 84
+            },
+            {
+              "title": "望天门山",
+              "page": 84
+            },
+            {
+              "title": "饮湖上初晴后雨",
+              "page": 85
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 21,
+          "title": "大自然的声音",
+          "page": 86
+        },
+        {
+          "type": "lesson",
+          "no": 22,
+          "title": "读不完的大书",
+          "page": 89
+        },
+        {
+          "type": "speaking",
+          "title": "身边的“小事”",
+          "page": 91
+        },
+        {
+          "type": "writing",
+          "title": "我有一个想法",
+          "page": 92
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 93
+        }
+      ]
+    },
+    {
+      "no": 8,
+      "kind": "阅读",
+      "page": 95,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 23,
+          "title": "司马光",
+          "page": 96
+        },
+        {
+          "type": "lesson",
+          "no": 24,
+          "title": "一定要争气",
+          "page": 97
+        },
+        {
+          "type": "lesson",
+          "no": 25,
+          "title": "手术台就是阵地",
+          "page": 100
+        },
+        {
+          "type": "lesson",
+          "no": 26,
+          "title": "一个粗瓷大碗",
+          "page": 103,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "请教",
+          "page": 105
+        },
+        {
+          "type": "writing",
+          "title": "那次经历真难忘",
+          "page": 106
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 107
+        }
+      ]
+    }
+  ],
+  "tables": {
+    "识字表": 109,
+    "写字表": 112,
+    "词语表": 114
+  },
+  "note": "标*的是略读课文。第三单元是阅读策略单元，第五单元是习作单元。"
+}

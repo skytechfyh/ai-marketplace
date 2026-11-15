@@ -10,6 +10,12 @@
       "description": "将 .docx/.doc/.pdf/.html/.htm 培训文档、极客时间 .mhtml 专栏文章、极客时间课程资料包目录转换为结构化 Obsidian 笔记（合并自 doc-to-notes + mhtml-refine-to-md + organize-course-package）",
       "source": "./notes-from-docs",
       "version": "1.3.0"
+    },
+    {
+      "name": "primary-exam-maker",
+      "description": "家庭小学（二、三年级，语文统编版/数学苏教版/英语译林版）可打印试卷与练习生成插件：孩子档案推算年级、463 个知识点目录、结构化试卷 JSON 校验（防超纲/防缺图/100分制）、口算卡与听写单代码生成、试卷与家长答案阅卷表严格分离、A4 黑白打印友好排版、黄金样例回归测试；Claude Code 与 Perch 双端可用",
+      "source": "./primary-exam-maker",
+      "version": "0.2.1"
     }
   ]
 }

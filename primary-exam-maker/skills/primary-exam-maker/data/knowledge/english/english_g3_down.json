@@ -1,0 +1,1304 @@
+{
+ "schema": 1,
+ "subject": "英语",
+ "grade": 3,
+ "term": "下",
+ "edition": "译林版（三年级起点）",
+ "sources": {
+  "textbook": "义务教育教科书·英语（三年级下册）（译林出版社，2024年12月第1版），页码为教材印刷页码",
+  "standard": "义务教育英语课程标准（2022年版）一级（3～4年级），语言知识与语言技能主题；level 采用了解/理解/掌握/运用",
+  "unit_goals_from": "教材各单元 Big question、Story time/Wrap-up time 板块"
+ },
+ "unit_goals": {
+  "1": "能用 What's this/that? It's... 和 Is it...? 谈论学校用品；能说出上学需要的物品并整理自己的书包",
+  "2": "能用 Let's... / Please... 礼貌地请求他人做事；能谈论打扫教室并制定打扫计划",
+  "3": "能用 Don't... / You can... 表达学校规则；能提醒他人遵守规则并为班级制定规则",
+  "4": "能用 Where's...? 和 in/on/under/behind/by 谈论位置；能谈论课后活动并制定活动计划",
+  "5": "能用 Do you have...? / I have... 谈论水果；能说明喜欢水果的理由并制定水果沙拉计划",
+  "6": "能用 What are these/those? / They're... 谈论农场动植物；能询问农场上的事物并制作农场海报",
+  "7": "能用 Do you like...? / Yes, I do. / No, I don't. 谈论动物；能表达喜欢与不喜欢并制作动物卡片",
+  "8": "能用 What colour is/are...? / It's... / They're... 谈论颜色；能描述身边多彩的事物"
+ },
+ "item_type_vocab": [
+  "听写",
+  "选择",
+  "填空",
+  "连线",
+  "看图选词",
+  "听音选图",
+  "情景交际",
+  "连词成句",
+  "阅读判断",
+  "书写",
+  "口语"
+ ],
+ "knowledge_points": [
+  {
+   "id": "E3D-1-01",
+   "name": "Unit 1 核心词汇：学校用品",
+   "unit": 1,
+   "pages": [
+    8,
+    9,
+    10,
+    15
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 school、pen、pencil、ruler、rubber、schoolbag、pencil case 等学校用品词汇，核心词能正确拼写",
+   "error_types": [
+    "单词拼写漏字母，如 pencil 写成 pencel",
+    "schoolbag 与 pencil case 词义混淆",
+    "ruler 与 rubber 形近词混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-1-02",
+   "name": "核心句型：What's this/that? It's...",
+   "unit": 1,
+   "pages": [
+    10,
+    12,
+    13,
+    14,
+    15
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-1-01"
+   ],
+   "mastery": "能用 What's this/that? 询问物品，并用 It's a/an... 回答，能区分 this 与 that 的远近指代",
+   "error_types": [
+    "this/that 远近指代混淆",
+    "答语漏掉 It's",
+    "What's 写成 What"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-1-03",
+   "name": "核心句型：Is it...? Yes, it is. / No, it isn't.",
+   "unit": 1,
+   "pages": [
+    12,
+    13,
+    14
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-1-02"
+   ],
+   "mastery": "能用 Is it a...? 猜测物品并作简略回答，知道否定答语用 No, it isn't.",
+   "error_types": [
+    "答语误用 Yes, I do. / No, I don't.",
+    "简答漏掉 it",
+    "isn't 撇号漏写或拼写错误"
+   ],
+   "item_types": [
+    "情景交际",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-1-04",
+   "name": "字母 p 与 b 的发音",
+   "unit": 1,
+   "pages": [
+    11
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听辨并读出字母 p 在 pencil、b 在 schoolbag 中的发音，借助 /p/、/b/ 拼读简单单词",
+   "error_types": [
+    "p/b 清浊不分",
+    "字母 b 与 d 混淆",
+    "pencil 中 p 误读成 /b/"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-1-05",
+   "name": "Story time：What's that? 故事理解",
+   "unit": 1,
+   "pages": [
+    12,
+    13,
+    14
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-1-02",
+    "E3D-1-03"
+   ],
+   "mastery": "能读懂文具猜测故事，理清 Su Hai 与 Mike 的对话顺序，理解故事结局中短铅笔变长的小物件",
+   "error_types": [
+    "对话与图片顺序匹配错",
+    "误解 Su Hai 的用意",
+    "Is it...? 与 What's...? 的答语混淆"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ],
+   "note": "故事结局中的小物件为铅笔延长器，教材图示意，未列入本单元词表"
+  },
+  {
+   "id": "E3D-2-01",
+   "name": "Unit 2 核心词汇：教室与打扫",
+   "unit": 2,
+   "pages": [
+    16,
+    17,
+    18,
+    20,
+    21,
+    23
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 classroom、window、blackboard、chair、desk、floor、clean、dirty、sweep 等教室与打扫词汇，核心词能正确拼写",
+   "error_types": [
+    "sweep 与 clean 词义混淆",
+    "blackboard 拼写漏字母",
+    "dirty 与 clean 反义词混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-2-02",
+   "name": "祈使句与礼貌请求：Let's... / Please...",
+   "unit": 2,
+   "pages": [
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-2-01"
+   ],
+   "mastery": "能用 Let's... 提出建议，用 Please... 或 ..., please. 礼貌地请人做事，并作出 OK./All right. 等回应",
+   "error_types": [
+    "Let's 后误加 to",
+    "please 位置放错或漏用",
+    "祈使句漏掉动词"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-2-03",
+   "name": "字母 k 与 g 的发音",
+   "unit": 2,
+   "pages": [
+    19
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-1-04"
+   ],
+   "mastery": "能听辨并读出字母 k 在 look、g 在 good 中的发音，借助 /k/、/g/ 拼读简单单词",
+   "error_types": [
+    "k/g 清浊不分",
+    "good 中 g 误读成 /dʒ/",
+    "look 词尾 k 吞音"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-2-04",
+   "name": "Story time：Let's clean our classroom 故事理解",
+   "unit": 2,
+   "pages": [
+    20,
+    21,
+    22
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-2-02"
+   ],
+   "mastery": "能读懂打扫教室的故事，理清人物与打扫任务的对应关系，理解 Let's 与 Please 表达建议和请求的语气",
+   "error_types": [
+    "人物与打扫任务匹配错",
+    "Let's 与 Please 的语气混淆",
+    "故事细节（谁擦黑板、谁关窗）记错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-2-05",
+   "name": "综合运用：制定打扫计划",
+   "unit": 2,
+   "pages": [
+    22,
+    23
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3D-2-02",
+    "E3D-2-04"
+   ],
+   "mastery": "能结合教室各处卫生任务制定打扫计划，用 Let's... / ..., please. 口头分工并写出简单计划",
+   "error_types": [
+    "打扫动作与地点搭配不当",
+    "口头分工漏用 please",
+    "计划句子大小写或标点错误"
+   ],
+   "item_types": [
+    "口语",
+    "情景交际",
+    "书写",
+    "连线"
+   ]
+  },
+  {
+   "id": "E3D-3-01",
+   "name": "Unit 3 核心词汇：规则与图书馆",
+   "unit": 3,
+   "pages": [
+    24,
+    25,
+    26,
+    28,
+    29,
+    31
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 rule、library、talk、eat、run、quiet、late、fun 等规则相关词汇，以及 sit down、look out of、look at 等短语，核心词能正确拼写",
+   "error_types": [
+    "rule 与 ruler 混淆",
+    "library 拼写错误",
+    "late 与 look out of 词义混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-3-02",
+   "name": "规则表达：Don't... / You can...",
+   "unit": 3,
+   "pages": [
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-3-01"
+   ],
+   "mastery": "能用 Don't... 表达禁止，用 You can... 表达允许，并用 Sorry. / That's all right. 等回应提醒",
+   "error_types": [
+    "Don't 后误加 to",
+    "Don't 与 You can 混用",
+    "don't 撇号漏写"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-3-03",
+   "name": "字母 t 与 d 的发音",
+   "unit": 3,
+   "pages": [
+    27
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-2-03"
+   ],
+   "mastery": "能听辨并读出字母 t 在 best、d 在 do 中的发音，借助 /t/、/d/ 拼读简单单词",
+   "error_types": [
+    "t/d 清浊不分",
+    "字母 d 与 b 混淆",
+    "best 词尾 t 吞音"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-3-04",
+   "name": "Story time：In the library 故事理解",
+   "unit": 3,
+   "pages": [
+    28,
+    29,
+    30
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-3-02"
+   ],
+   "mastery": "能读懂图书馆规则故事，把规则条目与人物行为对应起来，理解 Would you like...? 的礼貌拒绝和 can't 的含义",
+   "error_types": [
+    "规则条目与人物行为匹配错",
+    "Would you like...? 答语理解错",
+    "can't 与 don't 混淆"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-3-05",
+   "name": "句子书写规范：大写、空格与标点",
+   "unit": 3,
+   "pages": [
+    31,
+    76
+   ],
+   "std": [
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能按规范书写句子：句首字母大写、单词之间留空格、句末用英语句号或问号，并正确书写缩写撇号",
+   "error_types": [
+    "句首字母未大写",
+    "单词之间无空格",
+    "句末用中文句号或漏标点",
+    "I'm 等缩写撇号漏写"
+   ],
+   "item_types": [
+    "书写",
+    "填空",
+    "选择"
+   ],
+   "note": "教材 Unit 3 Wrap-up time 提示 Write sentences correctly，方法见 Learning tips（p.76）"
+  },
+  {
+   "id": "E3D-4-01",
+   "name": "Unit 4 核心词汇：课后活动与方位",
+   "unit": 4,
+   "pages": [
+    32,
+    33,
+    34,
+    36,
+    39
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 tree、flower、play、plane、where、find、garden、beautiful 等课后活动词汇，以及 behind、by、under、have fun、after class 等方位与活动短语，核心词能正确拼写",
+   "error_types": [
+    "behind/by/under 方位词混淆",
+    "flower 拼写错误",
+    "plane 与 play 词形混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-4-02",
+   "name": "方位表达：Where's...? It's in/on/under/behind/by...",
+   "unit": 4,
+   "pages": [
+    32,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-4-01"
+   ],
+   "mastery": "能用 Where's...? 询问位置，用 It's in/on/under/behind/by... 回答，描述人物或物品的位置",
+   "error_types": [
+    "Where's 后漏主语",
+    "in/on/under 等介词选用错",
+    "答语漏掉 It's"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-4-03",
+   "name": "字母 f 与 v 的发音",
+   "unit": 4,
+   "pages": [
+    35
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-3-03"
+   ],
+   "mastery": "能听辨并读出字母 f 在 fun、v 在 over 中的发音，借助 /f/、/v/ 拼读简单单词",
+   "error_types": [
+    "f/v 清浊不分",
+    "very 中 v 误读成 /w/",
+    "flower 中 f 吞音"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-4-04",
+   "name": "Story time：Drawing in the school 故事理解",
+   "unit": 4,
+   "pages": [
+    36,
+    37,
+    38
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-4-02"
+   ],
+   "mastery": "能读懂课后绘画故事，理清人物画的内容和蝴蝶位置的变化，理解 Where's...? 在故事中的提问作用",
+   "error_types": [
+    "人物与画作内容匹配错",
+    "蝴蝶位置描述理解错",
+    "Where's...? 与 What's...? 混淆"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-4-05",
+   "name": "综合运用：制定课后活动计划",
+   "unit": 4,
+   "pages": [
+    38,
+    39
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3D-4-02",
+    "E3D-4-04"
+   ],
+   "mastery": "能结合地点和活动制定课后活动计划，用 I want to... 和方位短语口头介绍并写出计划",
+   "error_types": [
+    "活动与地点搭配不当",
+    "I want to 后动词形式错误",
+    "计划表达信息不完整"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际",
+    "连线"
+   ]
+  },
+  {
+   "id": "E3D-5-01",
+   "name": "Unit 5 核心词汇：水果",
+   "unit": 5,
+   "pages": [
+    42,
+    43,
+    44,
+    46,
+    47,
+    49
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 fruit、apple、banana、orange、grape、mango 等水果词汇，认读 share、make、good，核心词能正确拼写",
+   "error_types": [
+    "fruit 拼写错误",
+    "banana 拼写漏字母",
+    "orange 的“橙子”与“橙色”词义混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-5-02",
+   "name": "核心句型：Do you have...? I have...",
+   "unit": 5,
+   "pages": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-5-01"
+   ],
+   "mastery": "能用 Do you have...? 询问对方有什么水果，用 I have... / I don't have... 回答，并用 What about you? 转问对方",
+   "error_types": [
+    "答语误用 Yes, I have. / No, I don't have.",
+    "have 与 has 混用",
+    "a/an 与 some 搭配错"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-5-03",
+   "name": "字母 m 与 n 的发音",
+   "unit": 5,
+   "pages": [
+    45
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-4-03"
+   ],
+   "mastery": "能听辨并读出字母 m 在 mango、n 在 many 中的发音，借助 /m/、/n/ 拼读简单单词",
+   "error_types": [
+    "m/n 鼻音混淆",
+    "mango 中 m 误读成 /n/",
+    "many 词尾 n 吞音"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-5-04",
+   "name": "Story time：Let's make a fruit salad 故事理解",
+   "unit": 5,
+   "pages": [
+    46,
+    47,
+    48
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-5-02"
+   ],
+   "mastery": "能读懂制作水果沙拉的故事，理清人物各自带的水果，理解分享沙拉和 Fruit is good for us 的含义",
+   "error_types": [
+    "人物与所带水果匹配错",
+    "Do you have...? 与 What about you? 理解错",
+    "故事结局理解错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-5-05",
+   "name": "名词复数与 a/an 的用法",
+   "unit": 5,
+   "pages": [
+    44,
+    45,
+    46,
+    77
+   ],
+   "std": [
+    "语言知识/语法/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-5-01"
+   ],
+   "mastery": "知道可数名词复数一般加 s 或 es，能正确使用 an orange、a mango、two apples 等表达，注意 mango 的复数形式",
+   "error_types": [
+    "apple 复数漏加 s",
+    "an orange 误写成 a orange",
+    "mango 复数形式写错"
+   ],
+   "item_types": [
+    "填空",
+    "选择",
+    "书写",
+    "看图选词"
+   ],
+   "note": "教材 Cartoon time 提示 Note the number of nouns，方法见 Learning tips（p.77）"
+  },
+  {
+   "id": "E3D-6-01",
+   "name": "Unit 6 核心词汇：农场动植物",
+   "unit": 6,
+   "pages": [
+    50,
+    51,
+    52,
+    54,
+    55,
+    57
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 farm、cow、sheep、rabbit、chicken、carrot、pig 等农场动植物词汇，认读 home、cute、help、move，核心词能正确拼写",
+   "error_types": [
+    "sheep 复数误加 s",
+    "chicken 与 duck 词义混淆",
+    "carrot 拼写错误"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-6-02",
+   "name": "核心句型：What are these/those? They're...",
+   "unit": 6,
+   "pages": [
+    52,
+    53,
+    54,
+    55,
+    56,
+    57
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-6-01"
+   ],
+   "mastery": "能用 What are these/those? 询问多个物品，用 They're... 回答，并用 Are these/those...? 作肯定或否定回答",
+   "error_types": [
+    "these/those 远近指代混淆",
+    "答语误用 Yes, they do.",
+    "they're 与 there 混淆"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-6-03",
+   "name": "字母 r 的发音",
+   "unit": 6,
+   "pages": [
+    53
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-5-03"
+   ],
+   "mastery": "能听辨并读出字母 r 在 rabbit 中的发音，借助 /r/ 拼读含 r 的简单单词",
+   "error_types": [
+    "r 音卷舌过度或漏读",
+    "rabbit 中 r 误读成 /l/",
+    "carrot 重音位置错"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-6-04",
+   "name": "Story time：On Grandpa's farm 故事理解",
+   "unit": 6,
+   "pages": [
+    54,
+    55,
+    56
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-6-02"
+   ],
+   "mastery": "能读懂农场参观故事，理清 these/those 所指的动物，理解故事结尾兔子喜欢胡萝卜的幽默",
+   "error_types": [
+    "动物与数量、位置匹配错",
+    "these/those 指代理解错",
+    "故事幽默点理解错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-6-05",
+   "name": "特殊复数：sheep 与 fish",
+   "unit": 6,
+   "pages": [
+    54,
+    55,
+    77
+   ],
+   "std": [
+    "语言知识/语法/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-5-05"
+   ],
+   "mastery": "知道 sheep、fish 的单复数同形，能正确表达 a sheep、two sheep、three fish，并与这些/那些句型配合使用",
+   "error_types": [
+    "sheep 误加 s 变成 sheeps",
+    "fish 复数误加 es",
+    "these/those 后名词单复数不一致"
+   ],
+   "item_types": [
+    "填空",
+    "选择",
+    "书写"
+   ],
+   "note": "教材 Story time 提示 Note the word “sheep”，方法见 Learning tips（p.77）"
+  },
+  {
+   "id": "E3D-7-01",
+   "name": "Unit 7 核心词汇：动物",
+   "unit": 7,
+   "pages": [
+    58,
+    59,
+    60,
+    62,
+    63,
+    65
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 animal、monkey、lion、bear、tiger、panda、elephant、zoo 等动物词汇，认读 fish、see、go，核心词能正确拼写",
+   "error_types": [
+    "animal 拼写错误",
+    "monkey 复数误写为 monkies",
+    "bear 与 tiger 词义混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-7-02",
+   "name": "核心句型：Do you like...? Yes, I do. / No, I don't.",
+   "unit": 7,
+   "pages": [
+    60,
+    61,
+    62,
+    63,
+    64,
+    65
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-7-01"
+   ],
+   "mastery": "能用 Do you like...? 询问喜好，用 Yes, I do. / No, I don't. 回答，并用 I like... / I don't like... 表达喜欢与不喜欢",
+   "error_types": [
+    "答语误用 Yes, I like.",
+    "don't 与 doesn't 混用",
+    "like 后误加 ing 或 to"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-7-03",
+   "name": "字母 l 的发音",
+   "unit": 7,
+   "pages": [
+    61
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-6-03"
+   ],
+   "mastery": "能听辨并读出字母 l 在 like 中的发音，注意 l 在词尾的发音，借助 /l/ 拼读简单单词",
+   "error_types": [
+    "词尾 l 漏读",
+    "lion 中 l 误读成 /r/",
+    "like 中 l 吞音"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-7-04",
+   "name": "Story time：At the zoo 故事理解",
+   "unit": 7,
+   "pages": [
+    62,
+    63,
+    64
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-7-02"
+   ],
+   "mastery": "能读懂动物园故事，理清人物喜欢的动物，理解 Don't feed animals 的规则和 Would you like...? 的礼貌询问",
+   "error_types": [
+    "人物与喜欢的动物匹配错",
+    "Don't feed animals 规则理解错",
+    "Would you like...? 与 Do you like...? 混淆"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-7-05",
+   "name": "英文字母书写规范：笔顺与四线三格",
+   "unit": 7,
+   "pages": [
+    77
+   ],
+   "std": [
+    "语言技能/写/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-3-05"
+   ],
+   "mastery": "能按正确笔顺书写英文字母，注意大写和小写字母在四线三格中的占格位置",
+   "error_types": [
+    "字母占格错，如 g 写到上格",
+    "字母笔顺错误",
+    "b 与 d 书写颠倒"
+   ],
+   "item_types": [
+    "书写",
+    "选择",
+    "填空"
+   ],
+   "note": "教材 Learning tips（p.77）Unit 7 板块提示 Write English letters correctly，非单元正文；三下开始要求规范书写"
+  },
+  {
+   "id": "E3D-8-01",
+   "name": "Unit 8 核心词汇：颜色",
+   "unit": 8,
+   "pages": [
+    66,
+    67,
+    68,
+    73
+   ],
+   "std": [
+    "语言知识/词汇/一级"
+   ],
+   "level": "掌握",
+   "prereq": [],
+   "mastery": "能听说认读 colour、yellow、blue、red、orange、pink、green、brown、black、white 等颜色词汇，核心词能正确拼写",
+   "error_types": [
+    "colour 英式拼写与 color 混用",
+    "brown 与 black 拼写混淆",
+    "orange 的“橙色”与“橙子”词义混淆"
+   ],
+   "item_types": [
+    "听写",
+    "看图选词",
+    "选择",
+    "连线",
+    "听音选图"
+   ]
+  },
+  {
+   "id": "E3D-8-02",
+   "name": "核心句型：What colour is/are...? It's/They're...",
+   "unit": 8,
+   "pages": [
+    68,
+    69,
+    70,
+    71,
+    72,
+    73
+   ],
+   "std": [
+    "语言知识/语法/一级",
+    "语言技能/说/一级"
+   ],
+   "level": "掌握",
+   "prereq": [
+    "E3D-8-01"
+   ],
+   "mastery": "能用 What colour is/are...? 询问颜色，根据单复数用 It's... / They're... 回答",
+   "error_types": [
+    "What colour 后漏 is/are",
+    "主语单复数与 is/are 不一致",
+    "答语漏掉 It's/They're"
+   ],
+   "item_types": [
+    "情景交际",
+    "连词成句",
+    "选择",
+    "填空",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-8-03",
+   "name": "句子的升降调",
+   "unit": 8,
+   "pages": [
+    69
+   ],
+   "std": [
+    "语言知识/语音/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-7-03"
+   ],
+   "mastery": "能听辨并模仿一般疑问句用升调、特殊疑问句用降调，朗读时升降调自然",
+   "error_types": [
+    "一般疑问句误用降调",
+    "特殊疑问句（Wh-问句）误用升调",
+    "陈述句句末语调不自然"
+   ],
+   "item_types": [
+    "听音选图",
+    "选择",
+    "口语"
+   ]
+  },
+  {
+   "id": "E3D-8-04",
+   "name": "Story time：A little friend 故事理解",
+   "unit": 8,
+   "pages": [
+    70,
+    71,
+    72
+   ],
+   "std": [
+    "语篇/故事/一级",
+    "语言技能/读/一级"
+   ],
+   "level": "理解",
+   "prereq": [
+    "E3D-8-02"
+   ],
+   "mastery": "能读懂变色龙故事，理清变色龙颜色变化的顺序，理解 What colour is it now? 和 How come? 的意思",
+   "error_types": [
+    "颜色变化顺序记错",
+    "What colour...? 与 What's...? 混淆",
+    "How come? 含义理解错"
+   ],
+   "item_types": [
+    "阅读判断",
+    "选择",
+    "连线",
+    "填空"
+   ]
+  },
+  {
+   "id": "E3D-8-05",
+   "name": "综合运用：描述身边物品的颜色",
+   "unit": 8,
+   "pages": [
+    72,
+    73,
+    77
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3D-8-02",
+    "E3D-8-04"
+   ],
+   "mastery": "能观察并描述身边物品的颜色，用 I have a... / It's... / They're... 口头介绍并写出简单句子",
+   "error_types": [
+    "颜色词与物品搭配错",
+    "I have a yellow... 漏冠词",
+    "描述多个物品时单复数不一致"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际",
+    "看图选词"
+   ],
+   "note": "教材 Wrap-up time 要求找同色物品并描述（p.73），Learning tips 提示按颜色分类记词（p.77）"
+  },
+  {
+   "id": "E3D-S-01",
+   "name": "Project 1：A good student",
+   "unit": 4,
+   "pages": [
+    40,
+    41,
+    83
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3D-1-02",
+    "E3D-2-05",
+    "E3D-3-02",
+    "E3D-4-02"
+   ],
+   "mastery": "能综合运用 Units 1～4 的词汇与句型，介绍自己如何整理学习用品、打扫学校和遵守规则，完成 A good student 展示",
+   "error_types": [
+    "介绍时句型混用（What's this? 与 Is it...?）",
+    "整理物品时 in/on 等介词用错",
+    "规则表达漏掉 Don't"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际",
+    "连线"
+   ],
+   "note": "教材 Project 1（p.40～41），规则模板页 p.83；综合 Units 1～4"
+  },
+  {
+   "id": "E3D-S-02",
+   "name": "Project 2：My nature park",
+   "unit": 8,
+   "pages": [
+    74,
+    75,
+    85
+   ],
+   "std": [
+    "语言技能/说/一级",
+    "语言技能/写/一级"
+   ],
+   "level": "运用",
+   "prereq": [
+    "E3D-4-02",
+    "E3D-7-01",
+    "E3D-8-01",
+    "E3D-8-02"
+   ],
+   "mastery": "能综合运用动物、颜色和方位表达，介绍自己设计的自然公园，说明公园里有什么、是什么颜色、在哪里",
+   "error_types": [
+    "介绍时遗漏动物、颜色或方位信息",
+    "These are... 与 It's... 单复数不一致",
+    "介绍语序错"
+   ],
+   "item_types": [
+    "口语",
+    "书写",
+    "情景交际",
+    "连线"
+   ],
+   "note": "教材 Project 2（p.74～75），设计模板页 p.85；综合 Units 6～8 及 Unit 4 方位表达"
+  }
+ ]
+}

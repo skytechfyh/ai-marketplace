@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "subject": "数学",
+  "grade": 2,
+  "term": "下",
+  "publisher": "江苏凤凰教育出版社",
+  "edition": "苏教版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "da861684-c034-4000-973d-d3f26120bdfd",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·数学二年级下册",
+    "index_year_tag": null,
+    "index_update_time": "2026-03-11T10:27:07.324+0800",
+    "extracted_from": "第6页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "各单元内部的例题与知识点（目录只到单元级）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "title": "厘米和米",
+      "page": 1,
+      "extras": [
+        {
+          "title": "我们的“身体尺”",
+          "page": 14,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "title": "简单的数量关系（二）",
+      "page": 18,
+      "extras": [
+        {
+          "title": "时间有多长",
+          "page": 27,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "title": "两位数乘、除以一位数",
+      "page": 33
+    },
+    {
+      "no": 4,
+      "title": "数据分类（二）",
+      "page": 40
+    },
+    {
+      "no": 5,
+      "title": "认识四位数",
+      "page": 48,
+      "extras": [
+        {
+          "title": "1200有多大",
+          "page": 62,
+          "kind": "综合与实践"
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "title": "两、三位数的加法和减法",
+      "page": 66
+    },
+    {
+      "no": 7,
+      "title": "图形的初步认识（三）",
+      "page": 90
+    }
+  ],
+  "review": [
+    {
+      "title": "一、二年级复习",
+      "page": 99
+    }
+  ]
+}

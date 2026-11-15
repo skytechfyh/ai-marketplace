@@ -1,0 +1,772 @@
+{
+ "schema": 1,
+ "exam_id": "golden-math-g2-up-u1-unit",
+ "created_at": "2026-11-12",
+ "child": {},
+ "subject": "math",
+ "kind": "unit",
+ "title": "二年级数学上册 · 第 1 单元测试卷（黄金样例）",
+ "scope": {
+  "grade": 2,
+  "term": "up",
+  "units": [
+   1
+  ],
+  "textbook_edition": "苏教版"
+ },
+ "difficulty_level": "standard",
+ "total_points": 100,
+ "suggested_minutes": 40,
+ "sections": [
+  {
+   "id": "kousuan",
+   "name": "一、口算",
+   "points": 10,
+   "instructions": "直接写出得数。",
+   "columns": 3,
+   "items": [
+    {
+     "id": "k1",
+     "no": 1,
+     "stem": "5 × 3 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "15",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "想一想三五的口诀。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "k2",
+     "no": 2,
+     "stem": "6 × 2 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "12",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "二六十二。",
+     "knowledge_points": [
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "k3",
+     "no": 3,
+     "stem": "4 × 5 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "20",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "四五二十。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "k4",
+     "no": 4,
+     "stem": "3 × 6 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "18",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "三六十八。",
+     "knowledge_points": [
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "k5",
+     "no": 5,
+     "stem": "2 × 5 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "10",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "二五一十。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "k6",
+     "no": 6,
+     "stem": "5 × 5 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "25",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "五五二十五。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "k7",
+     "no": 7,
+     "stem": "6 × 6 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "36",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "六六三十六。",
+     "knowledge_points": [
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "k8",
+     "no": 8,
+     "stem": "1 × 6 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "6",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "1 乘任何数还是那个数。",
+     "knowledge_points": [
+      "M2U-1-04"
+     ]
+    },
+    {
+     "id": "k9",
+     "no": 9,
+     "stem": "0 × 5 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "0",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "0 乘任何数都得 0。",
+     "knowledge_points": [
+      "M2U-1-04"
+     ]
+    },
+    {
+     "id": "k10",
+     "no": 10,
+     "stem": "4 × 3 + 2 =",
+     "type": "口算",
+     "points": 1,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "14",
+     "scoring_rules": "得数正确得 1 分。",
+     "hint": "先算乘法，再加。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tiankong",
+   "name": "二、填空",
+   "points": 30,
+   "instructions": "把答案填在横线上。",
+   "items": [
+    {
+     "id": "t1",
+     "no": 1,
+     "stem": "3 + 3 + 3 + 3 写成乘法算式是 {{blank n=4}}，读作 {{blank n=8}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "了解",
+     "tier": "基础",
+     "answer": "3×4；三乘四",
+     "scoring_rules": "算式与读法各 1 分；写成 4×3 也算对。",
+     "hint": "数一数有几个 3。",
+     "knowledge_points": [
+      "M2U-1-01",
+      "M2U-1-02"
+     ]
+    },
+    {
+     "id": "t2",
+     "no": 2,
+     "stem": "5 × 4 = {{blank n=3}}，表示 {{blank n=2}} 个 {{blank n=2}} 相加。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "了解",
+     "tier": "基础",
+     "answer": "20；4；5",
+     "scoring_rules": "每空 1 分，得数 1 分、两个数各 0.5 分合并计。",
+     "hint": "乘法就是求几个相同加数的和。",
+     "knowledge_points": [
+      "M2U-1-01"
+     ]
+    },
+    {
+     "id": "t3",
+     "no": 3,
+     "stem": "把口诀补充完整：三五 {{blank n=3}}，四六 {{blank n=3}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "十五；二十四",
+     "scoring_rules": "每空 1 分。",
+     "hint": "背一背乘法口诀表。",
+     "knowledge_points": [
+      "M2U-1-05",
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "t4",
+     "no": 4,
+     "stem": "6 × 3 = {{blank n=3}}，6 × 4 = {{blank n=3}}，6 × 5 = {{blank n=3}}。",
+     "type": "填空",
+     "points": 3,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "18；24；30",
+     "scoring_rules": "每空 1 分。",
+     "hint": "6 的乘法口诀，每次多 6。",
+     "knowledge_points": [
+      "M2U-1-06",
+      "M2U-1-07"
+     ]
+    },
+    {
+     "id": "t5",
+     "no": 5,
+     "stem": "5 × 3 = 3 × {{blank n=2}}，这是根据 {{blank n=6}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "5；乘法交换律",
+     "scoring_rules": "每空 1 分。",
+     "hint": "两个数相乘，交换位置得数不变。",
+     "knowledge_points": [
+      "M2U-1-03"
+     ]
+    },
+    {
+     "id": "t6",
+     "no": 6,
+     "stem": "一个乘数是 6，另一个乘数是 2，积是 {{blank n=3}}。",
+     "type": "填空",
+     "points": 1,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "12",
+     "scoring_rules": "答对得 1 分。",
+     "hint": "积就是相乘的结果。",
+     "knowledge_points": [
+      "M2U-1-02"
+     ]
+    },
+    {
+     "id": "t7",
+     "no": 7,
+     "stem": "在 ○ 里填上 >、< 或 =：5 × 4 {{blank n=2}} 4 × 5，6 × 3 {{blank n=2}} 6 × 4。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "=；<",
+     "scoring_rules": "每空 1 分。",
+     "hint": "先算出两边的积再比较。",
+     "knowledge_points": [
+      "M2U-1-03",
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "t8",
+     "no": 8,
+     "stem": "4 × 5 + 4 = {{blank n=3}}，可以看成 {{blank n=2}} × {{blank n=2}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "24；5；5",
+     "scoring_rules": "得数 1 分，两个数合计 1 分。",
+     "hint": "4 个 5 再加 1 个 5，就是 5 个 5。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    },
+    {
+     "id": "t9",
+     "no": 9,
+     "stem": "6 × 6 - 6 = {{blank n=3}}，可以看成 {{blank n=2}} × {{blank n=2}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "30；5；6",
+     "scoring_rules": "得数 1 分，两个数合计 1 分。",
+     "hint": "6 个 6 减去 1 个 6，剩 5 个 6。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    },
+    {
+     "id": "t10",
+     "no": 10,
+     "stem": "3 × 5 = {{blank n=3}}，用到的口诀是 {{blank n=6}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "15；三五十五",
+     "scoring_rules": "每空 1 分。",
+     "hint": "口诀按小数在前说。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "t11",
+     "no": 11,
+     "stem": "5 个 6 相加是 {{blank n=3}}，6 个 5 相加是 {{blank n=3}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "30；30",
+     "scoring_rules": "每空 1 分。",
+     "hint": "都是 30，这就是乘法交换。",
+     "knowledge_points": [
+      "M2U-1-01",
+      "M2U-1-03"
+     ]
+    },
+    {
+     "id": "t12",
+     "no": 12,
+     "stem": "2 × 6 + 3 = {{blank n=3}}，6 × 4 - 4 = {{blank n=3}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "15；20",
+     "scoring_rules": "每空 1 分。",
+     "hint": "先算乘法，再算加减。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    },
+    {
+     "id": "t13",
+     "no": 13,
+     "stem": "一个数乘 1 得 {{blank n=4}}，一个数乘 0 得 {{blank n=3}}。",
+     "type": "填空",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "这个数本身；0",
+     "scoring_rules": "每空 1 分，意思对即可。",
+     "hint": "想想 1 个 5 和 0 个 5 分别是多少。",
+     "knowledge_points": [
+      "M2U-1-04"
+     ]
+    },
+    {
+     "id": "t14",
+     "no": 14,
+     "stem": "5 × 6 = {{blank n=3}}，6 × 5 = {{blank n=3}}，说明 {{blank n=6}}。",
+     "type": "填空",
+     "points": 3,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "30；30；交换两个乘数积不变",
+     "scoring_rules": "前两空各 1 分，结论意思对得 1 分。",
+     "hint": "比较两个积。",
+     "knowledge_points": [
+      "M2U-1-03"
+     ]
+    },
+    {
+     "id": "t15",
+     "no": 15,
+     "stem": "把 6 × 3 改写成加法算式是 {{blank n=10}}。",
+     "type": "填空",
+     "points": 1,
+     "unit": 1,
+     "ability": "了解",
+     "tier": "基础",
+     "answer": "6+6+6",
+     "scoring_rules": "写对得 1 分。",
+     "hint": "3 个 6 相加。",
+     "knowledge_points": [
+      "M2U-1-01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "xuanze",
+   "name": "三、选择",
+   "points": 8,
+   "instructions": "把正确答案的序号填在括号里。",
+   "items": [
+    {
+     "id": "x1",
+     "no": 1,
+     "stem": "下面算式中，得数最大的是（　）。",
+     "type": "选择",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "中档",
+     "options": [
+      "5 × 4",
+      "6 × 3",
+      "5 × 5"
+     ],
+     "answer": "5 × 5",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "分别算出三个积再比较。",
+     "knowledge_points": [
+      "M2U-1-05",
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "x2",
+     "no": 2,
+     "stem": "3 × 4 和 4 × 3 的得数（　）。",
+     "type": "选择",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "中档",
+     "options": [
+      "相等",
+      "不相等",
+      "无法确定"
+     ],
+     "answer": "相等",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "交换乘数位置，积不变。",
+     "knowledge_points": [
+      "M2U-1-03"
+     ]
+    },
+    {
+     "id": "x3",
+     "no": 3,
+     "stem": "6 × 0 的得数是（　）。",
+     "type": "选择",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "中档",
+     "options": [
+      "6",
+      "0",
+      "1"
+     ],
+     "answer": "0",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "0 个 6 是多少？",
+     "knowledge_points": [
+      "M2U-1-04"
+     ]
+    },
+    {
+     "id": "x4",
+     "no": 4,
+     "stem": "5 × 6 + 5 与下面哪个算式得数相同？（　）",
+     "type": "选择",
+     "points": 2,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "中档",
+     "options": [
+      "5 × 7",
+      "5 × 6",
+      "6 × 6"
+     ],
+     "answer": "5 × 7",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "6 个 5 再加 1 个 5。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "panduan",
+   "name": "四、判断",
+   "points": 6,
+   "instructions": "对的画“√”，错的画“×”。",
+   "items": [
+    {
+     "id": "p1",
+     "no": 1,
+     "stem": "5 × 3 表示 3 个 5 相加。（　）",
+     "type": "判断",
+     "points": 2,
+     "unit": 1,
+     "ability": "了解",
+     "tier": "基础",
+     "answer": "√",
+     "scoring_rules": "判断正确得 2 分。",
+     "hint": "乘法表示几个相同加数的和。",
+     "knowledge_points": [
+      "M2U-1-01"
+     ]
+    },
+    {
+     "id": "p2",
+     "no": 2,
+     "stem": "0 × 6 和 6 × 0 的得数都是 0。（　）",
+     "type": "判断",
+     "points": 2,
+     "unit": 1,
+     "ability": "理解",
+     "tier": "基础",
+     "answer": "√",
+     "scoring_rules": "判断正确得 2 分。",
+     "hint": "0 乘任何数都得 0。",
+     "knowledge_points": [
+      "M2U-1-04"
+     ]
+    },
+    {
+     "id": "p3",
+     "no": 3,
+     "stem": "6 × 4 和 4 × 6 用的口诀不一样。（　）",
+     "type": "判断",
+     "points": 2,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "×",
+     "scoring_rules": "判断正确得 2 分。",
+     "hint": "想一想四六二十四这句口诀。",
+     "knowledge_points": [
+      "M2U-1-03",
+      "M2U-1-06"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bisuan",
+   "name": "五、竖式与脱式计算",
+   "points": 16,
+   "instructions": "写出计算过程。",
+   "items": [
+    {
+     "id": "b1",
+     "no": 1,
+     "stem": "6 × 7 = {{workspace h=22}}",
+     "type": "竖式与脱式",
+     "points": 4,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "42",
+     "scoring_rules": "得数正确得 4 分；口诀用错不得分。",
+     "hint": "六七四十二。",
+     "knowledge_points": [
+      "M2U-1-06"
+     ]
+    },
+    {
+     "id": "b2",
+     "no": 2,
+     "stem": "5 × 8 = {{workspace h=22}}",
+     "type": "竖式与脱式",
+     "points": 4,
+     "unit": 1,
+     "ability": "掌握",
+     "tier": "基础",
+     "answer": "40",
+     "scoring_rules": "得数正确得 4 分。",
+     "hint": "五八四十。",
+     "knowledge_points": [
+      "M2U-1-05"
+     ]
+    },
+    {
+     "id": "b3",
+     "no": 3,
+     "stem": "4 × 6 + 5 = {{workspace h=26}}",
+     "type": "竖式与脱式",
+     "points": 4,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "29",
+     "scoring_rules": "过程与得数各 2 分；先算乘法，顺序错不得过程分。",
+     "hint": "先算 4 × 6，再加 5。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    },
+    {
+     "id": "b4",
+     "no": 4,
+     "stem": "6 × 6 - 8 = {{workspace h=26}}",
+     "type": "竖式与脱式",
+     "points": 4,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "28",
+     "scoring_rules": "过程与得数各 2 分。",
+     "hint": "先算 6 × 6，再减 8。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "jiejue",
+   "name": "六、解决问题",
+   "points": 30,
+   "instructions": "写出算式和答句。",
+   "items": [
+    {
+     "id": "j1",
+     "no": 1,
+     "stem": "每盒有 5 支铅笔，4 盒一共有多少支？{{workspace h=24}}",
+     "type": "解决问题",
+     "points": 4,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "5×4=20（支）",
+     "scoring_rules": "算式 2 分，得数 1 分，答句 1 分；缺单位扣 0.5 分。",
+     "hint": "求 4 个 5 是多少。",
+     "knowledge_points": [
+      "M2U-1-09"
+     ]
+    },
+    {
+     "id": "j2",
+     "no": 2,
+     "stem": "一张桌子坐 6 人，3 张桌子一共坐多少人？{{workspace h=24}}",
+     "type": "解决问题",
+     "points": 4,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "6×3=18（人）",
+     "scoring_rules": "算式 2 分，得数 1 分，答句 1 分。",
+     "hint": "求 3 个 6 是多少。",
+     "knowledge_points": [
+      "M2U-1-09"
+     ]
+    },
+    {
+     "id": "j3",
+     "no": 3,
+     "stem": "小明每天读 5 页书，读了 6 天，一共读了多少页？{{workspace h=24}}",
+     "type": "解决问题",
+     "points": 5,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "5×6=30（页）",
+     "scoring_rules": "算式 3 分，得数 1 分，答句 1 分。",
+     "hint": "求 6 个 5 是多少。",
+     "knowledge_points": [
+      "M2U-1-09"
+     ]
+    },
+    {
+     "id": "j4",
+     "no": 4,
+     "stem": "每排种 6 棵树，种了 4 排，还剩 3 棵树苗。一共有多少棵树苗？{{workspace h=26}}",
+     "type": "解决问题",
+     "points": 5,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "基础",
+     "answer": "6×4+3=27（棵）",
+     "scoring_rules": "算式 3 分，得数 1 分，答句 1 分。",
+     "hint": "先算种了多少棵，再加上剩下的。",
+     "knowledge_points": [
+      "M2U-1-08",
+      "M2U-1-09"
+     ]
+    },
+    {
+     "id": "j5",
+     "no": 5,
+     "stem": "一盒鸡蛋有 6 个，妈妈买了 5 盒，吃掉 4 个后还剩多少个？{{workspace h=28}}",
+     "type": "解决问题",
+     "points": 6,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "中档",
+     "answer": "6×5-4=26（个）",
+     "scoring_rules": "算式 3 分，得数 2 分，答句 1 分；先算乘法，顺序错扣过程分。",
+     "hint": "先算一共买了多少个。",
+     "knowledge_points": [
+      "M2U-1-08"
+     ]
+    },
+    {
+     "id": "j6",
+     "no": 6,
+     "stem": "用 5 和 6 这两个数，你能写出几道乘法算式？它们的积分别是多少？把想法写下来。{{workspace h=32}}",
+     "type": "解决问题",
+     "points": 6,
+     "unit": 1,
+     "ability": "运用",
+     "tier": "拔高",
+     "answer": "5×6=30，6×5=30，两道算式积都是 30",
+     "scoring_rules": "写出两道算式各 2 分，指出积相同得 2 分。",
+     "hint": "交换两个乘数的位置试试。",
+     "knowledge_points": [
+      "M2U-1-03",
+      "M2U-1-09"
+     ]
+    }
+   ]
+  }
+ ]
+}

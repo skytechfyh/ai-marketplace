@@ -1,0 +1,64 @@
+{
+ "schema": 1,
+ "exam_id": "golden-math-g2-down-diagnostic",
+ "created_at": "2026-11-12",
+ "child": {},
+ "subject": "math",
+ "kind": "diagnostic",
+ "title": "二年级数学 · 起始诊断卷（黄金样例）",
+ "scope": {
+  "grade": 2,
+  "term": "down",
+  "textbook_edition": "苏教版"
+ },
+ "difficulty_level": "standard",
+ "total_points": 20,
+ "suggested_minutes": 25,
+ "sections": [
+  {
+   "id": "changdu",
+   "name": "一、长度单位",
+   "points": 6,
+   "instructions": "诊断点：厘米与米的认识、单位选择。",
+   "items": [
+    {"id": "d1", "no": 1, "stem": "1 米 = {{blank n=4}} 厘米。", "type": "填空", "points": 1, "unit": 1, "ability": "掌握", "tier": "基础", "answer": "100", "scoring_rules": "答对得 1 分。", "hint": "想想米尺上有多少厘米。", "knowledge_points": ["M2D-1-03"]},
+    {"id": "d2", "no": 2, "stem": "一支铅笔长约 18 {{blank n=3}}。（填“厘米”或“米”）", "type": "填空", "points": 1, "unit": 1, "ability": "运用", "tier": "基础", "answer": "厘米", "scoring_rules": "答对得 1 分。", "hint": "铅笔比一米短很多。", "knowledge_points": ["M2D-1-04"]},
+    {"id": "d3", "no": 3, "stem": "教室的门高约 2 {{blank n=3}}。（填“厘米”或“米”）", "type": "填空", "points": 1, "unit": 1, "ability": "运用", "tier": "基础", "answer": "米", "scoring_rules": "答对得 1 分。", "hint": "门比人高，用大单位。", "knowledge_points": ["M2D-1-04"]},
+    {"id": "d4", "no": 4, "stem": "3 米 = {{blank n=4}} 厘米。", "type": "填空", "points": 1, "unit": 1, "ability": "掌握", "tier": "基础", "answer": "300", "scoring_rules": "答对得 1 分。", "hint": "1 米是 100 厘米，3 米呢？", "knowledge_points": ["M2D-1-03"]},
+    {"id": "d5", "no": 5, "stem": "在 ○ 里填 >、< 或 =：1 米 {{blank n=2}} 98 厘米。", "type": "填空", "points": 1, "unit": 1, "ability": "理解", "tier": "基础", "answer": ">", "scoring_rules": "答对得 1 分。", "hint": "先把 1 米换成厘米。", "knowledge_points": ["M2D-1-05"]},
+    {"id": "d6", "no": 6, "stem": "一根绳子长 5 米，剪去 200 厘米，还剩多少厘米？{{workspace h=24}}", "type": "解决问题", "points": 1, "unit": 1, "ability": "运用", "tier": "基础", "answer": "5米=500厘米，500-200=300（厘米）", "scoring_rules": "单位换算与得数都正确得 1 分。", "hint": "先统一单位再减。", "knowledge_points": ["M2D-1-06"]}
+   ]
+  },
+  {
+   "id": "beishu",
+   "name": "二、倍的认识",
+   "points": 5,
+   "instructions": "诊断点：把一份看作标准、求几倍是多少。",
+   "items": [
+    {"id": "d7", "no": 7, "stem": "●●●　○○○○○○　○ 的个数是 ● 的 {{blank n=2}} 倍。", "type": "填空", "points": 1, "unit": 2, "ability": "理解", "tier": "基础", "answer": "2", "scoring_rules": "答对得 1 分。", "hint": "3 个一份，6 里面有几个 3？", "knowledge_points": ["M2D-2-01"]},
+    {"id": "d8", "no": 8, "stem": "5 的 3 倍是 {{blank n=3}}。", "type": "填空", "points": 1, "unit": 2, "ability": "运用", "tier": "基础", "answer": "15", "scoring_rules": "答对得 1 分。", "hint": "求 3 个 5 是多少。", "knowledge_points": ["M2D-2-02"]},
+    {"id": "d9", "no": 9, "stem": "8 是 4 的 {{blank n=2}} 倍。", "type": "填空", "points": 1, "unit": 2, "ability": "理解", "tier": "基础", "answer": "2", "scoring_rules": "答对得 1 分。", "hint": "8 里面有几个 4？", "knowledge_points": ["M2D-2-01"]},
+    {"id": "d10", "no": 10, "stem": "小明有 4 张卡片，小红的卡片是小明的 3 倍，小红有多少张？{{workspace h=22}}", "type": "解决问题", "points": 1, "unit": 2, "ability": "运用", "tier": "基础", "answer": "4×3=12（张）", "scoring_rules": "算式与得数正确得 1 分。", "hint": "求 3 个 4 是多少。", "knowledge_points": ["M2D-2-02"]},
+    {"id": "d11", "no": 11, "stem": "12 是 3 的几倍？{{workspace h=22}}", "type": "解决问题", "points": 1, "unit": 2, "ability": "运用", "tier": "基础", "answer": "12÷3=4", "scoring_rules": "算式与得数正确得 1 分。", "hint": "求一个数是另一个数的几倍，用除法。", "knowledge_points": ["M2D-2-01"]}
+   ]
+  },
+  {
+   "id": "kousuan",
+   "name": "三、表内乘除口算",
+   "points": 9,
+   "instructions": "诊断点：口诀熟练度。",
+   "columns": 3,
+   "items": [
+    {"id": "d12", "no": 12, "stem": "7 × 8 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "56", "scoring_rules": "答对得 1 分。", "hint": "七八五十六。", "knowledge_points": ["M2D-3-01"]},
+    {"id": "d13", "no": 13, "stem": "9 × 6 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "54", "scoring_rules": "答对得 1 分。", "hint": "六九五十四。", "knowledge_points": ["M2D-3-02"]},
+    {"id": "d14", "no": 14, "stem": "42 ÷ 7 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "6", "scoring_rules": "答对得 1 分。", "hint": "六七四十二。", "knowledge_points": ["M2D-3-01"]},
+    {"id": "d15", "no": 15, "stem": "54 ÷ 9 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "6", "scoring_rules": "答对得 1 分。", "hint": "六九五十四。", "knowledge_points": ["M2D-3-02"]},
+    {"id": "d16", "no": 16, "stem": "8 × 9 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "72", "scoring_rules": "答对得 1 分。", "hint": "八九七十二。", "knowledge_points": ["M2D-3-02"]},
+    {"id": "d17", "no": 17, "stem": "63 ÷ 7 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "9", "scoring_rules": "答对得 1 分。", "hint": "七九六十三。", "knowledge_points": ["M2D-3-01"]},
+    {"id": "d18", "no": 18, "stem": "7 × 7 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "49", "scoring_rules": "答对得 1 分。", "hint": "七七四十九。", "knowledge_points": ["M2D-3-01"]},
+    {"id": "d19", "no": 19, "stem": "9 × 9 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "81", "scoring_rules": "答对得 1 分。", "hint": "九九八十一。", "knowledge_points": ["M2D-3-02"]},
+    {"id": "d20", "no": 20, "stem": "48 ÷ 8 =", "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础", "answer": "6", "scoring_rules": "答对得 1 分。", "hint": "六八四十八。", "knowledge_points": ["M2D-3-02"]}
+   ]
+  }
+ ]
+}

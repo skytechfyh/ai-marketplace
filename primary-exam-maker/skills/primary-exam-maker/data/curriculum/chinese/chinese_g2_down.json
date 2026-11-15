@@ -1,0 +1,328 @@
+{
+  "schema": 1,
+  "subject": "语文",
+  "grade": 2,
+  "term": "下",
+  "publisher": "人民教育出版社",
+  "edition": "统编版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "0f93b83e-b3c2-4a5d-8acd-ea460ab962d4",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·语文二年级下册",
+    "index_year_tag": null,
+    "index_update_time": "2026-03-03T11:01:43.715+0800",
+    "extracted_from": "第4-5页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "识字表 / 写字表 / 词语表（书末，预览未覆盖，听写单与生字范围核验依赖这三张表）",
+      "课文正文"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 1,
+          "title": "古诗二首",
+          "page": 1,
+          "poems": [
+            {
+              "title": "咏柳",
+              "page": 1
+            },
+            {
+              "title": "村居",
+              "page": 2
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 2,
+          "title": "找春天",
+          "page": 4
+        },
+        {
+          "type": "lesson",
+          "no": 3,
+          "title": "开满鲜花的小路",
+          "page": 6
+        },
+        {
+          "type": "lesson",
+          "no": 4,
+          "title": "邓小平爷爷植树",
+          "page": 9
+        },
+        {
+          "type": "garden",
+          "title": "语文园地一",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 5,
+          "title": "雷锋叔叔，你在哪里",
+          "page": 15
+        },
+        {
+          "type": "lesson",
+          "no": 6,
+          "title": "千人糕",
+          "page": 18
+        },
+        {
+          "type": "lesson",
+          "no": 7,
+          "title": "我不是最弱小的",
+          "page": 21
+        },
+        {
+          "type": "garden",
+          "title": "语文园地二",
+          "page": 24
+        },
+        {
+          "type": "reading_club",
+          "title": "快乐读书吧：读读儿童故事",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "kind": "识字",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 1,
+          "title": "神州谣",
+          "page": 29
+        },
+        {
+          "type": "lesson",
+          "no": 2,
+          "title": "传统节日",
+          "page": 31
+        },
+        {
+          "type": "lesson",
+          "no": 3,
+          "title": "“贝”的故事",
+          "page": 33
+        },
+        {
+          "type": "lesson",
+          "no": 4,
+          "title": "中国美食",
+          "page": 35
+        },
+        {
+          "type": "garden",
+          "title": "语文园地三",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 8,
+          "title": "彩色的梦",
+          "page": 42
+        },
+        {
+          "type": "lesson",
+          "no": 9,
+          "title": "一匹出色的马",
+          "page": 45
+        },
+        {
+          "type": "lesson",
+          "no": 10,
+          "title": "枫树上的喜鹊",
+          "page": 48
+        },
+        {
+          "type": "garden",
+          "title": "语文园地四",
+          "page": 51
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 11,
+          "title": "寓言二则",
+          "page": 55,
+          "poems": [
+            {
+              "title": "亡羊补牢",
+              "page": 55
+            },
+            {
+              "title": "揠苗助长",
+              "page": 56
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 12,
+          "title": "画杨桃",
+          "page": 58
+        },
+        {
+          "type": "lesson",
+          "no": 13,
+          "title": "小马过河",
+          "page": 61
+        },
+        {
+          "type": "garden",
+          "title": "语文园地五",
+          "page": 65
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 14,
+          "title": "古诗二首",
+          "page": 69,
+          "poems": [
+            {
+              "title": "绝句",
+              "page": 69
+            },
+            {
+              "title": "晓出净慈寺送林子方",
+              "page": 70
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 15,
+          "title": "雷雨",
+          "page": 72
+        },
+        {
+          "type": "lesson",
+          "no": 16,
+          "title": "要是你在野外迷了路",
+          "page": 74
+        },
+        {
+          "type": "lesson",
+          "no": 17,
+          "title": "太空生活趣事多",
+          "page": 77
+        },
+        {
+          "type": "garden",
+          "title": "语文园地六",
+          "page": 79
+        }
+      ]
+    },
+    {
+      "no": 7,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 18,
+          "title": "大象的耳朵",
+          "page": 84
+        },
+        {
+          "type": "lesson",
+          "no": 19,
+          "title": "蜘蛛开店",
+          "page": 87
+        },
+        {
+          "type": "lesson",
+          "no": 20,
+          "title": "青蛙卖泥塘",
+          "page": 90
+        },
+        {
+          "type": "lesson",
+          "no": 21,
+          "title": "小毛虫",
+          "page": 94
+        },
+        {
+          "type": "garden",
+          "title": "语文园地七",
+          "page": 97
+        }
+      ]
+    },
+    {
+      "no": 8,
+      "kind": "阅读",
+      "page": null,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 22,
+          "title": "羿射九日",
+          "page": 100
+        },
+        {
+          "type": "lesson",
+          "no": 23,
+          "title": "黄帝的传说",
+          "page": 103
+        },
+        {
+          "type": "lesson",
+          "no": 24,
+          "title": "大禹治水",
+          "page": 106
+        },
+        {
+          "type": "garden",
+          "title": "语文园地八",
+          "page": 109
+        }
+      ]
+    }
+  ],
+  "tables": {
+    "识字表": 113,
+    "写字表": 117,
+    "词语表": 120
+  }
+}

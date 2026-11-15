@@ -1,0 +1,393 @@
+{
+  "schema": 1,
+  "subject": "语文",
+  "grade": 3,
+  "term": "下",
+  "publisher": "人民教育出版社",
+  "edition": "统编版",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "8e107655-5128-451f-84e5-d158725c537b",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·语文三年级下册",
+    "index_year_tag": null,
+    "index_update_time": "2026-03-03T13:58:37.927+0800",
+    "extracted_from": "第4-5页目录",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "识字表 / 写字表 / 词语表（书末，预览未覆盖，听写单与生字范围核验依赖这三张表）",
+      "课文正文"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "kind": "阅读",
+      "page": 1,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 1,
+          "title": "古诗三首",
+          "page": 2,
+          "poems": [
+            {
+              "title": "绝句",
+              "page": 2
+            },
+            {
+              "title": "惠崇春江晚景",
+              "page": 2
+            },
+            {
+              "title": "三衢道中",
+              "page": 3
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 2,
+          "title": "燕子",
+          "page": 4
+        },
+        {
+          "type": "lesson",
+          "no": 3,
+          "title": "荷花",
+          "page": 6
+        },
+        {
+          "type": "lesson",
+          "no": 4,
+          "title": "昆虫备忘录",
+          "page": 8,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "春游去哪里",
+          "page": 11
+        },
+        {
+          "type": "writing",
+          "title": "我的植物朋友",
+          "page": 12
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "kind": "阅读",
+      "page": 15,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 5,
+          "title": "守株待兔",
+          "page": 16
+        },
+        {
+          "type": "lesson",
+          "no": 6,
+          "title": "会摇尾巴的狼",
+          "page": 18
+        },
+        {
+          "type": "lesson",
+          "no": 7,
+          "title": "鹿角和鹿腿",
+          "page": 21
+        },
+        {
+          "type": "lesson",
+          "no": 8,
+          "title": "池子与河流",
+          "page": 23,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "劝告",
+          "page": 27
+        },
+        {
+          "type": "writing",
+          "title": "看图画，写一写",
+          "page": 28
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 29
+        },
+        {
+          "type": "reading_club",
+          "title": "快乐读书吧：小故事大道理",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "kind": "阅读",
+      "page": 33,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 9,
+          "title": "海底世界",
+          "page": 34
+        },
+        {
+          "type": "lesson",
+          "no": 10,
+          "title": "石蜂",
+          "page": 36
+        },
+        {
+          "type": "lesson",
+          "no": 11,
+          "title": "小虾",
+          "page": 38,
+          "skim": true
+        },
+        {
+          "type": "writing",
+          "title": "我做了一项小实验",
+          "page": 40
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 41
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "kind": "阅读",
+      "page": 43,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 12,
+          "title": "古诗三首",
+          "page": 44,
+          "poems": [
+            {
+              "title": "元日",
+              "page": 44
+            },
+            {
+              "title": "清明",
+              "page": 44
+            },
+            {
+              "title": "九月九日忆山东兄弟",
+              "page": 45
+            }
+          ]
+        },
+        {
+          "type": "lesson",
+          "no": 13,
+          "title": "纸的发明",
+          "page": 47
+        },
+        {
+          "type": "lesson",
+          "no": 14,
+          "title": "赵州桥",
+          "page": 50
+        },
+        {
+          "type": "lesson",
+          "no": 15,
+          "title": "一幅名扬中外的画",
+          "page": 52,
+          "skim": true
+        },
+        {
+          "type": "topic_activity",
+          "title": "专题学习活动：中华传统节日",
+          "page": 54
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 55
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "kind": "阅读",
+      "page": 57,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 16,
+          "title": "胡萝卜先生的长胡子",
+          "page": 58
+        },
+        {
+          "type": "lesson",
+          "no": 17,
+          "title": "我变成了一棵树",
+          "page": 61
+        },
+        {
+          "type": "writing",
+          "title": "奇妙的想象",
+          "page": 65
+        },
+        {
+          "type": "example",
+          "title": "一支铅笔的梦想",
+          "page": 66
+        },
+        {
+          "type": "example",
+          "title": "尾巴它有一只猫",
+          "page": 67
+        }
+      ],
+      "note": "习作单元"
+    },
+    {
+      "no": 6,
+      "kind": "阅读",
+      "page": 69,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 18,
+          "title": "童年的水墨画",
+          "page": 70
+        },
+        {
+          "type": "lesson",
+          "no": 19,
+          "title": "肥皂泡",
+          "page": 72
+        },
+        {
+          "type": "lesson",
+          "no": 20,
+          "title": "灰雀",
+          "page": 75
+        },
+        {
+          "type": "lesson",
+          "no": 21,
+          "title": "我不能失信",
+          "page": 77,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "应该怎样安排座位",
+          "page": 79
+        },
+        {
+          "type": "writing",
+          "title": "身边那些有特点的人",
+          "page": 80
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 81
+        }
+      ]
+    },
+    {
+      "no": 7,
+      "kind": "阅读",
+      "page": 83,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 22,
+          "title": "火烧云",
+          "page": 84
+        },
+        {
+          "type": "lesson",
+          "no": 23,
+          "title": "暴风雨来临之前",
+          "page": 87
+        },
+        {
+          "type": "lesson",
+          "no": 24,
+          "title": "我们奇妙的世界",
+          "page": 89
+        },
+        {
+          "type": "writing",
+          "title": "国宝大熊猫",
+          "page": 92
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 93
+        }
+      ]
+    },
+    {
+      "no": 8,
+      "kind": "阅读",
+      "page": 95,
+      "items": [
+        {
+          "type": "lesson",
+          "no": 25,
+          "title": "慢性子裁缝和急性子顾客",
+          "page": 96
+        },
+        {
+          "type": "lesson",
+          "no": 26,
+          "title": "漏",
+          "page": 100
+        },
+        {
+          "type": "lesson",
+          "no": 27,
+          "title": "枣核",
+          "page": 104,
+          "skim": true
+        },
+        {
+          "type": "speaking",
+          "title": "趣味故事会",
+          "page": 107
+        },
+        {
+          "type": "writing",
+          "title": "这样想象真有趣",
+          "page": 108
+        },
+        {
+          "type": "garden",
+          "title": "语文园地",
+          "page": 109
+        }
+      ]
+    }
+  ],
+  "tables": {
+    "识字表": 111,
+    "写字表": 114,
+    "词语表": 116
+  },
+  "note": "标*的是略读课文。第五单元是习作单元。"
+}

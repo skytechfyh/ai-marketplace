@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "subject": "英语",
+  "grade": 3,
+  "term": "上",
+  "publisher": "译林出版社",
+  "edition": "译林版（三年级起点）",
+  "source": {
+    "platform": "国家中小学智慧教育平台 basic.smartedu.cn",
+    "resource_id": "8a798994-386e-8659-37a2-7aa4273da7a8",
+    "resource_title": "（根据2022年版课程标准修订）义务教育教科书·英语 三年级上册",
+    "index_year_tag": "2026年度",
+    "index_update_time": "2026-08-26T10:27:47.863+0800",
+    "extracted_from": "第7页 Contents",
+    "method": "官方预览图目录页，OCR + 人工目视核对",
+    "verified_on": "2026-11-06",
+    "not_covered": [
+      "Learning tips（p.76）、Word lists（p.78）及各单元内部的 Story time / Fun time 等板块词汇与句型（预览仅覆盖前 49 页）"
+    ]
+  },
+  "units": [
+    {
+      "no": 1,
+      "module": "Module 1 Getting to know each other",
+      "title": "Hello!",
+      "page": 9,
+      "big_question": "How do you greet people?",
+      "cartoon_time": {
+        "title": "Hi, I’m Bobby",
+        "page": 10
+      },
+      "letters_in_focus": "Aa, Bb, Cc, Dd"
+    },
+    {
+      "no": 2,
+      "module": "Module 1 Getting to know each other",
+      "title": "What’s your name?",
+      "page": 17,
+      "big_question": "How do you get to know someone’s name?",
+      "cartoon_time": {
+        "title": "My name is Beibei",
+        "page": 18
+      },
+      "letters_in_focus": "Ee, Ff, Gg"
+    },
+    {
+      "no": 3,
+      "module": "Module 1 Getting to know each other",
+      "title": "Are you Su Hai?",
+      "page": 25,
+      "big_question": "How do you get to know more about new friends?",
+      "cartoon_time": {
+        "title": "Are you Jake?",
+        "page": 26
+      },
+      "letters_in_focus": "Hh, Ii, Jj, Kk"
+    },
+    {
+      "no": 4,
+      "module": "Module 1 Getting to know each other",
+      "title": "This is my friend",
+      "page": 33,
+      "big_question": "How do you introduce your friends?",
+      "cartoon_time": {
+        "title": "This is Sam",
+        "page": 34
+      },
+      "letters_in_focus": "Ll, Mm, Nn"
+    },
+    {
+      "no": 5,
+      "module": "Module 2 My family and me",
+      "title": "She’s my mother",
+      "page": 43,
+      "big_question": "What makes a family?",
+      "cartoon_time": {
+        "title": "Who’s she?",
+        "page": 44
+      },
+      "letters_in_focus": "Oo, Pp, Qq"
+    },
+    {
+      "no": 6,
+      "module": "Module 2 My family and me",
+      "title": "Is he your grandpa?",
+      "page": 51,
+      "big_question": "What do you think of a big family?",
+      "cartoon_time": {
+        "title": "He’s John too",
+        "page": 52
+      },
+      "letters_in_focus": "Rr, Ss, Tt"
+    },
+    {
+      "no": 7,
+      "module": "Module 2 My family and me",
+      "title": "Happy Birthday!",
+      "page": 59,
+      "big_question": "What do you get from your birthdays?",
+      "cartoon_time": {
+        "title": "Bobby’s birthday",
+        "page": 60
+      },
+      "letters_in_focus": "Uu, Vv, Ww"
+    },
+    {
+      "no": 8,
+      "module": "Module 2 My family and me",
+      "title": "I can do this for you",
+      "page": 67,
+      "big_question": "What can you do for your family?",
+      "cartoon_time": {
+        "title": "Is this a fox?",
+        "page": 68
+      },
+      "letters_in_focus": "Xx, Yy, Zz"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Project 1 Making friends",
+      "page": 40,
+      "after_unit": 4
+    },
+    {
+      "title": "Project 2 My family poster",
+      "page": 74,
+      "after_unit": 8
+    }
+  ]
+}

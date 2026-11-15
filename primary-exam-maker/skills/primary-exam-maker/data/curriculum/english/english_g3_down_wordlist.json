@@ -1,0 +1,997 @@
+{
+ "source_pdf": "english_g3_down.pdf",
+ "units": [
+  {
+   "unit": 1,
+   "words": [
+    {
+     "en": "school",
+     "zh": "学校",
+     "core": true,
+     "page": 8,
+     "en_primary": "school"
+    },
+    {
+     "en": "thing",
+     "zh": "用品，用具",
+     "core": false,
+     "page": 8,
+     "en_primary": "thing"
+    },
+    {
+     "en": "pen",
+     "zh": "笔，钢笔",
+     "core": true,
+     "page": 8,
+     "en_primary": "pen"
+    },
+    {
+     "en": "pencil",
+     "zh": "铅笔",
+     "core": true,
+     "page": 8,
+     "en_primary": "pencil"
+    },
+    {
+     "en": "ruler",
+     "zh": "直尺",
+     "core": true,
+     "page": 8,
+     "en_primary": "ruler"
+    },
+    {
+     "en": "rubber",
+     "zh": "橡皮",
+     "core": true,
+     "page": 8,
+     "en_primary": "rubber"
+    },
+    {
+     "en": "schoolbag",
+     "zh": "书包",
+     "core": true,
+     "page": 9,
+     "en_primary": "schoolbag"
+    },
+    {
+     "en": "pencil case",
+     "zh": "铅笔盒，铅笔袋",
+     "core": true,
+     "page": 9,
+     "en_primary": "pencil case"
+    },
+    {
+     "en": "that",
+     "zh": "那，那个",
+     "core": true,
+     "page": 10,
+     "en_primary": "that"
+    },
+    {
+     "en": "put",
+     "zh": "放，安置",
+     "core": true,
+     "page": 10,
+     "en_primary": "put"
+    },
+    {
+     "en": "guess",
+     "zh": "猜测，估计",
+     "core": false,
+     "page": 13,
+     "en_primary": "guess"
+    },
+    {
+     "en": "again",
+     "zh": "再一次，又一次",
+     "core": true,
+     "page": 13,
+     "en_primary": "again"
+    },
+    {
+     "en": "long",
+     "zh": "长的",
+     "core": true,
+     "page": 13,
+     "en_primary": "long"
+    },
+    {
+     "en": "Good idea!",
+     "zh": "好主意！",
+     "core": true,
+     "page": 13,
+     "en_primary": "Good idea!"
+    }
+   ]
+  },
+  {
+   "unit": 2,
+   "words": [
+    {
+     "en": "our",
+     "zh": "我们的",
+     "core": true,
+     "page": 16,
+     "en_primary": "our"
+    },
+    {
+     "en": "classroom",
+     "zh": "教室，课堂",
+     "core": true,
+     "page": 16,
+     "en_primary": "classroom"
+    },
+    {
+     "en": "put away",
+     "zh": "将……收起，",
+     "core": false,
+     "page": 16,
+     "en_primary": "put away"
+    },
+    {
+     "en": "close",
+     "zh": "关，关闭",
+     "core": true,
+     "page": 16,
+     "en_primary": "close"
+    },
+    {
+     "en": "window",
+     "zh": "窗，窗户",
+     "core": true,
+     "page": 16,
+     "en_primary": "window"
+    },
+    {
+     "en": "blackboard",
+     "zh": "黑板",
+     "core": true,
+     "page": 16,
+     "en_primary": "blackboard"
+    },
+    {
+     "en": "chair",
+     "zh": "椅子",
+     "core": true,
+     "page": 16,
+     "en_primary": "chair"
+    },
+    {
+     "en": "sweep",
+     "zh": "打扫，清扫",
+     "core": true,
+     "page": 17,
+     "en_primary": "sweep"
+    },
+    {
+     "en": "floor",
+     "zh": "地板，地面",
+     "core": true,
+     "page": 17,
+     "en_primary": "floor"
+    },
+    {
+     "en": "let",
+     "zh": "让",
+     "core": true,
+     "page": 18,
+     "en_primary": "let"
+    },
+    {
+     "en": "us",
+     "zh": "我们",
+     "core": true,
+     "page": 18,
+     "en_primary": "us"
+    },
+    {
+     "en": "desk",
+     "zh": "课桌，书桌",
+     "core": true,
+     "page": 18,
+     "en_primary": "desk"
+    },
+    {
+     "en": "dirty",
+     "zh": "脏的",
+     "core": true,
+     "page": 18,
+     "en_primary": "dirty"
+    },
+    {
+     "en": "Me too!",
+     "zh": "我也是！",
+     "core": true,
+     "page": 20,
+     "en_primary": "Me too!"
+    },
+    {
+     "en": "All right.",
+     "zh": "好的。",
+     "core": true,
+     "page": 21,
+     "en_primary": "All right."
+    },
+    {
+     "en": "clean",
+     "zh": "洁净的，干净的",
+     "core": true,
+     "page": 21,
+     "en_primary": "clean"
+    },
+    {
+     "en": "keep",
+     "zh": "（使）保持，处于",
+     "core": true,
+     "page": 21,
+     "en_primary": "keep"
+    }
+   ]
+  },
+  {
+   "unit": 3,
+   "words": [
+    {
+     "en": "rule",
+     "zh": "规则，规章",
+     "core": true,
+     "page": 24,
+     "en_primary": "rule"
+    },
+    {
+     "en": "library",
+     "zh": "图书馆",
+     "core": true,
+     "page": 24,
+     "en_primary": "library"
+    },
+    {
+     "en": "shout",
+     "zh": "大声说，叫，嚷",
+     "core": false,
+     "page": 24,
+     "en_primary": "shout"
+    },
+    {
+     "en": "talk",
+     "zh": "说话，讲话",
+     "core": true,
+     "page": 24,
+     "en_primary": "talk"
+    },
+    {
+     "en": "eat",
+     "zh": "吃",
+     "core": true,
+     "page": 24,
+     "en_primary": "eat"
+    },
+    {
+     "en": "run",
+     "zh": "跑，奔跑",
+     "core": true,
+     "page": 24,
+     "en_primary": "run"
+    },
+    {
+     "en": "Mrs (AmE Mrs.)",
+     "zh": "太太，夫人",
+     "core": true,
+     "page": 26,
+     "en_primary": "Mrs"
+    },
+    {
+     "en": "sit down",
+     "zh": "坐下",
+     "core": true,
+     "page": 26,
+     "en_primary": "sit down"
+    },
+    {
+     "en": "late",
+     "zh": "迟的，晚的",
+     "core": true,
+     "page": 26,
+     "en_primary": "late"
+    },
+    {
+     "en": "look out of",
+     "zh": "朝……外看",
+     "core": true,
+     "page": 26,
+     "en_primary": "look out of"
+    },
+    {
+     "en": "on",
+     "zh": "在……上面",
+     "core": true,
+     "page": 26,
+     "en_primary": "on"
+    },
+    {
+     "en": "shh",
+     "zh": "嘘",
+     "core": false,
+     "page": 28,
+     "en_primary": "shh"
+    },
+    {
+     "en": "fun",
+     "zh": "有趣的",
+     "core": true,
+     "page": 28,
+     "en_primary": "fun"
+    },
+    {
+     "en": "quiet",
+     "zh": "安静的",
+     "core": true,
+     "page": 28,
+     "en_primary": "quiet"
+    },
+    {
+     "en": "follow",
+     "zh": "遵循，听从",
+     "core": false,
+     "page": 28,
+     "en_primary": "follow"
+    },
+    {
+     "en": "sweet",
+     "zh": "糖果",
+     "core": false,
+     "page": 29,
+     "en_primary": "sweet"
+    },
+    {
+     "en": "look at",
+     "zh": "看，瞧",
+     "core": true,
+     "page": 29,
+     "en_primary": "look at"
+    },
+    {
+     "en": "That’s all right.",
+     "zh": "不要紧。",
+     "core": true,
+     "page": 29,
+     "en_primary": "That’s all right."
+    }
+   ]
+  },
+  {
+   "unit": 4,
+   "words": [
+    {
+     "en": "have fun",
+     "zh": "玩得高兴",
+     "core": true,
+     "page": 32,
+     "en_primary": "have fun"
+    },
+    {
+     "en": "after class",
+     "zh": "课后",
+     "core": true,
+     "page": 32,
+     "en_primary": "after class"
+    },
+    {
+     "en": "behind",
+     "zh": "在……的后面",
+     "core": true,
+     "page": 32,
+     "en_primary": "behind"
+    },
+    {
+     "en": "tree",
+     "zh": "树，树木",
+     "core": true,
+     "page": 32,
+     "en_primary": "tree"
+    },
+    {
+     "en": "by",
+     "zh": "在……旁边",
+     "core": true,
+     "page": 32,
+     "en_primary": "by"
+    },
+    {
+     "en": "under",
+     "zh": "在……下面",
+     "core": true,
+     "page": 32,
+     "en_primary": "under"
+    },
+    {
+     "en": "flower",
+     "zh": "花，花朵",
+     "core": true,
+     "page": 33,
+     "en_primary": "flower"
+    },
+    {
+     "en": "break time",
+     "zh": "课间休息",
+     "core": false,
+     "page": 34,
+     "en_primary": "break time"
+    },
+    {
+     "en": "play",
+     "zh": "玩耍",
+     "core": true,
+     "page": 34,
+     "en_primary": "play"
+    },
+    {
+     "en": "outside",
+     "zh": "在外面",
+     "core": false,
+     "page": 34,
+     "en_primary": "outside"
+    },
+    {
+     "en": "ready",
+     "zh": "准备好",
+     "core": false,
+     "page": 34,
+     "en_primary": "ready"
+    },
+    {
+     "en": "go",
+     "zh": "开始；移动",
+     "core": true,
+     "page": 34,
+     "en_primary": "go"
+    },
+    {
+     "en": "plane",
+     "zh": "飞机",
+     "core": true,
+     "page": 34,
+     "en_primary": "plane"
+    },
+    {
+     "en": "very",
+     "zh": "很，非常",
+     "core": true,
+     "page": 34,
+     "en_primary": "very"
+    },
+    {
+     "en": "far",
+     "zh": "远",
+     "core": true,
+     "page": 34,
+     "en_primary": "far"
+    },
+    {
+     "en": "where",
+     "zh": "在哪里，到哪里",
+     "core": true,
+     "page": 34,
+     "en_primary": "where"
+    },
+    {
+     "en": "find",
+     "zh": "找到",
+     "core": true,
+     "page": 34,
+     "en_primary": "find"
+    },
+    {
+     "en": "over",
+     "zh": "结束",
+     "core": true,
+     "page": 36,
+     "en_primary": "over"
+    },
+    {
+     "en": "student",
+     "zh": "学生",
+     "core": true,
+     "page": 36,
+     "en_primary": "student"
+    },
+    {
+     "en": "from",
+     "zh": "来自",
+     "core": true,
+     "page": 36,
+     "en_primary": "from"
+    },
+    {
+     "en": "Art Club",
+     "zh": "美术社团",
+     "core": false,
+     "page": 36,
+     "en_primary": "Art Club"
+    },
+    {
+     "en": "nice",
+     "zh": "美好的",
+     "core": true,
+     "page": 36,
+     "en_primary": "nice"
+    },
+    {
+     "en": "of",
+     "zh": "关于",
+     "core": true,
+     "page": 36,
+     "en_primary": "of"
+    },
+    {
+     "en": "garden",
+     "zh": "花园，园圃",
+     "core": true,
+     "page": 36,
+     "en_primary": "garden"
+    },
+    {
+     "en": "butterfly",
+     "zh": "蝴蝶",
+     "core": false,
+     "page": 36,
+     "en_primary": "butterfly"
+    },
+    {
+     "en": "beautiful",
+     "zh": "美丽的，美好的",
+     "core": true,
+     "page": 36,
+     "en_primary": "beautiful"
+    },
+    {
+     "en": "duck",
+     "zh": "鸭子",
+     "core": true,
+     "page": 37,
+     "en_primary": "duck"
+    }
+   ]
+  },
+  {
+   "unit": 5,
+   "words": [
+    {
+     "en": "fruit",
+     "zh": "水果",
+     "core": true,
+     "page": 42,
+     "en_primary": "fruit"
+    },
+    {
+     "en": "orange",
+     "zh": "橙子，柑橘",
+     "core": true,
+     "page": 42,
+     "en_primary": "orange"
+    },
+    {
+     "en": "grape",
+     "zh": "葡萄",
+     "core": true,
+     "page": 42,
+     "en_primary": "grape"
+    },
+    {
+     "en": "banana",
+     "zh": "香蕉",
+     "core": true,
+     "page": 42,
+     "en_primary": "banana"
+    },
+    {
+     "en": "apple",
+     "zh": "苹果",
+     "core": true,
+     "page": 43,
+     "en_primary": "apple"
+    },
+    {
+     "en": "mango",
+     "zh": "芒果",
+     "core": true,
+     "page": 43,
+     "en_primary": "mango"
+    },
+    {
+     "en": "share",
+     "zh": "分享，共享",
+     "core": true,
+     "page": 44,
+     "en_primary": "share"
+    },
+    {
+     "en": "like",
+     "zh": "喜欢，喜爱",
+     "core": true,
+     "page": 44,
+     "en_primary": "like"
+    },
+    {
+     "en": "they",
+     "zh": "它们，他们，她们",
+     "core": true,
+     "page": 44,
+     "en_primary": "they"
+    },
+    {
+     "en": "sweet",
+     "zh": "甜的",
+     "core": false,
+     "page": 44,
+     "en_primary": "sweet"
+    },
+    {
+     "en": "make",
+     "zh": "做，制造",
+     "core": true,
+     "page": 46,
+     "en_primary": "make"
+    },
+    {
+     "en": "salad",
+     "zh": "色拉，沙拉",
+     "core": false,
+     "page": 46,
+     "en_primary": "salad"
+    },
+    {
+     "en": "together",
+     "zh": "在一起，共同",
+     "core": false,
+     "page": 46,
+     "en_primary": "together"
+    },
+    {
+     "en": "an",
+     "zh": "一（个）",
+     "core": true,
+     "page": 46,
+     "en_primary": "an"
+    },
+    {
+     "en": "What about you?",
+     "zh": "你呢？",
+     "core": true,
+     "page": 46,
+     "en_primary": "What about you?"
+    },
+    {
+     "en": "good",
+     "zh": "有用，有好处",
+     "core": true,
+     "page": 47,
+     "en_primary": "good"
+    }
+   ]
+  },
+  {
+   "unit": 6,
+   "words": [
+    {
+     "en": "farm",
+     "zh": "农场",
+     "core": true,
+     "page": 50,
+     "en_primary": "farm"
+    },
+    {
+     "en": "cow",
+     "zh": "奶牛",
+     "core": true,
+     "page": 50,
+     "en_primary": "cow"
+    },
+    {
+     "en": "sheep",
+     "zh": "羊，绵羊",
+     "core": true,
+     "page": 50,
+     "en_primary": "sheep"
+    },
+    {
+     "en": "rabbit",
+     "zh": "兔子",
+     "core": true,
+     "page": 50,
+     "en_primary": "rabbit"
+    },
+    {
+     "en": "chicken",
+     "zh": "鸡",
+     "core": true,
+     "page": 50,
+     "en_primary": "chicken"
+    },
+    {
+     "en": "carrot",
+     "zh": "胡萝卜",
+     "core": true,
+     "page": 51,
+     "en_primary": "carrot"
+    },
+    {
+     "en": "pig",
+     "zh": "猪",
+     "core": true,
+     "page": 51,
+     "en_primary": "pig"
+    },
+    {
+     "en": "Welcome to …",
+     "zh": "欢迎来到……",
+     "core": true,
+     "page": 52,
+     "en_primary": "Welcome to …"
+    },
+    {
+     "en": "home",
+     "zh": "家，住所",
+     "core": true,
+     "page": 52,
+     "en_primary": "home"
+    },
+    {
+     "en": "these",
+     "zh": "这些",
+     "core": true,
+     "page": 52,
+     "en_primary": "these"
+    },
+    {
+     "en": "those",
+     "zh": "那些",
+     "core": true,
+     "page": 52,
+     "en_primary": "those"
+    },
+    {
+     "en": "help",
+     "zh": "帮助，协助",
+     "core": true,
+     "page": 52,
+     "en_primary": "help"
+    },
+    {
+     "en": "cute",
+     "zh": "可爱的",
+     "core": true,
+     "page": 55,
+     "en_primary": "cute"
+    },
+    {
+     "en": "move",
+     "zh": "移动",
+     "core": true,
+     "page": 55,
+     "en_primary": "move"
+    }
+   ]
+  },
+  {
+   "unit": 7,
+   "words": [
+    {
+     "en": "animal",
+     "zh": "动物",
+     "core": true,
+     "page": 58,
+     "en_primary": "animal"
+    },
+    {
+     "en": "monkey",
+     "zh": "猴子",
+     "core": true,
+     "page": 58,
+     "en_primary": "monkey"
+    },
+    {
+     "en": "lion",
+     "zh": "狮子",
+     "core": true,
+     "page": 58,
+     "en_primary": "lion"
+    },
+    {
+     "en": "bear",
+     "zh": "熊",
+     "core": true,
+     "page": 58,
+     "en_primary": "bear"
+    },
+    {
+     "en": "tiger",
+     "zh": "老虎",
+     "core": true,
+     "page": 58,
+     "en_primary": "tiger"
+    },
+    {
+     "en": "panda",
+     "zh": "大熊猫",
+     "core": true,
+     "page": 59,
+     "en_primary": "panda"
+    },
+    {
+     "en": "elephant",
+     "zh": "大象",
+     "core": true,
+     "page": 59,
+     "en_primary": "elephant"
+    },
+    {
+     "en": "lunchtime",
+     "zh": "午餐时间",
+     "core": false,
+     "page": 60,
+     "en_primary": "lunchtime"
+    },
+    {
+     "en": "fish",
+     "zh": "鱼；鱼肉",
+     "core": true,
+     "page": 60,
+     "en_primary": "fish"
+    },
+    {
+     "en": "high five",
+     "zh": "相互高举胳膊击掌",
+     "core": false,
+     "page": 60,
+     "en_primary": "high five"
+    },
+    {
+     "en": "feed",
+     "zh": "给食物，喂养",
+     "core": false,
+     "page": 63,
+     "en_primary": "feed"
+    },
+    {
+     "en": "zoo",
+     "zh": "动物园",
+     "core": true,
+     "page": 63,
+     "en_primary": "zoo"
+    },
+    {
+     "en": "go",
+     "zh": "去，走",
+     "core": true,
+     "page": 63,
+     "en_primary": "go"
+    },
+    {
+     "en": "see",
+     "zh": "看，见",
+     "core": true,
+     "page": 63,
+     "en_primary": "see"
+    }
+   ]
+  },
+  {
+   "unit": 8,
+   "words": [
+    {
+     "en": "colour (AmE color)",
+     "zh": "颜色，色彩",
+     "core": true,
+     "page": 66,
+     "en_primary": "colour"
+    },
+    {
+     "en": "yellow",
+     "zh": "黄色的",
+     "core": true,
+     "page": 66,
+     "en_primary": "yellow"
+    },
+    {
+     "en": "blue",
+     "zh": "蓝色的",
+     "core": true,
+     "page": 66,
+     "en_primary": "blue"
+    },
+    {
+     "en": "red",
+     "zh": "红色的",
+     "core": true,
+     "page": 66,
+     "en_primary": "red"
+    },
+    {
+     "en": "orange",
+     "zh": "橙红色的，橘黄色的",
+     "core": true,
+     "page": 66,
+     "en_primary": "orange"
+    },
+    {
+     "en": "pink",
+     "zh": "粉红色的",
+     "core": true,
+     "page": 66,
+     "en_primary": "pink"
+    },
+    {
+     "en": "green",
+     "zh": "绿色的",
+     "core": true,
+     "page": 67,
+     "en_primary": "green"
+    },
+    {
+     "en": "brown",
+     "zh": "棕色的",
+     "core": true,
+     "page": 67,
+     "en_primary": "brown"
+    },
+    {
+     "en": "black",
+     "zh": "黑色的",
+     "core": true,
+     "page": 67,
+     "en_primary": "black"
+    },
+    {
+     "en": "white",
+     "zh": "白色的",
+     "core": true,
+     "page": 67,
+     "en_primary": "white"
+    },
+    {
+     "en": "buy",
+     "zh": "买",
+     "core": true,
+     "page": 68,
+     "en_primary": "buy"
+    },
+    {
+     "en": "balloon",
+     "zh": "气球",
+     "core": false,
+     "page": 68,
+     "en_primary": "balloon"
+    },
+    {
+     "en": "sure",
+     "zh": "（表示同意）当然",
+     "core": true,
+     "page": 68,
+     "en_primary": "sure"
+    },
+    {
+     "en": "chameleon",
+     "zh": "变色龙",
+     "core": false,
+     "page": 70,
+     "en_primary": "chameleon"
+    },
+    {
+     "en": "little",
+     "zh": "小的",
+     "core": true,
+     "page": 70,
+     "en_primary": "little"
+    },
+    {
+     "en": "How come?",
+     "zh": "怎么回事？",
+     "core": true,
+     "page": 71,
+     "en_primary": "How come?"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,920 @@
+{
+ "source_pdf": "english_g3_up.pdf",
+ "units": [
+  {
+   "unit": 1,
+   "words": [
+    {
+     "en": "hello",
+     "zh": "哈啰，你好",
+     "core": true,
+     "page": 8,
+     "en_primary": "hello"
+    },
+    {
+     "en": "hi",
+     "zh": "喂，嗨",
+     "core": true,
+     "page": 8,
+     "en_primary": "hi"
+    },
+    {
+     "en": "Good morning.",
+     "zh": "早上好。",
+     "core": true,
+     "page": 10,
+     "en_primary": "Good morning."
+    },
+    {
+     "en": "I",
+     "zh": "我",
+     "core": true,
+     "page": 10,
+     "en_primary": "I"
+    },
+    {
+     "en": "am",
+     "zh": "是",
+     "core": true,
+     "page": 10,
+     "en_primary": "am"
+    },
+    {
+     "en": "ah",
+     "zh": "啊",
+     "core": false,
+     "page": 10,
+     "en_primary": "ah"
+    },
+    {
+     "en": "a",
+     "zh": "一（个）",
+     "core": true,
+     "page": 10,
+     "en_primary": "a"
+    },
+    {
+     "en": "cat",
+     "zh": "猫",
+     "core": true,
+     "page": 10,
+     "en_primary": "cat"
+    },
+    {
+     "en": "Miss",
+     "zh": "小姐，女士",
+     "core": true,
+     "page": 12,
+     "en_primary": "Miss"
+    },
+    {
+     "en": "Good afternoon.",
+     "zh": "下午好。",
+     "core": true,
+     "page": 13,
+     "en_primary": "Good afternoon."
+    },
+    {
+     "en": "class",
+     "zh": "同学们",
+     "core": true,
+     "page": 13,
+     "en_primary": "class"
+    },
+    {
+     "en": "goodbye",
+     "zh": "再见，再会",
+     "core": true,
+     "page": 13,
+     "en_primary": "goodbye"
+    },
+    {
+     "en": "bye",
+     "zh": "再见，再会",
+     "core": true,
+     "page": 13,
+     "en_primary": "bye"
+    }
+   ]
+  },
+  {
+   "unit": 2,
+   "words": [
+    {
+     "en": "what",
+     "zh": "什么",
+     "core": true,
+     "page": 16,
+     "en_primary": "what"
+    },
+    {
+     "en": "is",
+     "zh": "是",
+     "core": true,
+     "page": 16,
+     "en_primary": "is"
+    },
+    {
+     "en": "your",
+     "zh": "你的，你们的",
+     "core": true,
+     "page": 16,
+     "en_primary": "your"
+    },
+    {
+     "en": "name",
+     "zh": "名字",
+     "core": true,
+     "page": 16,
+     "en_primary": "name"
+    },
+    {
+     "en": "my",
+     "zh": "我的",
+     "core": true,
+     "page": 16,
+     "en_primary": "my"
+    },
+    {
+     "en": "too",
+     "zh": "也",
+     "core": true,
+     "page": 18,
+     "en_primary": "too"
+    },
+    {
+     "en": "boy",
+     "zh": "男孩",
+     "core": true,
+     "page": 21,
+     "en_primary": "boy"
+    },
+    {
+     "en": "and",
+     "zh": "和，与",
+     "core": true,
+     "page": 21,
+     "en_primary": "and"
+    },
+    {
+     "en": "girl",
+     "zh": "女孩",
+     "core": true,
+     "page": 21,
+     "en_primary": "girl"
+    },
+    {
+     "en": "Mr (AmE Mr.)",
+     "zh": "先生",
+     "core": true,
+     "page": 21,
+     "en_primary": "Mr"
+    }
+   ]
+  },
+  {
+   "unit": 3,
+   "words": [
+    {
+     "en": "are",
+     "zh": "是",
+     "core": true,
+     "page": 24,
+     "en_primary": "are"
+    },
+    {
+     "en": "you",
+     "zh": "你，你们",
+     "core": true,
+     "page": 24,
+     "en_primary": "you"
+    },
+    {
+     "en": "no",
+     "zh": "不，不是",
+     "core": true,
+     "page": 24,
+     "en_primary": "no"
+    },
+    {
+     "en": "not",
+     "zh": "不，没有",
+     "core": true,
+     "page": 24,
+     "en_primary": "not"
+    },
+    {
+     "en": "yes",
+     "zh": "是，对",
+     "core": true,
+     "page": 26,
+     "en_primary": "yes"
+    },
+    {
+     "en": "ha",
+     "zh": "（笑声）哈",
+     "core": false,
+     "page": 26,
+     "en_primary": "ha"
+    },
+    {
+     "en": "Here I am!",
+     "zh": "我在这里！",
+     "core": true,
+     "page": 26,
+     "en_primary": "Here I am!"
+    },
+    {
+     "en": "but",
+     "zh": "但是",
+     "core": true,
+     "page": 28,
+     "en_primary": "but"
+    },
+    {
+     "en": "oh",
+     "zh": "啊，哦",
+     "core": false,
+     "page": 28,
+     "en_primary": "oh"
+    },
+    {
+     "en": "sorry",
+     "zh": "对不起",
+     "core": true,
+     "page": 28,
+     "en_primary": "sorry"
+    },
+    {
+     "en": "twin",
+     "zh": "双胞胎之一",
+     "core": false,
+     "page": 28,
+     "en_primary": "twin"
+    },
+    {
+     "en": "we",
+     "zh": "我们",
+     "core": true,
+     "page": 28,
+     "en_primary": "we"
+    },
+    {
+     "en": "excuse me",
+     "zh": "对不起",
+     "core": false,
+     "page": 29,
+     "en_primary": "excuse me"
+    },
+    {
+     "en": "class",
+     "zh": "班级",
+     "core": true,
+     "page": 29,
+     "en_primary": "class"
+    },
+    {
+     "en": "in",
+     "zh": "在……内，在……中",
+     "core": true,
+     "page": 29,
+     "en_primary": "in"
+    },
+    {
+     "en": "with",
+     "zh": "和，同",
+     "core": true,
+     "page": 29,
+     "en_primary": "with"
+    },
+    {
+     "en": "right",
+     "zh": "正确的",
+     "core": true,
+     "page": 29,
+     "en_primary": "right"
+    }
+   ]
+  },
+  {
+   "unit": 4,
+   "words": [
+    {
+     "en": "this",
+     "zh": "这，这个",
+     "core": true,
+     "page": 32,
+     "en_primary": "this"
+    },
+    {
+     "en": "friend",
+     "zh": "朋友",
+     "core": true,
+     "page": 32,
+     "en_primary": "friend"
+    },
+    {
+     "en": "she",
+     "zh": "她",
+     "core": true,
+     "page": 32,
+     "en_primary": "she"
+    },
+    {
+     "en": "he",
+     "zh": "他",
+     "core": true,
+     "page": 34,
+     "en_primary": "he"
+    },
+    {
+     "en": "it",
+     "zh": "它",
+     "core": true,
+     "page": 37,
+     "en_primary": "it"
+    },
+    {
+     "en": "good",
+     "zh": "好的",
+     "core": true,
+     "page": 37,
+     "en_primary": "good"
+    },
+    {
+     "en": "Thank you.",
+     "zh": "谢谢你。",
+     "core": true,
+     "page": 37,
+     "en_primary": "Thank you."
+    },
+    {
+     "en": "have",
+     "zh": "有，持有",
+     "core": true,
+     "page": 37,
+     "en_primary": "have"
+    },
+    {
+     "en": "many",
+     "zh": "许多",
+     "core": true,
+     "page": 37,
+     "en_primary": "many"
+    }
+   ]
+  },
+  {
+   "unit": 5,
+   "words": [
+    {
+     "en": "mother",
+     "zh": "母亲，妈妈",
+     "core": true,
+     "page": 42,
+     "en_primary": "mother"
+    },
+    {
+     "en": "father",
+     "zh": "父亲，爸爸",
+     "core": true,
+     "page": 42,
+     "en_primary": "father"
+    },
+    {
+     "en": "dad",
+     "zh": "爸爸",
+     "core": true,
+     "page": 42,
+     "en_primary": "dad"
+    },
+    {
+     "en": "mum (AmE mom)",
+     "zh": "妈妈",
+     "core": true,
+     "page": 42,
+     "en_primary": "mum"
+    },
+    {
+     "en": "brother",
+     "zh": "哥哥，弟弟",
+     "core": true,
+     "page": 42,
+     "en_primary": "brother"
+    },
+    {
+     "en": "baby",
+     "zh": "婴儿",
+     "core": true,
+     "page": 42,
+     "en_primary": "baby"
+    },
+    {
+     "en": "sister",
+     "zh": "姐姐，妹妹",
+     "core": true,
+     "page": 42,
+     "en_primary": "sister"
+    },
+    {
+     "en": "Good evening.",
+     "zh": "晚上好。",
+     "core": true,
+     "page": 44,
+     "en_primary": "Good evening."
+    },
+    {
+     "en": "quick",
+     "zh": "快，快点",
+     "core": false,
+     "page": 44,
+     "en_primary": "quick"
+    },
+    {
+     "en": "look",
+     "zh": "看，瞧",
+     "core": true,
+     "page": 44,
+     "en_primary": "look"
+    },
+    {
+     "en": "the",
+     "zh": "这个，这些，那个，那些",
+     "core": true,
+     "page": 44,
+     "en_primary": "the"
+    },
+    {
+     "en": "pond",
+     "zh": "池塘，水池",
+     "core": false,
+     "page": 44,
+     "en_primary": "pond"
+    },
+    {
+     "en": "who",
+     "zh": "谁，什么人",
+     "core": true,
+     "page": 44,
+     "en_primary": "who"
+    },
+    {
+     "en": "great",
+     "zh": "极好的，好棒的",
+     "core": true,
+     "page": 44,
+     "en_primary": "great"
+    },
+    {
+     "en": "come",
+     "zh": "来",
+     "core": true,
+     "page": 46,
+     "en_primary": "come"
+    },
+    {
+     "en": "meet",
+     "zh": "相识，结识，被引见",
+     "core": true,
+     "page": 46,
+     "en_primary": "meet"
+    },
+    {
+     "en": "family",
+     "zh": "家，家庭",
+     "core": true,
+     "page": 46,
+     "en_primary": "family"
+    },
+    {
+     "en": "say",
+     "zh": "说",
+     "core": true,
+     "page": 47,
+     "en_primary": "say"
+    }
+   ]
+  },
+  {
+   "unit": 6,
+   "words": [
+    {
+     "en": "uncle",
+     "zh": "舅父，叔父，伯父，",
+     "core": true,
+     "page": 50,
+     "en_primary": "uncle"
+    },
+    {
+     "en": "aunt",
+     "zh": "姑母，姨母，伯母，",
+     "core": true,
+     "page": 50,
+     "en_primary": "aunt"
+    },
+    {
+     "en": "cousin",
+     "zh": "堂兄（弟），堂姐（妹），",
+     "core": true,
+     "page": 50,
+     "en_primary": "cousin"
+    },
+    {
+     "en": "cool",
+     "zh": "妙极的，酷的",
+     "core": true,
+     "page": 52,
+     "en_primary": "cool"
+    },
+    {
+     "en": "me",
+     "zh": "我",
+     "core": true,
+     "page": 52,
+     "en_primary": "me"
+    },
+    {
+     "en": "wow",
+     "zh": "哇，呀",
+     "core": false,
+     "page": 54,
+     "en_primary": "wow"
+    },
+    {
+     "en": "big",
+     "zh": "大的",
+     "core": true,
+     "page": 54,
+     "en_primary": "big"
+    },
+    {
+     "en": "it",
+     "zh": "指婴儿，尤指性别不详者",
+     "core": true,
+     "page": 55,
+     "en_primary": "it"
+    },
+    {
+     "en": "happy",
+     "zh": "幸福的",
+     "core": true,
+     "page": 55,
+     "en_primary": "happy"
+    },
+    {
+     "en": "love",
+     "zh": "爱，热爱",
+     "core": true,
+     "page": 55,
+     "en_primary": "love"
+    }
+   ]
+  },
+  {
+   "unit": 7,
+   "words": [
+    {
+     "en": "Happy Birthday!",
+     "zh": "生日快乐！",
+     "core": true,
+     "page": 58,
+     "en_primary": "Happy Birthday!"
+    },
+    {
+     "en": "one",
+     "zh": "一",
+     "core": true,
+     "page": 58,
+     "en_primary": "one"
+    },
+    {
+     "en": "two",
+     "zh": "二",
+     "core": true,
+     "page": 58,
+     "en_primary": "two"
+    },
+    {
+     "en": "three",
+     "zh": "三",
+     "core": true,
+     "page": 58,
+     "en_primary": "three"
+    },
+    {
+     "en": "four",
+     "zh": "四",
+     "core": true,
+     "page": 58,
+     "en_primary": "four"
+    },
+    {
+     "en": "five",
+     "zh": "五",
+     "core": true,
+     "page": 58,
+     "en_primary": "five"
+    },
+    {
+     "en": "six",
+     "zh": "六",
+     "core": true,
+     "page": 58,
+     "en_primary": "six"
+    },
+    {
+     "en": "seven",
+     "zh": "七",
+     "core": true,
+     "page": 59,
+     "en_primary": "seven"
+    },
+    {
+     "en": "eight",
+     "zh": "八",
+     "core": true,
+     "page": 59,
+     "en_primary": "eight"
+    },
+    {
+     "en": "nine",
+     "zh": "九",
+     "core": true,
+     "page": 59,
+     "en_primary": "nine"
+    },
+    {
+     "en": "ten",
+     "zh": "十",
+     "core": true,
+     "page": 59,
+     "en_primary": "ten"
+    },
+    {
+     "en": "now",
+     "zh": "现在，此刻",
+     "core": true,
+     "page": 60,
+     "en_primary": "now"
+    },
+    {
+     "en": "want",
+     "zh": "要，想要",
+     "core": true,
+     "page": 60,
+     "en_primary": "want"
+    },
+    {
+     "en": "car",
+     "zh": "小汽车，轿车",
+     "core": true,
+     "page": 60,
+     "en_primary": "car"
+    },
+    {
+     "en": "book",
+     "zh": "书",
+     "core": true,
+     "page": 60,
+     "en_primary": "book"
+    },
+    {
+     "en": "ball",
+     "zh": "球",
+     "core": true,
+     "page": 60,
+     "en_primary": "ball"
+    },
+    {
+     "en": "cake",
+     "zh": "蛋糕，糕饼",
+     "core": true,
+     "page": 60,
+     "en_primary": "cake"
+    },
+    {
+     "en": "How lovely!",
+     "zh": "真可爱！",
+     "core": true,
+     "page": 62,
+     "en_primary": "How lovely!"
+    },
+    {
+     "en": "Can I help you?",
+     "zh": "要帮忙吗？",
+     "core": true,
+     "page": 62,
+     "en_primary": "Can I help you?"
+    },
+    {
+     "en": "Yes, please.",
+     "zh": "好的，谢谢。",
+     "core": true,
+     "page": 62,
+     "en_primary": "Yes, please."
+    },
+    {
+     "en": "some",
+     "zh": "一些",
+     "core": true,
+     "page": 62,
+     "en_primary": "some"
+    },
+    {
+     "en": "toy",
+     "zh": "玩具",
+     "core": true,
+     "page": 62,
+     "en_primary": "toy"
+    },
+    {
+     "en": "for",
+     "zh": "给，对，供",
+     "core": true,
+     "page": 62,
+     "en_primary": "for"
+    },
+    {
+     "en": "OK",
+     "zh": "对，好，行",
+     "core": true,
+     "page": 62,
+     "en_primary": "OK"
+    },
+    {
+     "en": "How old are you?",
+     "zh": "你多大了？",
+     "core": true,
+     "page": 62,
+     "en_primary": "How old are you?"
+    },
+    {
+     "en": "please",
+     "zh": "请",
+     "core": true,
+     "page": 62,
+     "en_primary": "please"
+    },
+    {
+     "en": "here",
+     "zh": "到这里，在这里",
+     "core": true,
+     "page": 62,
+     "en_primary": "here"
+    },
+    {
+     "en": "love",
+     "zh": "喜好，喜爱",
+     "core": true,
+     "page": 62,
+     "en_primary": "love"
+    },
+    {
+     "en": "Here you are.",
+     "zh": "给你。",
+     "core": true,
+     "page": 63,
+     "en_primary": "Here you are."
+    },
+    {
+     "en": "thanks",
+     "zh": "谢谢",
+     "core": true,
+     "page": 63,
+     "en_primary": "thanks"
+    }
+   ]
+  },
+  {
+   "unit": 8,
+   "words": [
+    {
+     "en": "can",
+     "zh": "能，会",
+     "core": true,
+     "page": 66,
+     "en_primary": "can"
+    },
+    {
+     "en": "do",
+     "zh": "做，干，办（某事）",
+     "core": true,
+     "page": 66,
+     "en_primary": "do"
+    },
+    {
+     "en": "for",
+     "zh": "为了",
+     "core": true,
+     "page": 66,
+     "en_primary": "for"
+    },
+    {
+     "en": "clean",
+     "zh": "使……干净，打扫",
+     "core": true,
+     "page": 66,
+     "en_primary": "clean"
+    },
+    {
+     "en": "table",
+     "zh": "桌子",
+     "core": true,
+     "page": 66,
+     "en_primary": "table"
+    },
+    {
+     "en": "draw",
+     "zh": "画，描画",
+     "core": true,
+     "page": 66,
+     "en_primary": "draw"
+    },
+    {
+     "en": "sing",
+     "zh": "唱（歌），演唱",
+     "core": true,
+     "page": 67,
+     "en_primary": "sing"
+    },
+    {
+     "en": "take pictures",
+     "zh": "拍照",
+     "core": true,
+     "page": 67,
+     "en_primary": "take pictures"
+    },
+    {
+     "en": "dance",
+     "zh": "跳舞",
+     "core": true,
+     "page": 67,
+     "en_primary": "dance"
+    },
+    {
+     "en": "Are you OK?",
+     "zh": "你没事吧？",
+     "core": true,
+     "page": 68,
+     "en_primary": "Are you OK?"
+    },
+    {
+     "en": "dizzy",
+     "zh": "头晕目眩的，眩晕的",
+     "core": false,
+     "page": 68,
+     "en_primary": "dizzy"
+    },
+    {
+     "en": "picture",
+     "zh": "图画，绘画；照片",
+     "core": true,
+     "page": 68,
+     "en_primary": "picture"
+    },
+    {
+     "en": "er",
+     "zh": "哦，嗯",
+     "core": false,
+     "page": 68,
+     "en_primary": "er"
+    },
+    {
+     "en": "fox",
+     "zh": "狐狸",
+     "core": false,
+     "page": 68,
+     "en_primary": "fox"
+    },
+    {
+     "en": "get together",
+     "zh": "聚集，相聚",
+     "core": false,
+     "page": 70,
+     "en_primary": "get together"
+    },
+    {
+     "en": "on",
+     "zh": "在（某一天）",
+     "core": true,
+     "page": 70,
+     "en_primary": "on"
+    },
+    {
+     "en": "child (pl. children)",
+     "zh": "儿童，小孩",
+     "core": true,
+     "page": 70,
+     "en_primary": "child"
+    },
+    {
+     "en": "thing",
+     "zh": "事情",
+     "core": false,
+     "page": 70,
+     "en_primary": "thing"
+    }
+   ]
+  }
+ ]
+}

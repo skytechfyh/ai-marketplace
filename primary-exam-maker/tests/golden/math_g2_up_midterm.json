@@ -1,0 +1,390 @@
+{
+ "schema": 1,
+ "exam_id": "golden-math-g2-up-midterm",
+ "created_at": "2026-11-14",
+ "child": {},
+ "subject": "math",
+ "kind": "midterm",
+ "title": "二年级数学上册 · 期中测试卷（黄金样例）",
+ "scope": {
+  "grade": 2,
+  "term": "up",
+  "units": [1, 2, 3, 4],
+  "textbook_edition": "苏教版"
+ },
+ "difficulty_level": "standard",
+ "total_points": 100,
+ "suggested_minutes": 60,
+ "sections": [
+  {
+   "id": "kousuan",
+   "name": "一、口算",
+   "points": 10,
+   "instructions": "直接写出得数。",
+   "columns": 3,
+   "items": [
+    {
+     "id": "k1", "no": 1,
+     "stem": "7 × 6 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "42", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想六七四十二。",
+     "knowledge_points": ["M2U-3-01"]
+    },
+    {
+     "id": "k2", "no": 2,
+     "stem": "45 ÷ 5 =",
+     "type": "口算", "points": 1, "unit": 2, "ability": "掌握", "tier": "基础",
+     "answer": "9", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想五九四十五。",
+     "knowledge_points": ["M2U-2-03"]
+    },
+    {
+     "id": "k3", "no": 3,
+     "stem": "8 × 7 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "56", "scoring_rules": "得数正确得 1 分。",
+     "hint": "七八五十六。",
+     "knowledge_points": ["M2U-3-02"]
+    },
+    {
+     "id": "k4", "no": 4,
+     "stem": "36 ÷ 4 =",
+     "type": "口算", "points": 1, "unit": 2, "ability": "掌握", "tier": "基础",
+     "answer": "9", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想四九三十六。",
+     "knowledge_points": ["M2U-2-03"]
+    },
+    {
+     "id": "k5", "no": 5,
+     "stem": "9 × 8 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "72", "scoring_rules": "得数正确得 1 分。",
+     "hint": "九八七十二。",
+     "knowledge_points": ["M2U-3-03"]
+    },
+    {
+     "id": "k6", "no": 6,
+     "stem": "28 ÷ 7 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "4", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想四七二十八。",
+     "knowledge_points": ["M2U-3-01"]
+    },
+    {
+     "id": "k7", "no": 7,
+     "stem": "6 × 9 =",
+     "type": "口算", "points": 1, "unit": 1, "ability": "掌握", "tier": "基础",
+     "answer": "54", "scoring_rules": "得数正确得 1 分。",
+     "hint": "六九五十四。",
+     "knowledge_points": ["M2U-1-06"]
+    },
+    {
+     "id": "k8", "no": 8,
+     "stem": "72 ÷ 8 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "9", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想八九七十二。",
+     "knowledge_points": ["M2U-3-02"]
+    },
+    {
+     "id": "k9", "no": 9,
+     "stem": "7 × 9 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "63", "scoring_rules": "得数正确得 1 分。",
+     "hint": "七九六十三。",
+     "knowledge_points": ["M2U-3-03"]
+    },
+    {
+     "id": "k10", "no": 10,
+     "stem": "54 ÷ 9 =",
+     "type": "口算", "points": 1, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "6", "scoring_rules": "得数正确得 1 分。",
+     "hint": "想六九五十四。",
+     "knowledge_points": ["M2U-3-03"]
+    }
+   ]
+  },
+  {
+   "id": "tiankong",
+   "name": "二、填空",
+   "points": 16,
+   "instructions": "把答案填在横线上。",
+   "items": [
+    {
+     "id": "t1", "no": 1,
+     "stem": "7 × 8 = {{blank n=3}}，用到的乘法口诀是 {{blank n=8}}。",
+     "type": "填空", "points": 2, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "56；七八五十六",
+     "scoring_rules": "每空 1 分。",
+     "hint": "背一背 8 的乘法口诀。",
+     "knowledge_points": ["M2U-3-02"]
+    },
+    {
+     "id": "t2", "no": 2,
+     "stem": "45 ÷ 9 得 {{blank n=2}}，想口诀 {{blank n=8}}。",
+     "type": "填空", "points": 2, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "5；五九四十五",
+     "scoring_rules": "每空 1 分。",
+     "hint": "想 9 的乘法口诀。",
+     "knowledge_points": ["M2U-3-03"]
+    },
+    {
+     "id": "t3", "no": 3,
+     "stem": "一个三位数，最高位是 {{blank n=4}} 位。",
+     "type": "填空", "points": 2, "unit": 4, "ability": "了解", "tier": "基础",
+     "answer": "百",
+     "scoring_rules": "答对得 2 分。",
+     "hint": "从右往左数，第三位是什么？",
+     "knowledge_points": ["M2U-4-02"]
+    },
+    {
+     "id": "t4", "no": 4,
+     "stem": "6 × 7 = {{blank n=3}}，7 × 6 = {{blank n=3}}，说明 {{blank n=10}}。",
+     "type": "填空", "points": 2, "unit": 1, "ability": "理解", "tier": "基础",
+     "answer": "42；42；交换两个乘数的位置，积不变",
+     "scoring_rules": "前两空各 0.5 分，结论 1 分。",
+     "hint": "比较两个算式的积。",
+     "knowledge_points": ["M2U-1-03", "M2U-3-01"]
+    },
+    {
+     "id": "t5", "no": 5,
+     "stem": "3 个百和 5 个十组成的数是 {{blank n=4}}。",
+     "type": "填空", "points": 2, "unit": 4, "ability": "理解", "tier": "基础",
+     "answer": "350",
+     "scoring_rules": "答对得 2 分。",
+     "hint": "百位是 3，十位是 5，个位是 0。",
+     "knowledge_points": ["M2U-4-02"]
+    },
+    {
+     "id": "t6", "no": 6,
+     "stem": "72 ÷ 8 得 {{blank n=2}}，72 ÷ 9 得 {{blank n=2}}。",
+     "type": "填空", "points": 2, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "9；8",
+     "scoring_rules": "每空 1 分。",
+     "hint": "同一句口诀可以算两道除法。",
+     "knowledge_points": ["M2U-3-02"]
+    },
+    {
+     "id": "t7", "no": 7,
+     "stem": "最大的三位数是 {{blank n=4}}，最小的三位数是 {{blank n=4}}。",
+     "type": "填空", "points": 2, "unit": 4, "ability": "理解", "tier": "中档",
+     "answer": "999；100",
+     "scoring_rules": "每空 1 分。",
+     "hint": "每个数位上最大是几？最小是几？",
+     "knowledge_points": ["M2U-4-03"]
+    },
+    {
+     "id": "t8", "no": 8,
+     "stem": "在 ○ 里填 >、< 或 =：8 × 9 {{blank n=2}} 9 × 8，45 ÷ 5 {{blank n=2}} 54 ÷ 6。",
+     "type": "填空", "points": 2, "unit": 3, "ability": "理解", "tier": "基础",
+     "answer": "=；=",
+     "scoring_rules": "每空 1 分。",
+     "hint": "先算出两边的得数再比较。",
+     "knowledge_points": ["M2U-1-03", "M2U-3-04"]
+    }
+   ]
+  },
+  {
+   "id": "xuanze",
+   "name": "三、选择",
+   "points": 8,
+   "instructions": "把正确答案的序号填在括号里。",
+   "items": [
+    {
+     "id": "x1", "no": 1,
+     "stem": "下面算式中，得数最大的是（　）。",
+     "type": "选择", "points": 2, "unit": 3, "ability": "理解", "tier": "中档",
+     "options": ["7 × 9", "8 × 8", "9 × 7"],
+     "answer": "8 × 8",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "分别算出三个积再比较。",
+     "knowledge_points": ["M2U-3-03"]
+    },
+    {
+     "id": "x2", "no": 2,
+     "stem": "56 ÷ 7 = （　）",
+     "type": "选择", "points": 2, "unit": 3, "ability": "掌握", "tier": "基础",
+     "options": ["7", "8", "9"],
+     "answer": "8",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "想七八五十六。",
+     "knowledge_points": ["M2U-3-01"]
+    },
+    {
+     "id": "x3", "no": 3,
+     "stem": "一个三位数，百位是 3，十位是 0，个位是 5，这个数是（　）。",
+     "type": "选择", "points": 2, "unit": 4, "ability": "理解", "tier": "中档",
+     "options": ["305", "350", "035"],
+     "answer": "305",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "从百位开始写。",
+     "knowledge_points": ["M2U-4-02"]
+    },
+    {
+     "id": "x4", "no": 4,
+     "stem": "7 × 6 和 6 × 7 的得数（　）。",
+     "type": "选择", "points": 2, "unit": 1, "ability": "理解", "tier": "中档",
+     "options": ["相等", "不相等", "无法确定"],
+     "answer": "相等",
+     "scoring_rules": "选对得 2 分。",
+     "hint": "交换乘数位置，积不变。",
+     "knowledge_points": ["M2U-1-03"]
+    }
+   ]
+  },
+  {
+   "id": "panduan",
+   "name": "四、判断",
+   "points": 6,
+   "instructions": "对的画√，错的画×。",
+   "items": [
+    {
+     "id": "p1", "no": 1,
+     "stem": "0 × 8 = 0。（　）",
+     "type": "判断", "points": 2, "unit": 1, "ability": "理解", "tier": "基础",
+     "answer": "√", "scoring_rules": "判断正确得 2 分。",
+     "hint": "0 乘任何数都得 0。",
+     "knowledge_points": ["M2U-1-04"]
+    },
+    {
+     "id": "p2", "no": 2,
+     "stem": "三位数一定比两位数大。（　）",
+     "type": "判断", "points": 2, "unit": 4, "ability": "理解", "tier": "基础",
+     "answer": "√", "scoring_rules": "判断正确得 2 分。",
+     "hint": "三位数最小是 100，两位数最大是 99。",
+     "knowledge_points": ["M2U-4-03"]
+    },
+    {
+     "id": "p3", "no": 3,
+     "stem": "7 × 8 和 8 × 7 用的乘法口诀不一样。（　）",
+     "type": "判断", "points": 2, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "×", "scoring_rules": "判断正确得 2 分。",
+     "hint": "两个算式用的是同一句口诀。",
+     "knowledge_points": ["M2U-1-03", "M2U-3-02"]
+    }
+   ]
+  },
+  {
+   "id": "bisuan",
+   "name": "五、竖式与脱式计算",
+   "points": 16,
+   "instructions": "写出计算过程。",
+   "items": [
+    {
+     "id": "b1", "no": 1,
+     "stem": "8 × 9 = {{workspace h=22}}",
+     "type": "竖式与脱式", "points": 4, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "72", "scoring_rules": "得数正确得 4 分。",
+     "hint": "八九七十二。",
+     "knowledge_points": ["M2U-3-03"]
+    },
+    {
+     "id": "b2", "no": 2,
+     "stem": "63 ÷ 7 = {{workspace h=22}}",
+     "type": "竖式与脱式", "points": 4, "unit": 3, "ability": "掌握", "tier": "基础",
+     "answer": "9", "scoring_rules": "得数正确得 4 分。",
+     "hint": "想七九六十三。",
+     "knowledge_points": ["M2U-3-01"]
+    },
+    {
+     "id": "b3", "no": 3,
+     "stem": "7 × 8 + 5 = {{workspace h=26}}",
+     "type": "竖式与脱式", "points": 4, "unit": 3, "ability": "运用", "tier": "基础",
+     "answer": "61", "scoring_rules": "过程与得数各 2 分；先算乘法，顺序错不得过程分。",
+     "hint": "先算 7 × 8，再加 5。",
+     "knowledge_points": ["M2U-1-08"]
+    },
+    {
+     "id": "b4", "no": 4,
+     "stem": "9 × 6 − 7 = {{workspace h=26}}",
+     "type": "竖式与脱式", "points": 4, "unit": 3, "ability": "运用", "tier": "基础",
+     "answer": "47", "scoring_rules": "过程与得数各 2 分。",
+     "hint": "先算 9 × 6，再减 7。",
+     "knowledge_points": ["M2U-1-08"]
+    }
+   ]
+  },
+  {
+   "id": "caozuo",
+   "name": "六、图形与操作",
+   "points": 8,
+   "instructions": "按要求画图或回答问题。",
+   "items": [
+    {
+     "id": "c1", "no": 1,
+     "stem": "画一个长 5 厘米、宽 3 厘米的长方形。{{fig_rect w=5 h=3 unit=\"厘米\"}}",
+     "type": "操作与作图", "points": 4, "unit": 4, "ability": "掌握", "tier": "基础",
+     "answer": "长 5 厘米、宽 3 厘米的长方形",
+     "scoring_rules": "尺寸正确得 4 分；长宽画反扣 2 分。",
+     "hint": "先画一条长 5 厘米的边，再画宽 3 厘米的边。",
+     "knowledge_points": ["M2U-4-05"],
+     "figure": {"type": "rect", "params": {"w": "5", "h": "3", "unit": "厘米"}}
+    },
+    {
+     "id": "c2", "no": 2,
+     "stem": "看图回答：哪种水果最多？多几个？{{fig_bars data=\"苹果:6,香蕉:9,梨:4\" title=\"水果数量\" step=3}}",
+     "type": "看图列式", "points": 4, "unit": 3, "ability": "运用", "tier": "中档",
+     "answer": "香蕉最多；比苹果多 9−6=3 个",
+     "scoring_rules": "判断正确 2 分，算式与得数 2 分。",
+     "hint": "看条形图，最高的那种最多。",
+     "knowledge_points": ["M2U-3-05"],
+     "figure": {"type": "bars", "params": {"data": "苹果:6,香蕉:9,梨:4", "title": "水果数量", "step": "3"}}
+    }
+   ]
+  },
+  {
+   "id": "jiejue",
+   "name": "七、解决问题",
+   "points": 36,
+   "instructions": "写出算式和答句。",
+   "items": [
+    {
+     "id": "j1", "no": 1,
+     "stem": "每行种 7 棵树，种了 8 行，一共种了多少棵？{{workspace h=24}}",
+     "type": "解决问题", "points": 6, "unit": 3, "ability": "运用", "tier": "基础",
+     "answer": "7×8=56（棵）",
+     "scoring_rules": "算式 3 分，得数 2 分，答句 1 分。",
+     "hint": "求 8 个 7 是多少。",
+     "knowledge_points": ["M2U-3-05"]
+    },
+    {
+     "id": "j2", "no": 2,
+     "stem": "有 45 个苹果，平均分给 9 个小朋友，每个小朋友分到几个？{{workspace h=24}}",
+     "type": "解决问题", "points": 6, "unit": 2, "ability": "运用", "tier": "基础",
+     "answer": "45÷9=5（个）",
+     "scoring_rules": "算式 3 分，得数 2 分，答句 1 分。",
+     "hint": "平均分用除法。",
+     "knowledge_points": ["M2U-2-05"]
+    },
+    {
+     "id": "j3", "no": 3,
+     "stem": "商店运来 8 箱饮料，每箱 9 瓶，卖出 25 瓶后还剩多少瓶？{{workspace h=28}}",
+     "type": "解决问题", "points": 8, "unit": 3, "ability": "运用", "tier": "中档",
+     "answer": "8×9-25=72-25=47（瓶）",
+     "scoring_rules": "算式 4 分，得数 2 分，答句 2 分；先算乘法，顺序错扣过程分。",
+     "hint": "先算一共有多少瓶，再减卖出的。",
+     "knowledge_points": ["M2U-3-05"]
+    },
+    {
+     "id": "j4", "no": 4,
+     "stem": "小明买了 7 本笔记本，每本 6 元，付出 50 元，应找回多少元？{{workspace h=28}}",
+     "type": "解决问题", "points": 8, "unit": 1, "ability": "运用", "tier": "中档",
+     "answer": "7×6=42（元），50-42=8（元）",
+     "scoring_rules": "算式 4 分，得数 2 分，答句 2 分。",
+     "hint": "先算一共花了多少元，再用 50 减。",
+     "knowledge_points": ["M2U-1-09"]
+    },
+    {
+     "id": "j5", "no": 5,
+     "stem": "用 7 和 9 两个数，你能写出几道乘法算式？它们的积分别是多少？把想法写下来。{{workspace h=32}}",
+     "type": "解决问题", "points": 8, "unit": 3, "ability": "运用", "tier": "拔高",
+     "answer": "7×9=63，9×7=63，两道算式积都是 63",
+     "scoring_rules": "写出两道算式各 3 分，指出积相同得 2 分。",
+     "hint": "交换两个乘数的位置试试。",
+     "knowledge_points": ["M2U-1-03", "M2U-3-03"]
+    }
+   ]
+  }
+ ]
+}
