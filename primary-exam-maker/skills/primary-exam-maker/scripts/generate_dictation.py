@@ -185,7 +185,7 @@ def write_audio(entries: list[dict], out: Path, subject: str = "chinese",
     """macOS say 生成音频：每词读两遍，词间停顿；结尾附语音鼓励；.m4a 用 afconvert 转码。
 
     语文用 Ting-Ting（中文语音），英语用 Samantha（英语语音）。
-    score/total 非空时在词语读完后朗读对应的鼓励语。
+    score/total 非空时在词语读完后按对应语种朗读鼓励语。
     """
     import subprocess
 
@@ -199,20 +199,31 @@ def write_audio(entries: list[dict], out: Path, subject: str = "chinese",
         text = entry["text"]
         parts.append(f"[[slnc 800]]{text}[[slnc 1200]]{text}[[slnc 2000]]")
 
-    # 语音鼓励（结尾）
+    # 语音鼓励（结尾，严格按学科语种选择文本，避免英文语音读中文）
     if score is not None and total is not None and total > 0:
         rate_pct = round(score / total * 100)
-        if rate_pct >= 90:
-            encouragement = "太棒了！你全都写对了，继续保持！"
-        elif rate_pct >= 70:
-            encouragement = f"不错！这次对了{score}个，再加把劲，你一定能全对！"
+        if subject == "english":
+            if rate_pct >= 90:
+                encouragement = "Awesome job! You got almost everything right. Keep up the great work!"
+            elif rate_pct >= 70:
+                encouragement = f"Good job! You got {score} out of {total} right. Keep practicing and you will get them all!"
+            else:
+                encouragement = f"You got {score} out of {total} right. Don't give up! Practice a little more and you will do even better!"
         else:
-            encouragement = f"这次对了{score}个，不要灰心，多练几遍就会越来越好！"
+            if rate_pct >= 90:
+                encouragement = "太棒了！你全都写对了，继续保持！"
+            elif rate_pct >= 70:
+                encouragement = f"不错！这次对了{score}个，再加把劲，你一定能全对！"
+            else:
+                encouragement = f"这次对了{score}个，不要灰心，多练几遍就会越来越好！"
         parts.append(f"[[slnc 1500]]{encouragement}[[slnc 500]]")
-    elif subject == "chinese":
+    elif subject == "english":
+        parts.append("[[slnc 1500]]Dictation complete. Please check your answers carefully![[slnc 500]]")
+    else:
         parts.append("[[slnc 1500]]听写完成，请对照答案自己检查一下！[[slnc 500]]")
 
     script = "".join(parts)
+    out.parent.mkdir(parents=True, exist_ok=True)
     aiff = out.with_suffix(".aiff") if out.suffix.lower() == ".m4a" else out
     subprocess.run(["say", "-v", voice, "-r", str(rate), "-o", str(aiff), script], check=True)
     if out.suffix.lower() == ".m4a":
@@ -235,7 +246,7 @@ def main() -> int:
     ap.add_argument("--exam-id")
     ap.add_argument("--child-id")
     ap.add_argument("--child-nickname")
-    ap.add_argument("--audio", type=Path, help="同时生成 aiff 音频（macOS say）")
+    ap.add_argument("--audio", type=Path, help="同时生成朗读音频（macOS say，中英文均支持，推荐 .m4a，也支持 .aiff）")
     ap.add_argument("--audio-score", type=int, help="听写得分，用于在音频结尾生成鼓励语（需配合 --audio-total）")
     ap.add_argument("--audio-total", type=int, help="听写满分，用于在音频结尾生成鼓励语（需配合 --audio-score）")
     ap.add_argument("--created-at", help="指定 created_at 日期（默认今天）")

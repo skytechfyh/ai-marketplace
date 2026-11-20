@@ -74,19 +74,19 @@ python3 "$SKILL_DIR/scripts/generate_oral_math.py" --grade 2 --term up --units 1
 ```
 - 主题：`mul`（表内乘法）、`div`（表内除法）、`rem`（有余数除法）、`add100`、`add1000`、`mul_1digit`、`div_1digit`、`mul_2digit`、`fraction`、`mix`；各册可用主题由脚本内置的 `TOPIC_UNITS` 决定，`--units` 会过滤主题。
 - 答案全部由代码计算；同卷题干去重；`--seed` 可复现。默认 3 栏、每题 1 分，`total_points = 题数`。
-- 输出后照常：`validate_exam.py` → `render_exam.py --pdf`。
+- 输出后照常：`validate_exam.py` → `render_exam.py --child <称呼>`（默认直接出 PDF 并建独立子目录）。
 
 ### 听写单（`scripts/generate_dictation.py`，F7）
 ```bash
 python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject chinese --grade 2 --term up --units 1,2 --count 20 -o dict.json
 python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject chinese --grade 2 --term up --mode writing --count 15 -o dict.json
-python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject english --grade 3 --term up --units 1-2 --count 10 --audio /tmp/dict.aiff -o dict.json
+python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject english --grade 3 --term up --units 1-2 --count 10 --audio /tmp/dict.m4a -o dict.json
 ```
 - 语文从 `*_tables.json` 的 `words`（词语表，默认）/`writing`（写字表）/`literacy`（识字表）取词，按课次映射到单元；`--mode mixed` 混合三表。
 - 英语从 `*_wordlist.json` 取词，默认只取 `core: true`；`--include-noncore` 可含非核心词。
 - 语文题干用田字格（按词长），英语用四线三格；孩子卷 2 栏排版，答案卷含家长读词顺序。
 - `--created-at` 可指定 `created_at` 日期（默认今天），与 `generate_oral_math.py` 一致。
-- `--audio` 用 macOS `say` 生成每词两遍的音频（语文用 Ting-Ting 语音，英语用 Samantha 语音）；路径写 `.m4a` 时会自动用 `afconvert` 转码（本机无 mp3 编码器，m4a 可直接播放）。
+- `--audio` 用 macOS `say` 生成每词两遍的音频（中英文均支持，语文 Ting-Ting、英语 Samantha，结尾鼓励语按学科语种自动切换）；路径写 `.m4a` 时自动用 `afconvert` 转码（体积小，手机微信可直接播放）。
 - 听写单的 `validate_exam.py` 去重按**答案**而不是题干（题干都是相同的作答格）。
 
 ## 3B. 学科内容核验（`scripts/verify_exam.py`）
@@ -128,7 +128,7 @@ python3 -I "$SKILL_DIR/scripts/plan_kp_drill.py" --subject english --grade 3 --t
 
 ## 3E. 错题定向专项（F1）与起始诊断卷流程
 
-### 错题定向（P1：文字列题 + 图片识别，不入库）
+### 错题定向（F1：文字列题 + 图片识别 + 错题库持久化）
 1. **识别**：图片/PDF/doc/MD 由 Claude 读图或读文件提取；红叉/红笔订正用来判断错题与孩子答案；辨认不清写“待确认”，不猜。
 2. **家长确认（必须）**：先输出表格让家长核对——`题干 / 孩子错答 / 正确答案 / 错因 / 知识点 ID`；确认前不出题。照片中的姓名、班级、学校不写入任何产物。
 3. **核对答案**：数学算式用 `verify_exam.py` 的复算逻辑核对；语文/英语对照本册字表/词表；与家长给的答案不一致时提示，不擅自判定。
@@ -137,7 +137,7 @@ python3 -I "$SKILL_DIR/scripts/plan_kp_drill.py" --subject english --grade 3 --t
    - **跨大题隔离**：同一原错题不要同时塞进填空/选择和解决问题；口算题不要与看图列式/填空题出现相同算式，也不要让同一个得数在口算中高频扎堆；
    - 每道题的 `hint` 须贴合该题实际做法，不要整组复制不匹配的通用模板。
 5. **JSON**：变式题在原题对应处写 `source_mistake`：`{"original": "原题简述", "error_type": "进位错", "variant_kind": "同构"}`；渲染后答案卷会生成“原错题 → 错因 → 本卷题号”对照表（同一原错题自动合并题号）。
-6. **入库**：P1 只在当次出卷使用，不写入 `~/.primary-exam/` 错题库；P3 再做错题库与间隔复习。
+6. **入库**：家长确认后，使用 `python3 "$SKILL_DIR/scripts/mistake_bank.py" add ...` 写入 `~/.primary-exam/children/<id>/mistakes.json`（同题自动合并计数，按 3/7/14/30 天间隔调度复习）。
 
 ### 起始诊断卷（P1）
 - `kind` 用 `diagnostic`，`scope.units` 可省略；`validate_exam.py` 对诊断卷不检查 100 分与单元超纲。
@@ -181,11 +181,11 @@ python3 "$SKILL_DIR/scripts/generate_gamified_chinese.py" --grade 2 --term up --
 python3 "$SKILL_DIR/scripts/generate_gamified_chinese.py" --grade 2 --term up --units 1,2 --type mixed --count 8 -o game.json
 ```
 
-- **连线（lianxian）**：整道题为一组多对连线，`count` 决定连线对数；词语对由词语表自动抽取，右列自动打乱顺序。生产时，模型可将右列替换为对应的拼音/释义/近义词以获得更准确的配对。
-- **找朋友（zhaopengyou）**：每题给一个汉字 + 候选字列表，孩子圈出能与该字组词的候选字；候选字含干扰字；答案字为自动推荐，**使用前需模型根据字义核实**。
-- **猜字谜（caizimi）**：内置常见字谜，可由模型按教材生字替换谜面。
-- **看图选字（tupian_xuanzi）**：内置场景描述文字（取代实际图片），候选字含干扰字；**描述与答案字在生产时需由模型按教材内容填写**。
-- 输出 `kind = "topic"`，走标准 `validate_exam.py → render_exam.py --pdf` 链路。
+- **找朋友（zhaopengyou，可全自动生成）**：基于本册词语表反推真实二字词，每题给一个汉字 + 候选字列表（自动排除能与核心字组成其他课本词的干扰字），答案为真实课本词语。
+- **连线（lianxian，框架）**：左列从词语表抽取，右列为 `待补·<词>` 占位项；**出卷前须由模型替换为真实拼音/近反义词/释义并补全答案**。
+- **猜字谜（caizimi，框架）**：内置示例谜面，**出卷前须由模型按本册生字替换谜面与答案**。
+- **看图选字（tupian_xuanzi，框架）**：内置场景占位描述，**出卷前须由模型按教材内容填写描述与答案**。
+- 输出 `kind = "topic"`，走标准 `validate_exam.py → render_exam.py --child <称呼>` 链路。
 
 ### 四种游戏指令用法（也可在手写 JSON 中使用）
 
@@ -215,54 +215,78 @@ python3 "$SKILL_DIR/scripts/generate_daily_practice.py" --subject english --grad
 - **语文**：复用 `generate_dictation.py` 的词语库，`--mode` 默认 `words`（词语表），按单元划分新学词与复习词。
 - **英语**：复用 `generate_dictation.py` 的英语词库，按单元划分新学词与复习词。
 - 螺旋复习比例固定 40%；若当前单元没有可出口算的主题，全部做复习。
-- 输出 `kind` 为 `daily_practice`，同样走 `validate_exam.py → render_exam.py --pdf` 链路。
+- 输出 `kind` 为 `daily_practice`，同样走 `validate_exam.py → render_exam.py --child <称呼>` 链路。
 - 语文/英语每日练习卡的 section id 为 `dictation`，渲染时自动使用田字格/四线三格排版。
 
 ## 3H. 练习记录与进度报告
 
 ### 练习记录（`scripts/practice_log.py`）
 
-记录每次练习成绩，存入 `~/.primary-exam/children/<id>/practice_log.json`，用于间隔复习推荐与进度可视化。
+记录每次练习成绩，存入 `~/.primary-exam/children/<id>/practice_log.json`，用于薄弱单元分析、间隔复习推荐与进度可视化。
 
 ```bash
-# 详细记录（关联试卷 JSON，自动提取单元/题型/逐题对错）
-python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --exam-json daily.json --scores "1,0,1,1,1,1,1,0,1,1"
+# 详细记录（推荐，关联子目录中的 exam.json；支持三种判分口径，加 --sync-mistakes 同步入错题库）
+python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --exam-json exam.json --wrong-nos "2,5" --sync-mistakes
+python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --exam-json exam.json --results "1,0,1,1,0" --sync-mistakes
+python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --exam-json exam.json --scores "4,0,5,6,2.5" --sync-mistakes
 
-# 简单记录（只记总分）
-python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --subject math --total 10 --score 8
+# 简单记录（只记总分，支持小数）
+python3 "$SKILL_DIR/scripts/practice_log.py" record --child 老大 --subject math --total 100 --score 92.5
 
-# 查看统计（总次数/平均正确率/连续打卡/分科目/分单元）
-python3 "$SKILL_DIR/scripts/practice_log.py" stats --child 老大
-
-# 查看薄弱单元（正确率低于阈值的单元）
-python3 "$SKILL_DIR/scripts/practice_log.py" weak-points --child 老大 --threshold 70
-
-# 查看历史记录
-python3 "$SKILL_DIR/scripts/practice_log.py" history --child 老大 --last 7
+# 查看统计 / 薄弱单元 / 历史记录（均支持 --subject 筛选，且分学科统计单元不跨科混淆）
+python3 "$SKILL_DIR/scripts/practice_log.py" stats --child 老大 [--subject math]
+python3 "$SKILL_DIR/scripts/practice_log.py" weak-points --child 老大 [--subject math] --threshold 70
+python3 "$SKILL_DIR/scripts/practice_log.py" history --child 老大 [--subject math] --last 7
 ```
 
-- **详细模式**（`--exam-json`）：从试卷 JSON 提取每题的单元/分值，配合 `--scores` 逐题得分（0/1），自动按单元聚合正确率，支持后续薄弱单元分析与间隔复习。
-- **简单模式**（`--subject --total --score`）：只记录总分，不记录逐题详情，适合快速记录。
-- 连续打卡天数从最近一次记录开始倒推连续日期计算。
+- **三种详细判分口径（互斥，均按每题 `points` 之和作为满分）**：
+  - `--wrong-nos "2,5"`：只报做错题号（全对传 `none`），未列题号记满分、错题记 0 分。
+  - `--results "1,0,1,1"`：逐题对/错（支持 `1/0`、`对/错`、`T/F`、`Y/N`），对记满分、错记 0 分。
+  - `--scores "4,0,5,6,2.5"`：逐题实得分（支持小数，适合含半对步骤分的整卷）。
+- `--sync-mistakes`：一次完成「记成绩 + 将所有未满分题同步入错题库」。
+- `current_streak` 要求最近一次打卡在今天或昨天，断签超过 1 天自动归 0；同时统计 `longest_streak`。
+
+### 错题库与间隔复习（`scripts/mistake_bank.py`）
+
+按孩子隔离持久化错题，统一保存在 `~/.primary-exam/children/<id>/mistakes.json`（无论在哪个工作目录运行均写入同一位置，支持 `PRIMARY_EXAM_HOME` 覆盖）：
+
+```bash
+# 添加单道错题（按学科 + 归一化题干去重，同题再错自动合并计数并重置为 3 天后复习）
+python3 "$SKILL_DIR/scripts/mistake_bank.py" add --child 老大 --subject math --grade 2 --term up --unit 3 \
+  --stem "23 + 49 = ?" --wrong-answer "62" --correct-answer "72" --error-type "进位错" --kp math_g2_up_01
+
+# 从试卷 JSON 批量入库（支持 --wrong-nos / --results / --scores，与 practice_log.py 口径一致）
+python3 "$SKILL_DIR/scripts/mistake_bank.py" add-from-exam --child 老大 --exam-json exam.json --wrong-nos "2,5"
+
+# 查看今日到期复习 / 全部未掌握错题 / 错题统计
+python3 "$SKILL_DIR/scripts/mistake_bank.py" due --child 老大 [--subject math] [--limit 10]
+python3 "$SKILL_DIR/scripts/mistake_bank.py" list --child 老大 [--due] [--all]
+python3 "$SKILL_DIR/scripts/mistake_bank.py" stats --child 老大
+
+# 记录复习结果（通过则按 3/7/14/30 天推进；第 4 次通过后标记 mastered=true）
+python3 "$SKILL_DIR/scripts/mistake_bank.py" review --child 老大 --ids m_001,m_002 --passed
+
+# 导出可打印错题本 PDF（默认 ~/.primary-exam/children/<id>/reports/<日期>_错题本.pdf，可加 --keep-md / --md-only）
+python3 "$SKILL_DIR/scripts/mistake_bank.py" export --child 老大
+```
 
 ### 进度报告（`scripts/generate_progress_report.py`）
 
-从练习记录生成含 `fig_bars` 图表的 Markdown 报告，支持渲染为 PDF。
+从练习记录直接生成含 `fig_bars` 条形图的 PDF 报告（默认输出 `~/.primary-exam/children/<id>/reports/<日期>_学习进度报告.pdf`）。
 
 ```bash
-python3 "$SKILL_DIR/scripts/generate_progress_report.py" --child 老大 -o report.md
-python3 "$SKILL_DIR/scripts/generate_progress_report.py" --child 老大 --last 14 --subject math -o report.md
-# 渲染为 PDF
-python3 "$SKILL_DIR/scripts/render_pdf.py" report.md -o report.pdf
+python3 "$SKILL_DIR/scripts/generate_progress_report.py" --child 老大
+python3 "$SKILL_DIR/scripts/generate_progress_report.py" --child 老大 --last 14 --subject math
+python3 "$SKILL_DIR/scripts/generate_progress_report.py" --child 老大 -o /path/to/report.pdf [--keep-md] [--md-only]
 ```
 
 报告包含：
-- **概况**：累计练习次数/题数、平均正确率、连续打卡天数、练习天数、练习科目。
-- **最近练习正确率**：条形图展示最近 10 次练习的正确率趋势。
-- **各单元掌握情况**：条形图展示各单元平均正确率（需详细模式记录）。
-- **各学科表现**：条形图对比各学科平均正确率（多科目时显示）。
-- **详细记录表**：最近 20 次练习的日期/科目/类型/得分/正确率。
-- 报告末尾附鼓励语，按连续打卡天数分级。
+- **概况**：累计练习次数与总分、平均得分率、当前连续打卡与历史最长打卡、练习天数、练习科目。
+- **最近练习得分率**：条形图展示最近 10 次练习的得分率趋势。
+- **各单元掌握情况**：条形图展示各单元平均得分率（多学科时自动标注 `数U1`、`语U1` 前缀区分）。
+- **各学科表现**：条形图对比各学科平均得分率（多科目时显示）。
+- **详细记录表**：最近 20 次练习的日期/科目/类型/得分/得分率。
+- 报告末尾附鼓励语，按当前连续打卡天数分级。
 
 ## 3I. 故事化应用题（`scripts/story_themes.py`）
 
@@ -279,7 +303,7 @@ python3 "$SKILL_DIR/scripts/story_themes.py" sample 太空 --template 除法_平
 1. 家长指定主题（或让孩子选），如「恐龙」。
 2. 运行 `story_themes.py sample 恐龙 --seed 42` 获取情境参数（`character`/`place`/`object`/`unit`/`action`/`container`）和 `sample_stem`。
 3. 模型把经典题型（乘法行列、加减合并、除法平分等）的通用词替换为主题词，填入 `{n1}` / `{n2}` 具体数值后写入 `stem` 字段。
-4. 照常走 `validate_exam.py → render_exam.py --pdf` 链路。
+4. 照常走 `validate_exam.py → render_exam.py --child <称呼>` 链路。
 
 **内置模板类型**（`--template`）：`乘法_行列`、`加减_合并`、`除法_平分`。
 
@@ -287,21 +311,19 @@ python3 "$SKILL_DIR/scripts/story_themes.py" sample 太空 --template 除法_平
 
 ## 3J. 听写音频语音鼓励（`generate_dictation.py --audio-score --audio-total`）
 
-在生成听写单音频时，根据孩子上次的得分在所有词语读完后附加一段语音鼓励，让音频本身有激励效果。
+在生成听写单音频时，根据孩子上次的得分在所有词语读完后按学科语种附加一段语音鼓励（语文用 Ting-Ting 读中文，英语用 Samantha 读英文）。
 
 ```bash
-# 普通听写音频（无得分，结尾读"听写完成，请对照答案自己检查"）
+# 普通听写音频（无得分，结尾读对应语种的检查提示）
 python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject chinese --grade 2 --term up --count 10 --audio dict.m4a -o dict.json
 
 # 带鼓励（上次得了 8/10）
-python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject chinese --grade 2 --term up --count 10 \
+python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject english --grade 3 --term up --count 10 \
   --audio dict.m4a --audio-score 8 --audio-total 10 -o dict.json
 ```
 
-- 得分率 ≥ 90%：「太棒了！你全都写对了，继续保持！」
-- 得分率 ≥ 70%：「不错！这次对了 N 个，再加把劲，你一定能全对！」
-- 得分率 < 70%：「这次对了 N 个，不要灰心，多练几遍就会越来越好！」
-- 不传 `--audio-score/--audio-total` 时，结尾统一读「听写完成，请对照答案自己检查一下！」
+- 语文（Ting-Ting）：≥ 90%「太棒了！你全都写对了，继续保持！」；≥ 70%「不错！这次对了 N 个……」；< 70%「这次对了 N 个，不要灰心……」；无得分时读「听写完成，请对照答案自己检查一下！」。
+- 英语（Samantha）：≥ 90% “Awesome job! …”；≥ 70% “Good job! You got N out of M right. …”；< 70% “You got N out of M right. Don't give up! …”；无得分时读 “Dictation complete. Please check your answers carefully!”。
 
 ## 4. 版式指令与渲染（`scripts/directives.py`、`scripts/render_exam.py`、`scripts/render_pdf.py`）
 
@@ -319,15 +341,17 @@ python3 "$SKILL_DIR/scripts/generate_dictation.py" --subject chinese --grade 2 -
 - `{{caizimi riddle="左边绿，右边红，左右相遇起凉风。" hint="（提示）"}}`：猜字谜（谜面 + 大方格），`hint` 可选。
 - `{{tupian_xuanzi desc="图中画着一只小（  ）在荷叶上跳来跳去。" candidates="蛙,娃,洼" answer="蛙"}}`：看图选字（场景描述 + 候选字方块），`answer` 只在答案版加粗边框。
 
-渲染命令：
+渲染命令（默认内置校验 + 学科核验，建独立子目录并直接输出 PDF，不保留 `.md`）：
 ```bash
-python3 "$SKILL_DIR/scripts/render_exam.py" exam.json -o <输出目录> --pdf
+python3 "$SKILL_DIR/scripts/render_exam.py" exam.json --child <称呼>
+python3 "$SKILL_DIR/scripts/render_exam.py" exam.json -o <exams根目录> [--keep-md] [--md-only] [--flat] [--overwrite] [--skip-verify]
 ```
-产出分离的两套文件：
-1. `<exam_id>_试卷.md` / `.pdf`（孩子用：不含任何答案、评分细则、提示或知识点编号；`拔高` 题带 `★ 拔高` 标记）
-2. `<exam_id>_答案与评分.md` / `.pdf`（家长用：分值与能力分布、错题对照表、答案与细则、讲评话术、A4 家长阅卷表与错因勾选框）
+默认产出目录 `<exams根目录>/<exam_id>/`（若同名目录已存在且非原地重渲，自动追加 `-2`、`-3` 防覆盖）：
+1. `exam.json`：归档的结构化试卷源（供 `practice_log.py` / `mistake_bank.py` 或重渲使用）
+2. `<exam_id>_试卷.pdf`（孩子用：不含任何答案、评分细则、提示或知识点编号；`拔高` 题带 `★ 拔高` 标记）
+3. `<exam_id>_答案与评分.pdf`（家长用：分值与能力分布、错题对照表、答案与细则、讲评话术、A4 家长阅卷表与错因勾选框）
 
-家长手工修改 `.md` 后，可单独重打 PDF：
+若加 `--keep-md` 保留并手工修改了 `.md`，可单独重打 PDF：
 ```bash
 python3 "$SKILL_DIR/scripts/render_pdf.py" 试卷.md
 ```

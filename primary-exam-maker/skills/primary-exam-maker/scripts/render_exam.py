@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
-"""将校验通过的试卷 JSON 渲染为分离的「孩子试卷.md」与「答案与评分.md」（可选一键生成 PDF）。
+"""将校验并核验通过的试卷 JSON 渲染为分离的「孩子试卷.pdf」与「答案与评分.pdf」。
+
+默认行为：
+  - 按每份试卷建独立子目录 `<out_dir>/<exam_id>/`（同日重名自动追加 `-2`、`-3` 防覆盖）
+  - 归档源 JSON 为 `<子目录>/exam.json`（供记成绩、错题入库与重渲复用）
+  - 默认直接渲染 PDF，不保留中间 `.md`（需要时加 `--keep-md` 或 `--md-only`）
+  - 自动执行 `validate_exam.py` + `verify_exam.py`（有 FAIL 拒绝渲染）
 
 用法:
-  python3 render_exam.py exam.json -o /path/to/out_dir [--stem 名字] [--pdf]
+  python3 render_exam.py exam.json --child 瑞瑞
+  python3 render_exam.py exam.json -o /path/to/exams [--stem 名字] [--keep-md] [--md-only] [--flat]
 """
 from __future__ import annotations
 
@@ -10,13 +17,16 @@ import argparse
 import json
 import re
 import shlex
-import subprocess
+import shutil
 import sys
 from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import profile as profile_mod  # noqa: E402
+import render_pdf  # noqa: E402
 import validate_exam  # noqa: E402
+import verify_exam  # noqa: E402
 
 CN_NUMS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"]
 SUBJECT_NAMES = {"math": "数学", "chinese": "语文", "english": "英语"}
@@ -266,49 +276,162 @@ def build_answer_md(data: dict) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
-def render_exam(exam_json: Path, out_dir: Path, stem: str | None = None, to_pdf: bool = False) -> tuple[Path, Path]:
+def _allocate_exam_dir(
+    root_dir: Path,
+    base: str,
+    exam_json: Path,
+    *,
+    overwrite: bool = False,
+) -> tuple[Path, str]:
+    """为当次出卷分配独立子目录；若已存在非空同名目录且非原地重渲，自动追加 -2/-3 防覆盖。"""
+    src_parent = exam_json.resolve().parent
+    candidate = root_dir / base
+    if overwrite or not candidate.exists():
+        return candidate, base
+    if candidate.is_dir():
+        if candidate.resolve() == src_parent or not any(candidate.iterdir()):
+            return candidate, base
+
+    idx = 2
+    while True:
+        name = f"{base}-{idx}"
+        cand = root_dir / name
+        if not cand.exists() or (cand.is_dir() and not any(cand.iterdir())):
+            return cand, name
+        idx += 1
+
+
+def _resolve_root_dir(out_dir: Path | None, child: str | None) -> Path:
+    if out_dir is not None:
+        return out_dir
+    if child:
+        store = profile_mod.load_store()
+        c = profile_mod.find_child(store, child)
+        if not c:
+            raise ValueError(f"未找到孩子档案：{child}（请先用 profile.py list 查看或 profile.py add 建档）")
+        return profile_mod.exam_home() / "children" / c["id"] / "exams"
+    return Path(".")
+
+
+def render_exam(
+    exam_json: Path,
+    out_dir: Path | None = None,
+    stem: str | None = None,
+    *,
+    child: str | None = None,
+    keep_md: bool = False,
+    md_only: bool = False,
+    flat: bool = False,
+    overwrite: bool = False,
+    skip_verify: bool = False,
+    chrome: str | None = None,
+) -> dict[str, Path | None]:
     try:
         data = json.loads(exam_json.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         raise ValueError(f"JSON 解析失败：{exam_json}：{e}") from None
     except FileNotFoundError:
         raise ValueError(f"文件不存在：{exam_json}") from None
+
     errs, warns = validate_exam.validate_exam(data)
     for w in warns:
         print("WARN", w, file=sys.stderr)
     if errs:
         raise ValueError("试卷 JSON 校验未通过，拒绝渲染：\n  " + "\n  ".join(errs))
 
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if not skip_verify:
+        v_errs, v_warns, _ = verify_exam.verify_exam_data(data)
+        for w in v_warns:
+            print("WARN [verify]", w, file=sys.stderr)
+        if v_errs:
+            raise ValueError("试卷学科核验未通过，拒绝渲染：\n  " + "\n  ".join(v_errs))
+
+    root_dir = _resolve_root_dir(out_dir, child)
     base = stem or data["exam_id"]
-    student_md = out_dir / f"{base}_试卷.md"
-    answer_md = out_dir / f"{base}_答案与评分.md"
+    if flat:
+        target_dir = root_dir
+        file_base = base
+        archived_json: Path | None = None
+    else:
+        target_dir, file_base = _allocate_exam_dir(root_dir, base, exam_json, overwrite=overwrite)
+        archived_json = target_dir / "exam.json"
 
-    student_md.write_text(build_student_md(data), encoding="utf-8")
-    answer_md.write_text(build_answer_md(data), encoding="utf-8")
+    target_dir.mkdir(parents=True, exist_ok=True)
+    if archived_json is not None and exam_json.resolve() != archived_json.resolve():
+        shutil.copy2(exam_json, archived_json)
 
-    if to_pdf:
-        render_pdf = Path(__file__).resolve().parent / "render_pdf.py"
-        for md_path in (student_md, answer_md):
-            subprocess.run([sys.executable, str(render_pdf), str(md_path)], check=True)
+    student_text = build_student_md(data)
+    answer_text = build_answer_md(data)
 
-    return student_md, answer_md
+    student_md: Path | None = None
+    answer_md: Path | None = None
+    student_pdf: Path | None = None
+    answer_pdf: Path | None = None
+
+    if md_only or keep_md:
+        student_md = target_dir / f"{file_base}_试卷.md"
+        answer_md = target_dir / f"{file_base}_答案与评分.md"
+        student_md.write_text(student_text, encoding="utf-8")
+        answer_md.write_text(answer_text, encoding="utf-8")
+
+    if not md_only:
+        student_pdf = target_dir / f"{file_base}_试卷.pdf"
+        answer_pdf = target_dir / f"{file_base}_答案与评分.pdf"
+        render_pdf.render_md_text_to_pdf(student_text, student_pdf, chrome=chrome)
+        render_pdf.render_md_text_to_pdf(answer_text, answer_pdf, chrome=chrome)
+
+    return {
+        "out_dir": target_dir,
+        "exam_json": archived_json,
+        "student_pdf": student_pdf,
+        "answer_pdf": answer_pdf,
+        "student_md": student_md,
+        "answer_md": answer_md,
+    }
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("exam_json", type=Path)
-    ap.add_argument("-o", "--out-dir", type=Path, default=Path("."))
-    ap.add_argument("--stem", help="输出文件名前缀（默认取 exam_id）")
-    ap.add_argument("--pdf", action="store_true", help="同时调用 render_pdf.py 生成 PDF")
+    ap.add_argument("-o", "--out-dir", type=Path, default=None, help="输出根目录（未传 --flat 时默认在此目录下建 <exam_id>/ 子目录）")
+    ap.add_argument("--child", help="孩子 id/昵称/别名（自动输出到 ~/.primary-exam/children/<id>/exams/<exam_id>/）")
+    ap.add_argument("--stem", help="输出子目录与文件名前缀（默认取 exam_id）")
+    ap.add_argument("--pdf", action="store_true", help="兼容保留参数（现已默认直接输出 PDF）")
+    ap.add_argument("--keep-md", action="store_true", help="在生成 PDF 的同时保留中间 .md 文件")
+    ap.add_argument("--md-only", action="store_true", help="仅生成 .md 文件，不渲染 PDF（无 Chrome 环境或调试用）")
+    ap.add_argument("--flat", action="store_true", help="直接平铺输出到 -o 目录，不建独立子目录、不归档 exam.json")
+    ap.add_argument("--overwrite", action="store_true", help="同名子目录已存在时直接覆盖，不追加 -2/-3 后缀")
+    ap.add_argument("--skip-verify", action="store_true", help="跳过内置的 verify_exam.py 学科核验")
+    ap.add_argument("--chrome", help="Chrome/Chromium/Edge 可执行文件路径")
     args = ap.parse_args()
 
     try:
-        s_md, a_md = render_exam(args.exam_json, args.out_dir, args.stem, args.pdf)
-    except ValueError as e:
+        res = render_exam(
+            args.exam_json,
+            args.out_dir,
+            args.stem,
+            child=args.child,
+            keep_md=args.keep_md,
+            md_only=args.md_only,
+            flat=args.flat,
+            overwrite=args.overwrite,
+            skip_verify=args.skip_verify,
+            chrome=args.chrome,
+        )
+    except (ValueError, RuntimeError) as e:
         sys.exit(f"错误：{e}")
-    print("STUDENT_MD:", s_md)
-    print("ANSWER_MD:", a_md)
+
+    print("OUT_DIR:", res["out_dir"])
+    if res["exam_json"]:
+        print("EXAM_JSON:", res["exam_json"])
+    if res["student_pdf"]:
+        print("STUDENT_PDF:", res["student_pdf"])
+    if res["answer_pdf"]:
+        print("ANSWER_PDF:", res["answer_pdf"])
+    if res["student_md"]:
+        print("STUDENT_MD:", res["student_md"])
+    if res["answer_md"]:
+        print("ANSWER_MD:", res["answer_md"])
     return 0
 
 

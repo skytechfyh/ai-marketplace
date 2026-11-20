@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-"""生成语文游戏化识字练习卡 JSON（连线、找朋友、猜字谜、看图选字）。
+"""生成语文游戏化识字练习卡 JSON（找朋友、连线、猜字谜、看图选字）。
 
 题目类型：
-  lianxian    — 看拼音连线（词语 ↔ 拼音）
-  zhaopengyou — 找朋友（单字 + 候选字，圈出能组词的字）
-  caizimi     — 猜字谜（谜面 + 大方格填字）
-  tupian_xuanzi — 看图选字（图意描述 + 候选字）
-
-注意：猜字谜（caizimi）和看图选字（tupian_xuanzi）的谜面与图意描述
-需要由模型根据字义撰写，本脚本只生成框架（连线、找朋友可全自动生成）。
+  zhaopengyou   — 找朋友（单字 + 候选字，圈出能组词的字；基于本册词语表全自动生成真实组词答案）
+  lianxian      — 连线（词语 ↔ 拼音/近反义词/释义；脚本生成左列词框架，右列与答案须模型补全）
+  caizimi       — 猜字谜（谜面 + 大方格填字；脚本生成框架，谜面与答案须模型按本册字义替换）
+  tupian_xuanzi — 看图选字（图意描述 + 候选字；脚本生成框架，描述与答案须模型按本册内容替换）
 
 用法:
-  python3 generate_gamified_chinese.py --grade 2 --term up --units 1,2 --type lianxian --count 5 -o game.json
   python3 generate_gamified_chinese.py --grade 2 --term up --units 1,2 --type zhaopengyou --count 4 -o game.json
+  python3 generate_gamified_chinese.py --grade 2 --term up --units 1,2 --type lianxian --count 5 -o game.json
   python3 generate_gamified_chinese.py --grade 2 --term up --type mixed --count 8 -o game.json
 
 生成结果通过 validate_exam.py 校验后，用 render_exam.py 渲染为孩子卷/答案卷。
@@ -161,75 +158,120 @@ def find_similar_chars(char: str, all_chars: list[dict], count: int, r: random.R
 
 
 def build_lianxian_items(words: list[dict], count: int, r: random.Random, unit_ref: int | None) -> list[dict]:
-    """连线题：词语 ↔ 词语（同义词对 or 相关词对）。
-    自动策略：从词语表里按对抽取，左列=原词，右列=乱序后的另一批同义/相关词（无法自动匹配时右列=每个词倒着写作演示）。
-    真实使用时，模型应替换 right 列为准确对应的拼音/释义/近义词。"""
-    if len(words) < count * 2:
-        count = len(words) // 2
-    if count < 2:
-        raise ValueError("可用词语不足以生成连线题（至少需要 4 个词语）")
+    """连线题框架：左列从本册词语表抽取，右列为占位项，出卷前须由模型替换为真实拼音/近反义词/释义。"""
+    n_pairs = min(count, len(words), 10)
+    if n_pairs < 2:
+        raise ValueError("可用词语不足以生成连线题（至少需要 2 个词语）")
 
-    r.shuffle(words)
-    pairs = [(words[i * 2]["text"], words[i * 2 + 1]["text"]) for i in range(count)]
+    pool = list(words)
+    r.shuffle(pool)
+    chosen = pool[:n_pairs]
+    left_col = ",".join(w["text"] for w in chosen)
+    right_col = ",".join(f"待补·{w['text']}" for w in chosen)
+    stem = '{{lianxian left="%s" right="%s"}}' % (left_col, right_col)
+    unit = chosen[0]["unit"] if chosen else (unit_ref or 1)
 
-    items = []
-    for i, (l, right_word) in enumerate(pairs, 1):
-        unit = words[i * 2 - 2]["unit"] if i * 2 - 2 < len(words) else (unit_ref or 1)
-        # 生成右列（乱序）
-        left_col = ",".join(p[0] for p in pairs)
-        right_col = ",".join(p[1] for p in pairs)
-        stem = "{{lianxian left=\"%s\" right=\"%s\"}}" % (left_col, right_col)
-        items.append({
-            "id": f"lx{i}",
-            "no": i,
-            "stem": stem,
-            "type": "连线",
-            "points": 1,
-            "unit": unit,
-            "ability": "掌握",
-            "tier": "基础",
-            "answer": "见连线答案",
-            "scoring_rules": f"每对连线正确得 {round(1/count, 2) if count else 1} 分，共 {count} 对，合计 1 分。",
-            "hint": "读一读左边的词，再找到右边对应的词，用铅笔连一条线。",
-            "knowledge_points": ["待归类"],
-        })
-        # 一道连线题只需一个 item（整个连线表是一道题）
-        break
-
-    # 返回时把 points 改为整题 count 分（count 对，每对 1 分）
-    item = items[0]
-    item["points"] = count
-    item["scoring_rules"] = f"每条线正确得 1 分，共 {count} 条。"
-    return [item]
+    return [{
+        "id": "lx1",
+        "no": 1,
+        "stem": stem,
+        "type": "连线",
+        "points": n_pairs,
+        "unit": unit,
+        "ability": "掌握",
+        "tier": "基础",
+        "answer": "待模型补全真实配对（如词语↔拼音/近反义词/释义）后填写对应答案",
+        "scoring_rules": f"每条线正确得 1 分，共 {n_pairs} 条。",
+        "hint": "读一读左边的词，再找到右边对应的项，用铅笔连一条线。",
+        "knowledge_points": ["待归类"],
+    }]
 
 
-def build_zhaopengyou_items(chars: list[dict], count: int, r: random.Random, all_chars: list[dict]) -> list[dict]:
-    """找朋友：每题给一个核心字 + 若干候选字（含干扰字），圈出能组词的字。"""
-    r.shuffle(chars)
-    items = []
-    used = set()
-    for i, ch_entry in enumerate(chars):
+def _build_word_partner_map(word_entries: list[dict]) -> dict[str, list[tuple[str, str, int]]]:
+    """从教材二字词语表反推真实可组词映射：char -> [(partner_char, word, unit), ...]。"""
+    partners: dict[str, dict[str, tuple[str, int]]] = {}
+    for entry in word_entries:
+        w = entry["text"].strip()
+        if len(w) != 2 or w[0] == w[1]:
+            continue
+        a, b = w[0], w[1]
+        u = entry["unit"]
+        partners.setdefault(a, {}).setdefault(b, (w, u))
+        partners.setdefault(b, {}).setdefault(a, (w, u))
+    return {
+        ch: [(p, wu[0], wu[1]) for p, wu in pmap.items()]
+        for ch, pmap in partners.items()
+    }
+
+
+def build_zhaopengyou_items(
+    chars: list[dict],
+    count: int,
+    r: random.Random,
+    all_chars: list[dict],
+    unit_words: list[dict],
+    all_words: list[dict],
+) -> list[dict]:
+    """找朋友（全自动）：从本册词语表反推真实可组词的伙伴字，排除会误成词的干扰字。"""
+    unit_map = _build_word_partner_map(unit_words)
+    full_map = _build_word_partner_map(all_words)
+    allowed_units = {w["unit"] for w in unit_words}
+    unit_char_units = {c["text"]: c["unit"] for c in chars}
+
+    # 优先选当前单元内有 >=2 个真实组词伙伴的字，其次放宽到全册词语表中能与本单元字组词的字
+    tier1 = [ch for ch, ps in unit_map.items() if len(ps) >= 2]
+    tier2 = [
+        ch for ch, ps in full_map.items()
+        if ch not in tier1 and (ch in unit_char_units or any(u in allowed_units for _, _, u in ps)) and len(ps) >= 2
+    ]
+    tier3 = [ch for ch, ps in unit_map.items() if ch not in tier1 and ch not in tier2 and len(ps) >= 1]
+    r.shuffle(tier1)
+    r.shuffle(tier2)
+    r.shuffle(tier3)
+    candidates_order = tier1 + tier2 + tier3
+
+    items: list[dict] = []
+    for ch in candidates_order:
         if len(items) >= count:
             break
-        ch = ch_entry["text"]
-        if ch in used:
+        # 优先使用本单元词语表里的伙伴，不足再从全册词语表补
+        u_partners = list(unit_map.get(ch, []))
+        r.shuffle(u_partners)
+        chosen_partners = list(u_partners[:3])
+        if len(chosen_partners) < 2:
+            seen_p = {p for p, _, _ in chosen_partners}
+            extra = [x for x in full_map.get(ch, []) if x[0] not in seen_p]
+            r.shuffle(extra)
+            chosen_partners.extend(extra[: 2 - len(chosen_partners)])
+        if not chosen_partners:
             continue
-        used.add(ch)
-        # 答案字：同单元的另外 2-3 个字（能与 ch 组词，此处无法自动验证，标注"待确认"）
-        same_unit = [c for c in chars if c["unit"] == ch_entry["unit"] and c["text"] != ch and c["text"] not in used]
-        r.shuffle(same_unit)
-        answer_chars = [c["text"] for c in same_unit[:2]]
-        if not answer_chars:
-            answer_chars = [ch]  # fallback
-        # 干扰字：从其他字里取
-        distractor_chars = find_similar_chars(ch, all_chars, 4, r)
-        all_cands = answer_chars + distractor_chars
-        r.shuffle(all_cands)
-        all_cands = all_cands[:6]
 
-        answers_str = ",".join(answer_chars)
-        candidates_str = ",".join(all_cands)
-        stem = "{{zhaopengyou char=\"%s\" candidates=\"%s\"}}" % (ch, candidates_str)
+        answer_chars = [p for p, _, _ in chosen_partners]
+        # 干扰字不得与 ch 在全册词语表中组成真实词语，也不得与 ch 或答案字重复
+        forbidden = {ch} | {p for p, _, _ in full_map.get(ch, [])} | set(answer_chars)
+        distractor_pool = [c["text"] for c in all_chars if c["text"] not in forbidden]
+        r.shuffle(distractor_pool)
+        n_distractors = max(2, 6 - len(answer_chars))
+        distractors: list[str] = []
+        for d in distractor_pool:
+            if d not in distractors:
+                distractors.append(d)
+            if len(distractors) >= n_distractors:
+                break
+        if len(distractors) < 2:
+            for fb in "木水火土日月山川人口手足心目":
+                if fb not in forbidden and fb not in distractors:
+                    distractors.append(fb)
+                if len(distractors) >= n_distractors:
+                    break
+
+        all_cands = answer_chars + distractors
+        r.shuffle(all_cands)
+
+        pair_desc = "、".join(f"{p}（{w}）" for p, w, _ in chosen_partners)
+        answers_str = "、".join(answer_chars)
+        stem = '{{zhaopengyou char="%s" candidates="%s"}}' % (ch, ",".join(all_cands))
+        item_unit = unit_char_units.get(ch) or chosen_partners[0][2]
 
         items.append({
             "id": f"zpf{len(items)+1}",
@@ -237,12 +279,12 @@ def build_zhaopengyou_items(chars: list[dict], count: int, r: random.Random, all
             "stem": stem,
             "type": "找朋友",
             "points": 1,
-            "unit": ch_entry["unit"],
+            "unit": item_unit,
             "ability": "掌握",
             "tier": "基础",
-            "answer": f"与「{ch}」能组词的字：{answers_str}（家长核对）",
-            "scoring_rules": "全部圈对得 1 分；有漏圈或错圈不得分。",
-            "hint": f"想一想「{ch}」能和哪些字组成词语？先读一读候选字，再圈出来。",
+            "answer": pair_desc,
+            "scoring_rules": f"全部圈对（{answers_str}）得 1 分；有漏圈或错圈不得分。",
+            "hint": f"想一想「{ch}」能和哪些字组成课本学过的词语？先读一读候选字，再圈出来。",
             "knowledge_points": ["待归类"],
         })
     return items
@@ -313,12 +355,13 @@ def build_exam(args: argparse.Namespace) -> dict:
     r = random.Random(args.seed)
 
     words = collect_words(args.grade, args.term, units)
+    all_words = collect_words(args.grade, args.term, None) if units else words
     chars_writing = collect_chars(args.grade, args.term, units, "writing")
     chars_literacy = collect_chars(args.grade, args.term, units, "literacy")
     all_chars = chars_writing + [c for c in chars_literacy if c["text"] not in {x["text"] for x in chars_writing}]
 
     if not words:
-        raise ValueError(f"没有找到符合条件的词语，请检查 --units 参数")
+        raise ValueError("没有找到符合条件的词语，请检查 --units 参数")
 
     exam_type = args.type
     sections: list[dict] = []
@@ -340,19 +383,20 @@ def build_exam(args: argparse.Namespace) -> dict:
         })
 
     _INSTRUCTIONS = {
-        "lianxian": "把左边的词语和右边正确的词语用线连起来。",
-        "zhaopengyou": "找出能和中间的字组成词语的字，圈起来。",
+        "lianxian": "把左边的词语和右边对应的项用线连起来。",
+        "zhaopengyou": "找出能和中间的字组成课本词语的字，圈起来。",
         "caizimi": "读谜面，猜出谜底，把答案写在方框里。",
         "tupian_xuanzi": "读一读句子，从方框里选出正确的字填入括号。",
     }
 
     if exam_type == "lianxian" or exam_type == "mixed":
-        items = build_lianxian_items(list(words), args.count if exam_type != "mixed" else max(1, args.count // 4), r, None)
+        n_lx = args.count if exam_type != "mixed" else max(2, args.count // 4)
+        items = build_lianxian_items(list(words), n_lx, r, None)
         _add_section("lianxian", "连线", items)
 
     if exam_type == "zhaopengyou" or exam_type == "mixed":
         n = args.count if exam_type != "mixed" else max(1, args.count // 4)
-        items = build_zhaopengyou_items(list(chars_writing), n, r, all_chars)
+        items = build_zhaopengyou_items(list(chars_writing), n, r, all_chars, words, all_words)
         if items:
             _add_section("zhaopengyou", "找朋友", items)
 
@@ -410,7 +454,7 @@ def main() -> int:
     ap.add_argument("--units", help="单元范围，如 1,2 或 1-3")
     ap.add_argument("--type", required=True,
                     choices=["lianxian", "zhaopengyou", "caizimi", "tupian_xuanzi", "mixed"],
-                    help="题型（mixed 四种各出 count//4 题）")
+                    help="题型（zhaopengyou 全自动生成真实组词；其余题型生成框架需模型补全）")
     ap.add_argument("--count", type=int, default=4, help="题目数量（默认 4；lianxian 每题为一组连线，建议 3-5）")
     ap.add_argument("--seed", type=int, help="随机种子")
     ap.add_argument("--title")
@@ -430,7 +474,8 @@ def main() -> int:
     args.out.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     total = sum(len(s["items"]) for s in data["sections"])
     print(f"OK: {args.out}  {total} 题  {data['total_points']} 分")
-    print("⚠️  caizimi/tupian_xuanzi 题目的谜面/图意为占位示例，模型使用前请按实际字义替换。")
+    if args.type in ("lianxian", "caizimi", "tupian_xuanzi", "mixed"):
+        print("⚠️  lianxian/caizimi/tupian_xuanzi 为占位框架，出卷前须由模型补全真实配对/谜面/图意与答案后再渲染。")
     return 0
 
 

@@ -9,6 +9,8 @@
   python3 -I verify_exam.py exam.json [--strict]
 退出码：有 FAIL（确定的错误）返回 1；--strict 时 warning 也返回 1。
 """
+from __future__ import annotations
+
 import argparse
 import ast
 import json
@@ -189,19 +191,15 @@ def chinese_allowed_chars(literacy: set[str], writing: set[str], words: set[str]
     return allowed
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("exam_json", type=Path)
-    ap.add_argument("--strict", action="store_true", help="warning 也视为失败")
-    args = ap.parse_args()
-
-    data = load_json(args.exam_json)
+def verify_exam_data(data: dict) -> tuple[list[str], list[str], str]:
+    """对试卷 JSON 数据做学科核验，返回 (errors, warnings, summary)。"""
     subject = data.get("subject")
     scope = data.get("scope") or {}
     grade, term = scope.get("grade"), scope.get("term")
     errs: list[str] = []
     warns: list[str] = []
     checked = skipped = 0
+    summary = ""
 
     if subject == "math":
         for it in flat_items(data):
@@ -212,7 +210,7 @@ def main() -> int:
                 errs.append(f"{it.get('id')}: {detail}")
             else:
                 skipped += 1
-        print(f"数学：复算通过 {checked} 题，跳过 {skipped} 题（应用题/竖式/图形题需人工或出题时保证）")
+        summary = f"数学：复算通过 {checked} 题，跳过 {skipped} 题（应用题/竖式/图形题需人工或出题时保证）"
 
     elif subject == "english":
         words = load_english_words(grade, term) if isinstance(grade, int) and term else set()
@@ -245,6 +243,19 @@ def main() -> int:
     else:
         warns.append(f"未知学科 subject={subject!r}，跳过学科核验")
 
+    return errs, warns, summary
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("exam_json", type=Path)
+    ap.add_argument("--strict", action="store_true", help="warning 也视为失败")
+    args = ap.parse_args()
+
+    data = load_json(args.exam_json)
+    errs, warns, summary = verify_exam_data(data)
+    if summary:
+        print(summary)
     for w in warns:
         print("WARN", w)
     for e in errs:

@@ -56,6 +56,38 @@ def build_html(md_text: str) -> str:
     return f"<!doctype html><html lang='zh'><head><meta charset='utf-8'><style>{css}</style></head><body>{body}</body></html>"
 
 
+def render_md_text_to_pdf(md_text: str, out_pdf: Path, chrome: str | None = None) -> Path:
+    """将 Markdown 文本直接渲染为 PDF（不落盘 .md 中间文件）。"""
+    html = build_html(md_text)
+    chrome_bin = find_chrome(chrome)
+    if not chrome_bin:
+        raise RuntimeError(
+            "找不到 Chrome/Chromium/Edge，请安装或通过 --chrome 参数 / CHROME_PATH 环境变量指定路径"
+        )
+    out_pdf = Path(out_pdf)
+    out_pdf.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as td:
+        src = Path(td) / "exam.html"
+        src.write_text(html, encoding="utf-8")
+        r = subprocess.run(
+            [
+                chrome_bin,
+                "--headless=new",
+                "--disable-gpu",
+                f"--user-data-dir={td}/profile",
+                "--no-pdf-header-footer",
+                f"--print-to-pdf={out_pdf.resolve()}",
+                src.as_uri(),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    if not out_pdf.exists():
+        raise RuntimeError(f"Chrome 未生成 PDF：\n{r.stderr[-800:]}")
+    return out_pdf
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("md", type=Path)
@@ -64,30 +96,24 @@ def main():
     ap.add_argument("--chrome", help="Chrome/Chromium/Edge 可执行文件路径（默认自动检测，可用 CHROME_PATH 环境变量）")
     a = ap.parse_args()
 
-    try:
-        html = build_html(a.md.read_text(encoding="utf-8"))
-    except ValueError as e:
-        sys.exit(f"错误：{a.md.name} {e}")
-
+    md_text = a.md.read_text(encoding="utf-8")
     out = a.out or a.md.with_suffix(".pdf")
     if a.html_only:
+        try:
+            html = build_html(md_text)
+        except ValueError as e:
+            sys.exit(f"错误：{a.md.name} {e}")
         out = out.with_suffix(".html")
+        out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html, encoding="utf-8")
         print(out)
         return
-    chrome = find_chrome(a.chrome)
-    if not chrome:
-        sys.exit("找不到 Chrome/Chromium/Edge，请安装或通过 --chrome 参数 / CHROME_PATH 环境变量指定路径")
-    with tempfile.TemporaryDirectory() as td:
-        src = Path(td) / "exam.html"
-        src.write_text(html, encoding="utf-8")
-        r = subprocess.run(
-            [chrome, "--headless=new", "--disable-gpu", f"--user-data-dir={td}/profile",
-             "--no-pdf-header-footer", f"--print-to-pdf={out.resolve()}", src.as_uri()],
-            capture_output=True, text=True, timeout=120,
-        )
-    if not out.exists():
-        sys.exit(f"Chrome 未生成 PDF：\n{r.stderr[-800:]}")
+    try:
+        render_md_text_to_pdf(md_text, out, chrome=a.chrome)
+    except ValueError as e:
+        sys.exit(f"错误：{a.md.name} {e}")
+    except RuntimeError as e:
+        sys.exit(str(e))
     print(out)
 
 
