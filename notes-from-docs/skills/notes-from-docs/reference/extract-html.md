@@ -34,6 +34,11 @@ python3 __SKILL_DIR__/scripts/extract_html.py \
 ```bash
 python3 __SKILL_DIR__/scripts/extract_batch.py \
   "/path/to/课前学习资料" --pattern "*.html" --title "训练营名-课前学习资料"
+
+# 超过 12~15 个 html 时，先 --list 看全量排序，再按课程模块 --slice 分批提取成多篇 + 00-索引.md
+python3 __SKILL_DIR__/scripts/extract_batch.py "/path/to/课前学习资料" --pattern "*.html" --list
+python3 __SKILL_DIR__/scripts/extract_batch.py \
+  "/path/to/课前学习资料" --pattern "*.html" --slice 1-8 --title "00-1 模块一" --output-dir /tmp/doc_notes_m1
 ```
 
 判断用哪种模式：同一批带连续编号的讲次文件（文件名形如 `NN-MM 序号. 标题.html`）→ 批量；
@@ -62,10 +67,10 @@ python3 __SKILL_DIR__/scripts/extract_batch.py \
 | `div`/`section`/`article`/`body`/`html`/`main`/`figure`/`figcaption` | 透明容器 | 直接递归其子节点，不生成 section |
 | `script`/`style`/`nav`/`header`/`footer`/`aside`/`iframe`/`noscript` | **整个子树丢弃** | 防御性剥离——应对不像样本课程资料这么干净的通用网页（带导航栏/广告/评论区） |
 
-**已知局限**：`<img>` 若嵌套在**表格单元格 / `<blockquote>` / 标题**内部（而不是直接在
-`<p>`、`<li>` 或顶层），会被内联文本展开逻辑静默丢弃——`<p>`、`<li>`（含 `<li><p>...</p></li>`
-包装）内嵌的 `<img>` **已处理**，是实测样本里唯一出现过的嵌套形态。若遇到表格/引用块里的图片
-丢失，需要把该图片手动补进对应位置。
+**已知局限与常见怪癖**：
+1. **表格/引用块内嵌 `<img>`**：`<img>` 若嵌套在**表格单元格 / `<blockquote>` / 标题**内部（而不是直接在 `<p>`、`<li>` 或顶层），会被内联文本展开逻辑静默丢弃——`<p>`、`<li>`（含 `<li><p>...</p></li>` 包装）内嵌的 `<img>` **已处理**。若遇到表格/引用块里的图片丢失，需要把该图片手动补进对应位置。
+2. **Markdown docstring 嵌套反引号导致的 HTML 代码块截断**：若源 HTML 本身由含嵌套代码围栏（如 Python `"""... ```json ... ``` """`）的 Markdown 渲染导出，原网页 HTML 在解析前就已把一个完整函数拆成连续多个 `<pre><code>` 与 `<p>` 片段；写作阶段（A6b）需主动把被拆散的片段拼回同一完整代码块，切勿原样照抄残缺代码。
+3. **无 `language-*` 类名的代码块回退 `text`**：被拆出来的 `<pre><code>` 或未标语言的代码块会落为 `lang: "text"`，A6b 写作时应根据上下文还原为真实语言（如 `python`/`bash`/`yaml`）。
 
 ## 标题来源（不用不可靠的 `<h1>`）
 

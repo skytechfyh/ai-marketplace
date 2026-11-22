@@ -242,6 +242,13 @@ graph LR
   style SINK fill:#FF9800,stroke:#E65100,color:#fff
 ```
 
+## Obsidian 防误解析与字符画重构
+
+- **🚨 行内代码严禁以 `=` 开头**（否则触发 Obsidian Dataview inline query 解析报错 `PARSING FAILED`，详见 `check_mermaid.py` `[E4]`）：
+  - ❌ `` `=` ``、`` `==` ``、`` `===` ``、`` `= value` ``、`<code>=</code>`（`<code>` 同样会触发）
+  - ✅ 用非 `=` 首字符包住（`` `(=)` ``、`` `(==)` ``）或把 `=` 移到反引号外（`= `value`` / `=` 号）
+- **原文 ASCII 字符画 / 框图必须重绘**：源文档里出现 `┌──┐`、`+---+`、`│` 等 ASCII 框图时，**不要**原样照搬字符画到笔记正文——改用 Mermaid（流程图/架构图/时序图）或 HTML 卡片重绘。
+
 ## Callout Reference
 
 | Type | Use case |

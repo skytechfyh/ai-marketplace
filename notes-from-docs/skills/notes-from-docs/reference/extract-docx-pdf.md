@@ -60,9 +60,14 @@ count** — you'll process exactly that many files.
 **一份** `manifest.json` + `chapter_NN.json`：
 
 ```bash
-# 目录模式：按文件名中第一个数字自动排序（"第2节"排在"第10节"前面，不会按字典序出错）
+# 目录模式：按文件名中所有数字自然排序（"第2节"排在"第10节"前面；"03-01"…"03-12"按真实序号排）
 source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
   "/path/to/资料目录" --pattern "*.pdf" --title "Week1 导论"
+
+# 大批量预习/训练营目录先列出序号，再按课程模块切片提取（1-based 闭区间）
+source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py "/path/to/资料目录" --list
+source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
+  "/path/to/资料目录" --slice 1-8 --title "00-1 模块一" --output-dir /tmp/doc_notes_m1
 
 # 显式文件列表模式：按给定顺序合并，不重新排序
 source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
@@ -72,6 +77,7 @@ source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
 - 每个源文件在合并结果里天然成为**一个 H2 章节**，也就是一个 `chapter_NN.json`；该文件内部原有的标题全部降到 H3/H4，
   不会与合成的 H2 抢章节边界。**合并成一篇 md 时也不要加 `--no-split`**：6 节课合进一个
   `chapter_01.json` 会有 700+ section，无法分块读写。正确做法是按 chapter 逐个读，逐个 H2 写进同一个 `.md`。
+- **大批量训练营/预习资料分批准则**：当待合并文件 **> 12–15 个** 或预计总 `sections` **> 1,500**（如 30–40+ 讲课前预习），即使最终体积不满 5 MB，也**不要**硬塞进单篇 2 万行笔记——先用 `--list` 查看全量排序，按课程模块划分并用 `--slice START-END` 拆为 **3–6 个主题批次**分别提取和成稿，最后补一份 `00-索引.md` 串联全篇。
 - **章节标题默认取文件名**（`--title-from filename`）：讲义/PPT 型 PDF 的封面大字通常是
   *标语*（如"工具太多不可怕，没有地图才可怕。"），真正的章节名在文件名里（"第4节：选型力：
   看懂 AI 编程工具的七层架构"）。需要用文档内 H1 时传 `--title-from heading`。
@@ -112,13 +118,13 @@ source ~/.zprofile && python3 __SKILL_DIR__/scripts/extract_batch.py \
 
 Output structure — 两种模式：
 
-**单篇输出（推荐默认，与是否 `--no-split` 无关）：** 全部内容写入一个 `.md`，写完用 `wc -c` 检查**成稿 MD 大小**，**超过 5 MB** 才按 H2 手动拆分：
+**单篇输出（中小规模默认，与是否 `--no-split` 无关）：** 全部内容写入一个 `.md`，写完用 `wc -c` 检查**成稿 MD 大小**，**超过 5 MB** 或文件数 **> 12–15 个**（总 `sections` > 1,500）时按模块/H2 拆分为多篇 + `00-索引.md`：
 ```
 240_AI/AI大模型基础/
-└── 01-AI大模型基础认知.md      # 全部章节合并在一个文件里（成稿 ≤ 5 MB 时保持单文件）
+└── 01-AI大模型基础认知.md      # 全部章节合并在一个文件里（成稿 ≤ 5 MB 且主题集中时保持单文件）
 ```
 
-**多文件模式（超大型参考手册按需使用）：** one sub-dir per source doc, one `.md` per **top-level chapter**, plus an index:
+**多文件模式（按课程模块分篇 / 超大型参考手册）：** one sub-dir per source doc/course module, plus `00-索引.md`（预习资料可用 `00-1-…`、`00-2-…`，正式章节从 `01-…` 起编）：
 ```
 214_Big_Data/Flink/01_Flink基础/
 ├── 00-索引.md                 # MOC: links every chapter in order
@@ -234,12 +240,14 @@ base64 from context and prevents request-body overflow.
 
 **官方文档抓取失败时的降级链（按顺序尝试，每一步都要把结果打印出来）：**
 
-WebFetch 可能因为"无法验证域名安全性"、超时或 403 而失败（实测 `docs.spring.io` 就被拦过）。
+WebSearch/WebFetch 可能因模型路由、域名安全限制、超时或 403/404 而失败（如部分站点或代理网关偶发拦截）。
 遇到失败不能直接放弃，要依次尝试：
 
-1. **换同站其它入口**：官方 GitHub 仓库的文档源文件，比如 `raw.githubusercontent.com/<org>/<repo>/main/docs/...`、
-   `gh api repos/<org>/<repo>/contents/<path>`，或者官方 reference 的另一个版本路径。
-2. **Bash `curl -sL`** 拉页面（加 `-A "Mozilla/5.0"`），再用 `python3` 去掉 HTML 标签后阅读相关段落。
+1. **换同站其它入口 / 官方包注册表**：
+   - 官方 GitHub 仓库文档与 README：`raw.githubusercontent.com/<org>/<repo>/main/README.md` / `docs/...`、`gh api repos/<org>/<repo>/contents/<path>`；
+   - **包注册表官方 JSON API（锁定最新稳定版本号）**：PyPI `curl -sL https://pypi.org/pypi/<pkg>/json`（读 `info.version` / `info.requires_python`）、npm `curl -sL https://registry.npmjs.org/<pkg>/latest`；
+   - 官方 reference 的另一个版本路径或 `llms.txt`（如 `https://docs.astral.sh/uv/llms.txt`）。
+2. **Bash `curl -sL`** 拉官方文档页面（加 `-A "Mozilla/5.0"`），再用 `python3` 去掉 HTML 标签后阅读相关段落。
 3. **WebSearch 结果摘要**：只用来**确认最新版本号**，**不能**拿它当 API 细节的依据。
 4. **以上都失败**：如实标为"**版本重对齐未完成**"，然后：
    - 正文保持原文版本的写法，在文首加 `[!WARNING]`，写明原文基于的版本、当前稳定版本号（如果第 3 步拿到了）、
@@ -437,10 +445,10 @@ about something the chapter never covered). See [verification.md](verification.m
 wc -c "<out_dir>/01-文件名.md"   # 输出字节数
 ```
 
-| 大小 | 处理方式 |
+| 大小 / 体量 | 处理方式 |
 |---|---|
-| ≤ 5,242,880 字节（5 MB） | 保持单文件，直接进 A7 |
-| > 5 MB | 按 H2 标题拆分为多文件（参见下方说明） |
+| ≤ 5,242,880 字节（5 MB）且源数 ≤ 15（或已按模块分篇） | 保持当前 `.md`，直接进 A7 |
+| > 5 MB 或单篇超 15 讲 / 1,500+ sections | 按课程模块或 H2 标题拆分为多文件（参见下方说明） |
 
 **超过 5 MB 时的拆分做法：**
 1. 将当前单一 MD 文件重命名为 `_draft.md` 备份。

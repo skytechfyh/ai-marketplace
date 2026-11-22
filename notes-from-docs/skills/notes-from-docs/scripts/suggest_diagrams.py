@@ -62,6 +62,11 @@ RULES = [
                 r"优缺点|两者.*不同"),
      "Markdown 表格 或 并排 subgraph",
      "优先用对比表格(维度|A|B)；若强调结构差异用两个并排 subgraph"),
+
+    ("ASCII图/框图重构",
+     re.compile(r"[┌┐└┘├┤┬┴┼│─▼▲▶◀]{2,}|\+[-=]{3,}\+"),
+     "Mermaid 或 HTML 卡片（替换原 ASCII 图）",
+     "将原文字符画/框图重绘为 Mermaid graph/sequenceDiagram 或多分区 HTML 卡片，勿原样抄入"),
 ]
 
 # Sections shorter than this are unlikely to warrant a diagram on their own
@@ -88,12 +93,14 @@ def suggest(data):
     draws one diagram per concept, not one per matching sentence."""
     seen = {}      # (chapter, dtype) -> result dict
     for idx, chapter, s in iter_sections(data):
-        if s.get("type") not in ("paragraph", "heading", "list_item"):
+        stype = s.get("type")
+        if stype not in ("paragraph", "heading", "list_item", "code"):
             continue
         text = s.get("text", "")
         if len(text) < MIN_TEXT_LEN:
             continue
-        for label, rx, dtype, hint in RULES:
+        candidate_rules = RULES[-1:] if stype == "code" else RULES
+        for label, rx, dtype, hint in candidate_rules:
             if rx.search(text):
                 key = (chapter, dtype)
                 if key not in seen:

@@ -10,7 +10,8 @@ Usage:
     # Directory mode: glob-match files in a folder, auto-ordered by the first number found
     # in each filename (so "第2节" sorts before "第10节", unlike plain string sort).
     python3 extract_batch.py "<dir>" [--pattern "*.pdf"] --title "Week1 导论" \\
-        [--output-dir /tmp/doc_notes_xxx] [--no-split] [--max-img-px 2000] [--min-sections 15]
+        [--slice 1-8] [--list] [--output-dir /tmp/doc_notes_xxx] [--no-split] \\
+        [--max-img-px 2000] [--min-sections 15]
 
     # Explicit file list mode: files are merged in the EXACT order given (no re-sorting).
     python3 extract_batch.py file1.pdf file2.pdf file3.docx --title "..."
@@ -186,13 +187,30 @@ def main() -> int:
     ap.add_argument("--no-split", action="store_true",
                      help="Output all content in a single chapter_01.json")
     ap.add_argument("--min-sections", type=int, default=MIN_CHAPTER_SECTIONS)
+    ap.add_argument("--slice", default=None,
+                     help="1-based inclusive slice on matched files in directory mode (e.g. 1-8)")
+    ap.add_argument("--list", action="store_true",
+                     help="List naturally-sorted files with 1-based index and exit without extracting")
     args = ap.parse_args()
 
     if len(args.paths) == 1 and os.path.isdir(args.paths[0]):
         dir_path = args.paths[0]
         files = _collect_directory(dir_path, args.pattern)
         if not files:
-            sys.exit(f"[ERROR] No .pdf/.docx/.doc files found in: {dir_path}")
+            sys.exit(f"[ERROR] No supported files found in: {dir_path}")
+        if args.list:
+            print(f"共匹配 {len(files)} 个文件（自然排序）：")
+            for idx, f in enumerate(files, 1):
+                print(f"  {idx:2d}. {Path(f).name}")
+            return 0
+        if args.slice:
+            m = re.fullmatch(r"(\d+)-(\d+)", args.slice.strip())
+            if not m:
+                sys.exit("[ERROR] --slice format must be START-END (1-based inclusive, e.g. 1-8)")
+            s_idx, e_idx = int(m.group(1)), int(m.group(2))
+            if s_idx < 1 or e_idx < s_idx or e_idx > len(files):
+                sys.exit(f"[ERROR] --slice {s_idx}-{e_idx} out of range 1..{len(files)}")
+            files = files[s_idx - 1:e_idx]
         default_title = Path(dir_path.rstrip("/")).name
         source_label = dir_path
     else:
@@ -200,8 +218,17 @@ def main() -> int:
         for f in files:
             if not os.path.exists(f):
                 sys.exit(f"[ERROR] File not found: {f}")
+        if args.list:
+            for idx, f in enumerate(files, 1):
+                print(f"  {idx:2d}. {Path(f).name}")
+            return 0
         default_title = Path(files[0]).stem
         source_label = " | ".join(files)
+
+    if len(files) > 15:
+        print(f"[INFO] 当前批次包含 {len(files)} 个文件（>15）：若总 sections 超过 ~1500，"
+              f"建议按课程模块用 --slice 拆为 3~6 个主题批次分别生成笔记并配 00-索引.md，"
+              f"避免单篇 .md 过长（上万行）。", file=sys.stderr)
 
     title = args.title or default_title
 

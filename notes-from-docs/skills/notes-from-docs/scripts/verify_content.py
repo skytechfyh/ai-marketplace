@@ -99,11 +99,22 @@ def load_source_sections(manifest_path: str) -> list:
 
 
 def load_baseline_from_manifest(manifest_path: str):
-    """返回 (原文散文文本, sections 列表)。sections 供结构化列表枚举核查使用。"""
+    """返回 (原文散文文本, 原文用于数字抽取的散文文本, sections 列表)。
+    sections 供结构化列表枚举核查使用；提取数字时剥除 heading 开头由批量合并带入的文件编号前缀
+    （如 "02-13 "），避免笔记重写成干净章节号（如 "## 2.5 ..."）时误报前缀数字缺失。"""
     sections = load_source_sections(manifest_path)
-    text = "".join(s["text"] for s in sections
-                    if s.get("type") in PROSE_TYPES and s.get("text"))
-    return text, sections
+    prose_parts = []
+    num_parts = []
+    for s in sections:
+        t = s.get("text")
+        if s.get("type") in PROSE_TYPES and t:
+            prose_parts.append(t)
+            if s.get("type") == "heading":
+                t_num = re.sub(r'^\s*\d{1,3}-\d{1,3}\s+', '', t)
+                num_parts.append(t_num)
+            else:
+                num_parts.append(t)
+    return "".join(prose_parts), "\n".join(num_parts), sections
 
 
 # ── source 路径：从原始网页文件提取纯文本 ──────────────────────────────────────
@@ -128,9 +139,10 @@ def load_slate_text(mhtml_path: str) -> str:
 
 
 def load_baseline_from_source(source_path: str):
-    """返回 (原文纯文本, None)。第二个元素占位对齐 load_baseline_from_manifest 的签名。
+    """返回 (原文纯文本, 原文纯文本, None)。后两个元素对齐 load_baseline_from_manifest 的签名。
     detect_source_kind() 保证走到这里的只有 .mhtml（html 走 manifest 分支，见文件头说明）。"""
-    return load_slate_text(source_path), None
+    txt = load_slate_text(source_path)
+    return txt, txt, None
 
 
 # ── 笔记加载 ──────────────────────────────────────────────────────────────────
@@ -250,8 +262,24 @@ def extract_list_enumerations(sections: list):
     return results
 
 
-def present(token: str, note: str) -> bool:
-    return token in note
+def normalize_inline_md(s: str) -> str:
+    """剥除常见行内排版标记（反引号/`**`/`__`），统一中英文引号并规范冒号/空白，
+    便于笔记排版润色（如引号美化、冒号后去空格、代码标反引号）后仍能准确匹配原文短语/列表项。"""
+    s = (s.replace("`", "").replace("**", "").replace("__", "")
+          .replace("“", '"').replace("”", '"')
+          .replace("‘", "'").replace("’", "'"))
+    s = re.sub(r"([：:])[ \t]+", r"\1", s)
+    return re.sub(r"[ \t]+", " ", s)
+
+
+def present(token: str, note: str, note_norm: str = "") -> bool:
+    if token in note:
+        return True
+    if note_norm:
+        tok_norm = normalize_inline_md(token)
+        if tok_norm and tok_norm in note_norm:
+            return True
+    return False
 
 
 # ── 字形归一 ──────────────────────────────────────────────────────────────────
@@ -282,9 +310,9 @@ def main() -> int:
     try:
         kind = detect_source_kind(args.source)
         if kind == "manifest":
-            src, src_sections = load_baseline_from_manifest(args.source)
+            src, src_for_nums, src_sections = load_baseline_from_manifest(args.source)
         else:
-            src, src_sections = load_baseline_from_source(args.source)
+            src, src_for_nums, src_sections = load_baseline_from_source(args.source)
     except Exception as e:
         print(f"ERROR: 读取原文失败: {e}", file=sys.stderr)
         return 1
@@ -295,7 +323,9 @@ def main() -> int:
         return 1
 
     src = fold_compat(src)
+    src_for_nums = fold_compat(src_for_nums)
     note_raw = fold_compat(note_raw)
+    note_norm = normalize_inline_md(note_raw)
     if src_sections:
         src_sections = [dict(x, text=fold_compat(x["text"])) if isinstance(x.get("text"), str)
                         else x for x in src_sections]
@@ -319,8 +349,8 @@ def main() -> int:
     print(f"RATIO: {ratio*100:.1f}%  → {'PASS' if ratio_pass else 'FAIL ⚠️ 散文被过度压缩'}")
 
     # 关键数字
-    nums = extract_numbers(src)
-    missing_nums = [n for n in nums if not present(n, note_raw)]
+    nums = extract_numbers(src_for_nums)
+    missing_nums = [n for n in nums if not present(n, note_raw, note_norm)]
     print("\n=== 关键数字核查 ===")
     if not nums:
         print("(原文无数字)")
@@ -339,7 +369,7 @@ def main() -> int:
         print(f"(原文无 ≥{ENUM_MIN_ITEMS} 项的长枚举)")
     else:
         for seg, items in enums:
-            miss = [it for it in items if not present(it, note_raw)]
+            miss = [it for it in items if not present(it, note_raw, note_norm)]
             if len(miss) >= ENUM_MISS_RATIO * len(items):
                 enum_flagged += 1
                 preview = seg if len(seg) <= 50 else seg[:50] + '…'
@@ -358,7 +388,7 @@ def main() -> int:
             print(f"(原文无 ≥{ENUM_MIN_ITEMS} 条的连续列表分组)")
         else:
             for preview, items in list_enums:
-                miss = [it for it in items if not present(it, note_raw)]
+                miss = [it for it in items if not present(it, note_raw, note_norm)]
                 if len(miss) >= ENUM_MISS_RATIO * len(items):
                     list_enum_flagged += 1
                     print(f"[FLAG] 整组列表枚举疑似被整体丢弃（{len(miss)}/{len(items)} 项缺失）:")
